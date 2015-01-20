@@ -1,0 +1,8 @@
+/*!
+ * skroutz.gr-xml-feed
+ * main_panel.css
+ * User: Panagiotis Vagenas <pan.vagenas@gmail.com>
+ * Date: 17/10/2014
+ * Time: 4:16 μμ
+ * Copyright: 2014 Panagiotis Vagenas
+ */.sp-feature .feature-icon:before{border-bottom:30px solid #e75224}.sp-feature .feature-icon:before{border-left:65px solid transparent;border-right:65px solid transparent;content:"";height:0;left:0;position:absolute;top:-30px;width:0}.sp-feature .feature-icon:after{border-top:30px solid #e75224}.sp-feature .feature-icon:after{border-left:65px solid transparent;border-right:65px solid transparent;bottom:-30px;content:"";height:0;left:0;position:absolute;width:0}.sp-feature .feature-icon{background:none repeat scroll 0 0 #e75224}.sp-feature .feature-icon{display:inline-block;height:85px;margin:40px 0;position:relative;width:130px}.sp-feature .feature-icon i{font-size:60px}.sp-feature .sp-feature-content{transition:all 400ms ease 0s}.modal-dialog{width:60%!important}

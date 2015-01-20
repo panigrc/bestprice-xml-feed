@@ -1,0 +1,36 @@
+{
+	"name": "websharks/core",
+	"type": "websharks-wp-plugin",
+
+	"extra": {
+		"installer-name": "websharks-core"
+	},
+
+	"autoload": {
+		"files": ["stub.php"]
+	},
+
+	"require": {
+		"php"               : ">=5.3.1",
+		"websharks/composer": ">=000000"
+	},
+
+	"homepage"   : "http://github.com/websharks/core",
+	"description": "XDaRk Core framework for WordPress® plugin development.",
+	"keywords"   : ["websharks", "websharks core", "wordpress", "wordpress plugins"],
+
+	"license": "GPL-3.0+",
+	"support": {
+		"email" : "websharks@websharks-inc.com",
+		"source": "http://github.com/websharks/core"
+	},
+
+	"authors": [
+		{
+			"role"    : "Company",
+			"name"    : "XDaRk",
+			"email"   : "websharks@websharks-inc.com",
+			"homepage": "http://www.websharks-inc.com"
+		}
+	]
+}
