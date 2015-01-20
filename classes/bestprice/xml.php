@@ -6,7 +6,7 @@
  * Time: 12:03 μμ
  */
 
-namespace skroutz;
+namespace bestprice;
 
 use xd_v141226_dev\exception;
 
@@ -107,7 +107,7 @@ class xml extends \xd_v141226_dev\xml {
 	 *
 	 * @return bool
 	 * @author Panagiotis Vagenas <pan.vagenas@gmail.com>
-	 * @since 141015
+	 * @since 150120
 	 */
 	public function parseArray( Array $array ) {
 		// init simple xml if is not initialized already
@@ -145,7 +145,7 @@ class xml extends \xd_v141226_dev\xml {
 	/**
 	 * @return $this
 	 * @author Panagiotis Vagenas <pan.vagenas@gmail.com>
-	 * @since 141015
+	 * @since 150120
 	 */
 	protected function initSimpleXML() {
 		if ( ! $this->loadXML() ) {
@@ -173,7 +173,7 @@ class xml extends \xd_v141226_dev\xml {
 	 *
 	 * @return array
 	 * @author Panagiotis Vagenas <pan.vagenas@gmail.com>
-	 * @since 141015
+	 * @since 150120
 	 */
 	protected function validateArrayKeys( Array $array ) {
 		foreach ( $this->skzXMLRequiredFields as $fieldName ) {
@@ -214,7 +214,7 @@ class xml extends \xd_v141226_dev\xml {
 	 *
 	 * @return bool|string
 	 * @author Panagiotis Vagenas <pan.vagenas@gmail.com>
-	 * @since 141015
+	 * @since 150120
 	 */
 	protected function trimField( $value, $fieldName ) {
 		if ( ! isset( $this->skzXMLFieldsLengths[ $fieldName ] ) ) {
@@ -233,7 +233,7 @@ class xml extends \xd_v141226_dev\xml {
 	 * @return bool
 	 * @throws exception
 	 * @author Panagiotis Vagenas <pan.vagenas@gmail.com>
-	 * @since 141015
+	 * @since 150120
 	 */
 	protected function loadXML() {
 		/**
@@ -275,7 +275,7 @@ class xml extends \xd_v141226_dev\xml {
 	 *
 	 * @return bool|mixed
 	 * @author Panagiotis Vagenas <pan.vagenas@gmail.com>
-	 * @since 141015
+	 * @since 150120
 	 */
 	public function updateProductInXML($prodId, Array $newValues){
 		$newValues = $this->validateArrayKeys($newValues);
@@ -307,7 +307,7 @@ class xml extends \xd_v141226_dev\xml {
 	 *
 	 * @return bool
 	 * @author Panagiotis Vagenas <pan.vagenas@gmail.com>
-	 * @since 141015
+	 * @since 150120
 	 */
 	protected function locateProductNode($nodeId){
 		if(!($this->simpleXML instanceof \SimpleXMLElement)){
@@ -325,7 +325,7 @@ class xml extends \xd_v141226_dev\xml {
 	/**
 	 * @return bool|mixed
 	 * @author Panagiotis Vagenas <pan.vagenas@gmail.com>
-	 * @since 141015
+	 * @since 150120
 	 */
 	protected function saveXML() {
 		$dir = dirname($this->fileLocation);
@@ -351,7 +351,7 @@ class xml extends \xd_v141226_dev\xml {
 	 *
 	 * @return null
 	 * @author Panagiotis Vagenas <pan.vagenas@gmail.com>
-	 * @since 141015
+	 * @since 150120
 	 */
 	protected function sxiToXpath( $sxi, $key = null, &$tmp = null ) {
 		$keys_arr = array();
@@ -405,7 +405,7 @@ class xml extends \xd_v141226_dev\xml {
 	 *
 	 * @return null|array
 	 * @author Panagiotis Vagenas <pan.vagenas@gmail.com>
-	 * @since 141015
+	 * @since 150120
 	 */
 	public function xmlToXpath( $xml ) {
 		$sxi = new \SimpleXmlIterator( $xml );
@@ -418,7 +418,7 @@ class xml extends \xd_v141226_dev\xml {
 	 *
 	 * @throws exception
 	 * @author Panagiotis Vagenas <pan.vagenas@gmail.com>
-	 * @since 141015
+	 * @since 150120
 	 */
 	public function printXML() {
 		if(headers_sent()) return;
@@ -444,7 +444,7 @@ class xml extends \xd_v141226_dev\xml {
 	 * @return string
 	 * @throws exception
 	 * @author Panagiotis Vagenas <pan.vagenas@gmail.com>
-	 * @since 141015
+	 * @since 150120
 	 */
 	public function getFileLocation() {
 		$location = $this->©options->get( 'xml_location' );
@@ -460,7 +460,7 @@ class xml extends \xd_v141226_dev\xml {
 	 *
 	 * @return array|null
 	 * @author Panagiotis Vagenas <pan.vagenas@gmail.com>
-	 * @since 141015
+	 * @since 150120
 	 */
 	public function getFileInfo() {
 		$fileLocation = $this->getFileLocation();
@@ -490,7 +490,7 @@ class xml extends \xd_v141226_dev\xml {
 	 *
 	 * @return int Total products in file
 	 * @author Panagiotis Vagenas <pan.vagenas@gmail.com>
-	 * @since 141015
+	 * @since 150120
 	 */
 	public function countProductsInFile( $file ) {
 		if ( $this->existsAndReadable( $file ) ) {
@@ -517,7 +517,7 @@ class xml extends \xd_v141226_dev\xml {
 	 *
 	 * @return bool
 	 * @author Panagiotis Vagenas <pan.vagenas@gmail.com>
-	 * @since 141015
+	 * @since 150120
 	 */
 	protected function existsAndReadable( $file ) {
 		return is_string( $file ) && file_exists( $file ) && is_readable( $file );

@@ -6,19 +6,19 @@
  * Time: 8:20 μμ
  */
 
-namespace skroutz\menu_pages\panels;
+namespace bestprice\menu_pages\panels;
 
 if ( ! defined( 'WPINC' ) )
 	exit( 'Do NOT access this file directly: ' . basename( __FILE__ ) );
 
 use xd_v141226_dev\menu_pages\panels\panel;
 
-class generate extends panel{
+class map extends panel{
 	/**
 	 * @var string Heading/title for this panel.
 	 * @extenders Should be overridden by class extenders.
 	 */
-	public $heading_title = 'Generate Now';
+	public $heading_title = 'Map Fields';
 
 	/**
 	 * @var string Content/body for this panel.
@@ -37,6 +37,7 @@ class generate extends panel{
 		/**
 		 * Add the content
 		 */
-		$this->content_body = $this->©views->view($this, 'generate_panel.php');
+		$this->content_body = $this->©views->view($this, 'map_panel.php');
+		$this->documentation = $this->©views->view($this, 'documentation_map.php');
 	}
 } 

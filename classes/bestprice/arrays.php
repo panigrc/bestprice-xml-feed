@@ -6,7 +6,7 @@
  * Time: 9:59 μμ
  */
 
-namespace skroutz {
+namespace bestprice {
 
 	if ( ! defined( 'WPINC' ) )
 		exit( 'Do NOT access this file directly: ' . basename( __FILE__ ) );

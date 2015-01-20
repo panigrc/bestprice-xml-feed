@@ -1,18 +1,18 @@
 <?php
 /**
- * Project: skroutz.gr-xml-feed
+ * Project: bestprice.gr-xml-feed
  * File: info_panel.php
  * User: Panagiotis Vagenas <pan.vagenas@gmail.com>
  * Date: 23/10/2014
  * Time: 11:04 μμ
- * Since: 141017
+ * Since: 150120
  * Copyright: 2014 Panagiotis Vagenas
  */
 if ( ! defined( 'WPINC' ) ) {
 	exit( 'Do NOT access this file directly: ' . basename( __FILE__ ) );
 }
 
-/* @var \skroutz\menu_pages\panels\log $callee */
+/* @var \bestprice\menu_pages\panels\log $callee */
 /* @var \xd_v141226_dev\views $this */
 $this->©diagnostic->loadDBLog();
 $messages = $this->©diagnostic->get_messages('product');

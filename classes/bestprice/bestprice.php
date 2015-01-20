@@ -6,19 +6,19 @@
  * Time: 3:10 μμ
  */
 
-namespace skroutz;
+namespace bestprice;
 
 if ( ! defined( 'WPINC' ) ) {
 	exit( 'Do NOT access this file directly: ' . basename( __FILE__ ) );
 }
 
 /**
- * Class skroutz
- * @package skroutz
+ * Class bestprice
+ * @package bestprice
  * @author Panagiotis Vagenas <pan.vagenas@gmail.com>
- * @since 141015
+ * @since 150120
  */
-class skroutz extends framework {
+class bestprice extends framework {
 	public $doDebugRun = false;
 	/**
 	 * @var int
@@ -33,7 +33,7 @@ class skroutz extends framework {
 	 * @param $post_id
 	 *
 	 * @author Panagiotis Vagenas <pan.vagenas@gmail.com>
-	 * @since 141015
+	 * @since 150120
 	 */
 	public function update_woo_product( $post_id ) {
 		// If this is just a revision, don't send the email.
@@ -53,7 +53,7 @@ class skroutz extends framework {
 	/**
 	 * @return int
 	 * @author Panagiotis Vagenas <pan.vagenas@gmail.com>
-	 * @since 141015
+	 * @since 150120
 	 */
 	public function do_your_woo_stuff(){
 		$sTime = microtime(true);
@@ -61,14 +61,14 @@ class skroutz extends framework {
 
 		$this->©option->update(array('log'=> array()));
 
-		$this->©diagnostic->forceDBLog('product', array(), '<strong>Skroutz XML generation started at '.date('d M, Y H:i:s').'</strong>');
+		$this->©diagnostic->forceDBLog('product', array(), '<strong>BestPrice XML generation started at '.date('d M, Y H:i:s').'</strong>');
 
 		$productsArray = $this->createProductsArray();
 		if(!$this->©xml->parseArray($productsArray)){
-			$this->©notice->enqueue('There was an error generating XML for skroutz.gr at '.$this->©env->time_details().'. Please check your settings.');
+			$this->©notice->enqueue('There was an error generating XML for bestprice.gr at '.$this->©env->time_details().'. Please check your settings.');
 		}
 
-		$this->©diagnostic->forceDBLog('product', array(), '<strong>Skroutz XML generation finished at '.date('d M, Y H:i:s').'</strong><br>Time taken: ' . round(microtime( true ) - $sTime, 2) . ' sec<br>Mem details: '.$this->©env->memory_details());
+		$this->©diagnostic->forceDBLog('product', array(), '<strong>BestPrice XML generation finished at '.date('d M, Y H:i:s').'</strong><br>Time taken: ' . round(microtime( true ) - $sTime, 2) . ' sec<br>Mem details: '.$this->©env->memory_details());
 
 		return count($productsArray);
 	}
@@ -76,7 +76,7 @@ class skroutz extends framework {
 	/**
 	 * @throws \xd_v141226_dev\exception
 	 * @author Panagiotis Vagenas <pan.vagenas@gmail.com>
-	 * @since 141017
+	 * @since 150120
 	 */
 	public function generate_and_print(){
 		$schedules = wp_get_schedules();
@@ -99,7 +99,7 @@ class skroutz extends framework {
 	/**
 	 * @return array
 	 * @author Panagiotis Vagenas <pan.vagenas@gmail.com>
-	 * @since 141015
+	 * @since 150120
 	 */
 	public function createProductsArray() {
 		$args = array(
@@ -165,7 +165,7 @@ class skroutz extends framework {
 	 * @param int $value
 	 *
 	 * @author Panagiotis Vagenas <pan.vagenas@gmail.com>
-	 * @since 141015
+	 * @since 150120
 	 */
 	protected function updateXMLGenerationProgress( $value ) {
 		if ( $value < $this->progress + $this->progressUpdateInterval ) {
@@ -181,7 +181,7 @@ class skroutz extends framework {
 	 * @return array
 	 * @throws \xd_v141226_dev\exception
 	 * @author Panagiotis Vagenas <pan.vagenas@gmail.com>
-	 * @since 141015
+	 * @since 150120
 	 */
 	protected function getProductArray( \WC_Product &$product ) {
 		$out = array();
@@ -217,7 +217,7 @@ class skroutz extends framework {
 			}
 		}
 
-		if ( defined( 'SKROUTZ_DEBUG' ) ) {
+		if ( defined( 'BESTPRICE_DEBUG' ) ) {
 			$out['debug'] = array(
 				'product_attr_size'  => $product->get_attribute( 'size' ),
 				'_product_attr_size' => isset( $out['size'] ) ? $out['size'] : null,
@@ -235,7 +235,7 @@ class skroutz extends framework {
 	 * @return string
 	 * @throws \xd_v141226_dev\exception
 	 * @author Panagiotis Vagenas <pan.vagenas@gmail.com>
-	 * @since 141015
+	 * @since 150120
 	 */
 	protected function getProductColors( \WC_Product_Variable &$product ) {
 		if ( ! (bool) $this->©option->get( 'map_color_use' ) ) {
@@ -273,7 +273,7 @@ class skroutz extends framework {
 	 * @return null|string
 	 * @throws \xd_v141226_dev\exception
 	 * @author Panagiotis Vagenas <pan.vagenas@gmail.com>
-	 * @since 141015
+	 * @since 150120
 	 */
 	protected function getProductISBN(\WC_Product &$product){
 		$map = $this->©option->get( 'map_isbn' );
@@ -288,7 +288,7 @@ class skroutz extends framework {
 	 *
 	 * @return null
 	 * @author Panagiotis Vagenas <pan.vagenas@gmail.com>
-	 * @since 141015
+	 * @since 150120
 	 */
 	protected function getTaxonomyById( $taxonomyId ) {
 		foreach ( wc_get_attribute_taxonomies() as $taxonomy ) {
@@ -306,7 +306,7 @@ class skroutz extends framework {
 	 * @return string
 	 * @throws \xd_v141226_dev\exception
 	 * @author Panagiotis Vagenas <pan.vagenas@gmail.com>
-	 * @since 141015
+	 * @since 150120
 	 */
 	protected function getProductSizes( \WC_Product &$product ) {
 		if ( ! (bool) $this->©option->get( 'map_size_use' ) ) {
@@ -342,7 +342,7 @@ class skroutz extends framework {
 	 *
 	 * @return mixed|string
 	 * @author Panagiotis Vagenas <pan.vagenas@gmail.com>
-	 * @since 141015
+	 * @since 150120
 	 */
 	protected function sanitizeVariationString( $string ) {
 		$string = preg_replace( "/[^A-Za-z0-9 ]/", '.', strip_tags( trim( $string ) ) );
@@ -357,7 +357,7 @@ class skroutz extends framework {
 	 * @return null|string
 	 * @throws \xd_v141226_dev\exception
 	 * @author Panagiotis Vagenas <pan.vagenas@gmail.com>
-	 * @since 141015
+	 * @since 150120
 	 */
 	protected function getProductManufacturer( \WC_Product &$product ) {
 		$option = $this->©option->get( 'map_manufacturer' );
@@ -378,7 +378,7 @@ class skroutz extends framework {
 	 *
 	 * @return string
 	 * @author Panagiotis Vagenas <pan.vagenas@gmail.com>
-	 * @since 141015
+	 * @since 150120
 	 */
 	protected function isInStock( \WC_Product &$product ) {
 		return $product->is_in_stock() ? 'Y' : 'N';
@@ -390,7 +390,7 @@ class skroutz extends framework {
 	 * @return string
 	 * @throws \xd_v141226_dev\exception
 	 * @author Panagiotis Vagenas <pan.vagenas@gmail.com>
-	 * @since 141015
+	 * @since 150120
 	 */
 	protected function getProductPrice( \WC_Product &$product ) {
 		$option = $this->©option->get( 'map_price_with_vat' );
@@ -420,7 +420,7 @@ class skroutz extends framework {
 	 * @return null|string
 	 * @throws \xd_v141226_dev\exception
 	 * @author Panagiotis Vagenas <pan.vagenas@gmail.com>
-	 * @since 141015
+	 * @since 150120
 	 */
 	protected function getProductCategories( \WC_Product &$product ) {
 		$option     = $this->©option->get( 'map_category' );
@@ -441,7 +441,7 @@ class skroutz extends framework {
 	 * @return string
 	 * @throws \xd_v141226_dev\exception
 	 * @author Panagiotis Vagenas <pan.vagenas@gmail.com>
-	 * @since 141015
+	 * @since 150120
 	 */
 	protected function getProductImageLink( \WC_Product &$product ) {
 		$option = $this->©option->get( 'map_image' );
@@ -462,7 +462,7 @@ class skroutz extends framework {
 	 * @return int|string
 	 * @throws \xd_v141226_dev\exception
 	 * @author Panagiotis Vagenas <pan.vagenas@gmail.com>
-	 * @since 141015
+	 * @since 150120
 	 */
 	protected function getProductId( \WC_Product &$product ) {
 		$option = $this->©option->get( 'map_id' );
@@ -479,7 +479,7 @@ class skroutz extends framework {
 	 * @return null|string
 	 * @throws \xd_v141226_dev\exception
 	 * @author Panagiotis Vagenas <pan.vagenas@gmail.com>
-	 * @since 141015
+	 * @since 150120
 	 */
 	protected function getProductMPN( \WC_Product &$product ) {
 		$option = $this->©option->get( 'map_mpn' );
@@ -497,7 +497,7 @@ class skroutz extends framework {
 	 * @return string
 	 * @throws \xd_v141226_dev\exception
 	 * @author Panagiotis Vagenas <pan.vagenas@gmail.com>
-	 * @since 141015
+	 * @since 150120
 	 */
 	protected function getProductLink( \WC_Product &$product ) {
 		$option = $this->©option->get( 'map_link' );
@@ -518,7 +518,7 @@ class skroutz extends framework {
 	 * @return null|string
 	 * @throws \xd_v141226_dev\exception
 	 * @author Panagiotis Vagenas <pan.vagenas@gmail.com>
-	 * @since 141015
+	 * @since 150120
 	 */
 	protected function getProductName( \WC_Product &$product ) {
 		$option    = $this->©option->get( 'map_name' );
@@ -549,7 +549,7 @@ class skroutz extends framework {
 	 *
 	 * @return null|string
 	 * @author Panagiotis Vagenas <pan.vagenas@gmail.com>
-	 * @since 141015
+	 * @since 150120
 	 */
 	protected function getProductAttrValue(\WC_Product &$product,  $attrId, $defaultValue = null ) {
 		$return  = $product->get_attribute($this->getAttributeNameFromId($attrId));
@@ -561,7 +561,7 @@ class skroutz extends framework {
 	 *
 	 * @return bool|string
 	 * @author Panagiotis Vagenas <pan.vagenas@gmail.com>
-	 * @since 141015
+	 * @since 150120
 	 */
 	protected function getAttributeNameFromId($attrId){
 		foreach ( wc_get_attribute_taxonomies() as $taxonomy ) {
@@ -579,7 +579,7 @@ class skroutz extends framework {
 	 * @return bool
 	 * @throws \xd_v141226_dev\exception
 	 * @author Panagiotis Vagenas <pan.vagenas@gmail.com>
-	 * @since 141015
+	 * @since 150120
 	 */
 	protected function getAvailabilityString( \WC_Product &$product ) {
 		// If product is in stock
@@ -606,7 +606,7 @@ class skroutz extends framework {
 	 *
 	 * @return mixed
 	 * @author Panagiotis Vagenas <pan.vagenas@gmail.com>
-	 * @since 141015
+	 * @since 150120
 	 */
 	protected function formatSizeColorStrings( $string ) {
 		if ( is_array( $string ) ) {
@@ -633,7 +633,7 @@ class skroutz extends framework {
 	 *
 	 * @return string
 	 * @author Panagiotis Vagenas <pan.vagenas@gmail.com>
-	 * @since 141015
+	 * @since 150120
 	 */
 	protected function getFormatedTextFromTerms( \WC_Product &$product, $term ) {
 		$terms = get_the_terms( $product->id, $term );
@@ -650,7 +650,7 @@ class skroutz extends framework {
 
 	/**
 	 * @author Panagiotis Vagenas <pan.vagenas@gmail.com>
-	 * @since 141015
+	 * @since 150120
 	 */
 	public function debug() {
 		echo "<strong>not real mem usage: </strong>" . ( memory_get_peak_usage( false ) / 1024 / 1024 ) . " MiB<br>";
@@ -668,7 +668,7 @@ class skroutz extends framework {
 	 *
 	 * @return bool
 	 * @author Panagiotis Vagenas <pan.vagenas@gmail.com>
-	 * @since 141015
+	 * @since 150120
 	 */
 	protected function isValidSizeString( $string ) {
 		if ( is_numeric( $string ) ) {

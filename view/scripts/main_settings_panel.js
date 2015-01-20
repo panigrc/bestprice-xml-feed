@@ -7,7 +7,7 @@
  * Copyright: 2014 Panagiotis Vagenas
  *
  * @author Panagiotis Vagenas <pan.vagenas@gmail.com>
- * @since 141017
+ * @since 150120
  */
 
 /**
@@ -25,7 +25,7 @@ SKZHelper = function () {
 SKZHelper.prototype = {
 
     /**
-     * Performs the request to generate the skroutz.xml file
+     * Performs the request to generate the bestprice.xml file
      * @param $modalContainer
      */
     generateXMLNow: function ($modalContainer) {
@@ -38,7 +38,7 @@ SKZHelper.prototype = {
             url: ajaxurl,
             dataType: 'json',
             data: {
-                'action': 'generateSkroutzXML'
+                'action': 'generateBestpriceXML'
             },
             complete: function (response) {
                 var json = response.responseJSON;
@@ -64,7 +64,7 @@ SKZHelper.prototype = {
         //    jQuery.ajax({
         //        url: ajaxurl,
         //        data: {
-        //            'action': 'generateSkroutzXMLProgress'
+        //            'action': 'generateBestpriceXMLProgress'
         //        },
         //        complete: function(response, json){
         //            var json = response.responseJSON;

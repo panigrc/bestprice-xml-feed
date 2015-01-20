@@ -9,7 +9,7 @@
  * @link http://xdark.eu
  */
  
- namespace skroutz;
+ namespace bestprice;
 
  if (!defined('WPINC')) {
      die;
@@ -19,16 +19,16 @@
 
  /**
   * Class framework
-  * @package skroutz
-  * @since 141015
+  * @package bestprice
+  * @since 150120
   *
   * @assert ($GLOBALS[__NAMESPACE__])
   *
-  * @property \skroutz\xml        $©xml
-  * @method \skroutz\xml          ©xml()
+  * @property \bestprice\xml        $©xml
+  * @method \bestprice\xml          ©xml()
   *
-  * @property \skroutz\skroutz    $©skroutz
-  * @method \skroutz\skroutz      ©skroutz()
+  * @property \bestprice\bestprice    $©bestprice
+  * @method \bestprice\bestprice      ©bestprice()
   */
  class framework extends \xd__framework
  {
@@ -39,8 +39,8 @@
 		 'plugin_root_ns' => __NAMESPACE__, // The root namespace
 		 'plugin_var_ns'  => 'skz',
 		 'plugin_cap'     => 'manage_options',
-		 'plugin_name'    => 'Skroutz.gr XML Feed',
-		 'plugin_version' => '141017',
+		 'plugin_name'    => 'BestPrice.gr XML Feed',
+		 'plugin_version' => '150120',
 		 'plugin_site'    => 'http://interad.gr',
 
 		 'plugin_dir'     => dirname(dirname(dirname(__FILE__))) // Your plugin directory.

@@ -9,7 +9,7 @@ if ( ! defined( 'WPINC' ) ) {
 	exit( 'Do NOT access this file directly: ' . basename( __FILE__ ) );
 }
 
-/* @var \skroutz\menu_pages\panels\generate $callee */
+/* @var \bestprice\menu_pages\panels\generate $callee */
 
 ?>
 <div>
@@ -41,7 +41,7 @@ if ( ! defined( 'WPINC' ) ) {
 		</dt>
 		<dd>
 			<?php echo $this->__( 'This option specifies the generation interval of the XML file.' ); ?>
-			<?php echo $this->__( 'Skroutz.gr requires the file to be generated daily, but you can specify lower intervals.' ); ?>
+			<?php echo $this->__( 'BestPrice.gr requires the file to be generated daily, but you can specify lower intervals.' ); ?>
 			<cite
 				class="text-info"><?php echo $this->__( 'Please beware that generating the XML file consumes system resources' ); ?></cite>.
 		</dd>
@@ -50,7 +50,7 @@ if ( ! defined( 'WPINC' ) ) {
 			<?php echo $this->__( 'Availability options' ); ?>
 		</dt>
 		<dd>
-			<?php echo $this->__( 'Skroutz uses a fixed set of availability descriptions that will be crosslinked to the ones provided in your feed.' ); ?>
+			<?php echo $this->__( 'BestPrice uses a fixed set of availability descriptions that will be crosslinked to the ones provided in your feed.' ); ?>
 			<dl class="dl-horizontal">
 				<dt>Available</dt>
 				<dd><?php echo $this->__( 'refers to products that are available for pick up at your outlet' ); ?></dd>

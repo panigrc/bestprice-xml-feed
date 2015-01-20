@@ -9,7 +9,7 @@
  * @link http://xdark.eu
  */
 
-namespace skroutz;
+namespace bestprice;
 
 if (!defined('WPINC')) {
     die;
@@ -17,7 +17,7 @@ if (!defined('WPINC')) {
 
 /**
  * 
- * @package skroutz
+ * @package bestprice
  * @author pan.vagenas <pan.vagenas@gmail.com>
  */
 class installer extends \xd_v141226_dev\installer {

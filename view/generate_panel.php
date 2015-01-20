@@ -8,7 +8,7 @@
 if ( ! defined( 'WPINC' ) )
 	exit( 'Do NOT access this file directly: ' . basename( __FILE__ ) );
 
-/* @var \skroutz\menu_pages\panels\generate $callee */
+/* @var \bestprice\menu_pages\panels\generate $callee */
 /* @var \xd_v141226_dev\views $this */
 
 $genNowBtnOpts = array(

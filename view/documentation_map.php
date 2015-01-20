@@ -9,8 +9,8 @@ if ( ! defined( 'WPINC' ) ) {
 	exit( 'Do NOT access this file directly: ' . basename( __FILE__ ) );
 }
 
-/* @var \skroutz\menu_pages\panels\generate $callee */
-/* @var \skroutz\views $this */
+/* @var \bestprice\menu_pages\panels\generate $callee */
+/* @var \bestprice\views $this */
 
 ?>
 <div class="row">
@@ -25,8 +25,8 @@ if ( ! defined( 'WPINC' ) ) {
 						class="sr-only">Close</span></button>
 				<span class="glyphicon glyphicon-warning-sign pull-left" role="alert"
 				      style="font-size: 2.4em; margin-right: 10px"></span>
-				<?php echo $this->__( 'This identifier should be specified once and before submitting the file in Skroutz.' ); ?>
-				<?php echo $this->__( 'Once Skroutz starts to classify your products this identifier must never change again.' ); ?>
+				<?php echo $this->__( 'This identifier should be specified once and before submitting the file in BestPrice.' ); ?>
+				<?php echo $this->__( 'Once BestPrice starts to classify your products this identifier must never change again.' ); ?>
 			</div>
 		</dd>
 
@@ -40,7 +40,7 @@ if ( ! defined( 'WPINC' ) ) {
 		<dt><?php echo $this->__( 'Product Manufacturer SKU' ); ?></dt>
 		<dd>
 			<?php echo $this->__( 'Set the source of the SKU that is used by the manufacturer.' ); ?>
-			<?php echo $this->__( 'This field is required according to Skroutz XML specs so if you haven\'t set this already, do so before submitting your XML.' ); ?>
+			<?php echo $this->__( 'This field is required according to BestPrice XML specs so if you haven\'t set this already, do so before submitting your XML.' ); ?>
 			<?php echo $this->__( 'Of course your product ID and manufacturer SKU can be the same in case this is real, no limitation on this.' ); ?>
 		</dd>
 
@@ -51,7 +51,7 @@ if ( ! defined( 'WPINC' ) ) {
 
 		<dt><?php echo $this->__( 'Append SKU to Product Name' ); ?></dt>
 		<dd>
-			<?php echo $this->__( 'This should be on by default, Skroutz suggests that product SKU should be defined in product name.' ); ?>
+			<?php echo $this->__( 'This should be on by default, BestPrice suggests that product SKU should be defined in product name.' ); ?>
 			<?php echo $this->__( 'Disable this if you already have included SKU in product name.' ); ?>
 		</dd>
 

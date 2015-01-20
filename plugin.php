@@ -12,8 +12,8 @@
 
 /* -- WordPress® --------------------------------------------------------------------------------------------------------------------------
 
-Version: 141017
-Stable tag: 141017
+Version: 150120
+Stable tag: 150120
 Tested up to: 4.1
 Requires at least: 3.5.1
 
@@ -28,26 +28,26 @@ License: GNU General Public License
 Contributors: XDaRk.eu
 
 Author: Panagiotis Vagenas <pan.vagenas@gmail.com>
-Author URI: http://xdark.eu
+Author URI: http://erp.xdark.eu
 
-Text Domain: skroutz-xml-feed
+Text Domain: bestprice-xml-feed
 Domain Path: /translations
 
-Plugin Name: Skroutz.gr XML Feed
-Plugin URI: http://interad.gr
+Plugin Name: BestPrice.gr XML Feed
+Plugin URI: http://erp.xdark.eu
 
-Description: Generate XML sheet according to skroutz.gr specs
-Tags: skroutz, skroutz.gr, XML, generate XML, price comparison
+Description: Generate XML sheet according to bestprice.gr specs
+Tags: bestprice, bestprice.gr, XML, generate XML, price comparison
 Kudos: WebSharks™ http://www.websharks-inc.com
 
 -- end section for WordPress®. --------------------------------------------------------------------------------------------------------- */
 
-namespace skroutz {
+namespace bestprice {
 
 	if ( ! defined( 'WPINC' ) ) {
 		die;
 	}
 	require_once dirname( __FILE__ ) . '/includes/SimpleXMLExtended.php';
 
-	require_once dirname( __FILE__ ) . '/classes/skroutz/framework.php';
+	require_once dirname( __FILE__ ) . '/classes/bestprice/framework.php';
 }

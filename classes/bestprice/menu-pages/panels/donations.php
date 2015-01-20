@@ -6,7 +6,7 @@
  * Time: 3:42 μμ
  */
 
-namespace skroutz\menu_pages\panels;
+namespace bestprice\menu_pages\panels;
 
 use xd_v141226_dev\menu_pages\panels\panel;
 

@@ -1,30 +1,24 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: vagenas
+ * User: Vagenas Panagiotis <pan.vagenas@gmail.com>
  * Date: 17/10/2014
- * Time: 3:44 μμ
+ * Time: 8:20 μμ
  */
 
-namespace skroutz\menu_pages\panels;
+namespace bestprice\menu_pages\panels;
 
+if ( ! defined( 'WPINC' ) )
+	exit( 'Do NOT access this file directly: ' . basename( __FILE__ ) );
 
 use xd_v141226_dev\menu_pages\panels\panel;
 
-if(!defined('WPINC'))
-	exit('Do NOT access this file directly: '.basename(__FILE__));
-
-/**
- *
- * @package randomizer\menu_pages\panels
- * @author pan.vagenas <pan.vagenas@gmail.com>
- */
-class main_settings extends panel{
+class generate extends panel{
 	/**
 	 * @var string Heading/title for this panel.
 	 * @extenders Should be overridden by class extenders.
 	 */
-	public $heading_title = 'Main settings';
+	public $heading_title = 'Generate Now';
 
 	/**
 	 * @var string Content/body for this panel.
@@ -40,13 +34,9 @@ class main_settings extends panel{
 
 	public function __construct( $instance, $menu_page ) {
 		parent::__construct( $instance, $menu_page );
-
 		/**
 		 * Add the content
 		 */
-		$this->content_body = $this->©views->view($this, 'main_settings_panel.php');
-
-		// Documentation
-		$this->documentation = $this->©views->view($this, 'documentation_main_settings.php');
+		$this->content_body = $this->©views->view($this, 'generate_panel.php');
 	}
-}
+} 

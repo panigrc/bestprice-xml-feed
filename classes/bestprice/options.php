@@ -6,7 +6,7 @@
  * Time: 3:46 μμ
  */
 
-namespace skroutz;
+namespace bestprice;
 
 use xd_v141226_dev\exception;
 
@@ -16,7 +16,7 @@ if ( ! defined( 'WPINC' ) ) {
 
 class options extends \xd_v141226_dev\options {
 	/**
-	 * @var array Availability options for skroutz.gr
+	 * @var array Availability options for bestprice.gr
 	 */
 	public $availOptions = array(
 		'Available',
@@ -42,7 +42,7 @@ class options extends \xd_v141226_dev\options {
 	 * @throws exception If `count($defaults) !== count($validators)`.
 	 */
 	public function setup( $defaults, $validators ) {
-		$skroutzDefaults = array(
+		$bestpriceDefaults = array(
 			'encryption.key'                             => 'jkiabOKBNJO89347KJBKJBasfd',
 			'support.url'                                => 'http://erp.xdark.eu/documentation/get-help/',
 			'styles.front_side.theme'                    => 'yeti',
@@ -70,11 +70,11 @@ class options extends \xd_v141226_dev\options {
 			// File location
 			'xml_location'                               => '/wp-content/uploads',
 			// File name
-			'xml_fileName'                               => 'skroutz.xml',
+			'xml_fileName'                               => 'bestprice.xml',
 			// Generation interval
 			'xml_interval'                               => 'daily',
 			// XML Generate Request Var
-			'xml_generate_var'                           => 'skroutz',
+			'xml_generate_var'                           => 'bestprice',
 			// XML Generate Request Var Value
 			'xml_generate_var_value'                     => '',
 			/*********************
@@ -115,7 +115,7 @@ class options extends \xd_v141226_dev\options {
 			'is_book_store'                              => 0,
 		);
 
-		$skroutzDefaultsValidators = array(
+		$bestpriceDefaultsValidators = array(
 			// Internal
 			'xml.progress'           => array( 'string:numeric >=' => 0 ),
 			/***********************************************
@@ -164,8 +164,8 @@ class options extends \xd_v141226_dev\options {
 			'is_book_store'          => array( 'string:numeric >=' => 0, 'string:numeric <=' => 1 ),
 		);
 
-		$defaults   = array_merge( $defaults, $skroutzDefaults );
-		$validators = array_merge( $validators, $skroutzDefaultsValidators );
+		$defaults   = array_merge( $defaults, $bestpriceDefaults );
+		$validators = array_merge( $validators, $bestpriceDefaultsValidators );
 
 		$this->_setup( $defaults, $validators );
 	}
@@ -175,7 +175,7 @@ class options extends \xd_v141226_dev\options {
 	 * @return array|string
 	 * @throws exception
 	 * @author Panagiotis Vagenas <pan.vagenas@gmail.com>
-	 * @since 141017
+	 * @since 150120
 	 */
 	public function getLic() {
 		return $this->©edd_updater->getLicense();
@@ -191,7 +191,7 @@ class options extends \xd_v141226_dev\options {
 	 * @return int 2 for WP_Error, 1 for valid, 0 for invalid
 	 * @throws exception
 	 * @author Panagiotis Vagenas <pan.vagenas@gmail.com>
-	 * @since 141017
+	 * @since 150120
 	 */
 	public function chkLicense( $lic = '' ) {
 		return $this->©edd_updater->chkLicense( $lic );

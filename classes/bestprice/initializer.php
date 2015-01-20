@@ -8,7 +8,7 @@
  * @link http://xdark.eu
  */
 
-namespace skroutz;
+namespace bestprice;
 
 if (!defined('WPINC')) {
 	die;
@@ -16,7 +16,7 @@ if (!defined('WPINC')) {
 
 /**
  *
- * @package skroutz
+ * @package bestprice
  * @author pan.vagenas <pan.vagenas@gmail.com>
  */
 class initializer extends \xd_v141226_dev\initializer
@@ -24,7 +24,7 @@ class initializer extends \xd_v141226_dev\initializer
 
 	/**
 	 * @author Panagiotis Vagenas <pan.vagenas@gmail.com>
-	 * @since 141015
+	 * @since 150120
 	 */
 	public function after_setup_theme_hooks()
 	{
@@ -39,14 +39,14 @@ class initializer extends \xd_v141226_dev\initializer
 	/**
 	 * @throws \xd_v141226_dev\exception
 	 * @author Panagiotis Vagenas <pan.vagenas@gmail.com>
-	 * @since 141015
+	 * @since 150120
 	 */
 	public function wp_loaded()
 	{
 		$cron_jobs = array(
 			array(
 				'©class.method' =>
-					'©skroutz.do_your_woo_stuff',
+					'©bestprice.do_your_woo_stuff',
 				'schedule'      => $this->©option->get('xml_interval')
 			)
 		);
@@ -55,13 +55,13 @@ class initializer extends \xd_v141226_dev\initializer
 
 	/**
 	 * @author Panagiotis Vagenas <pan.vagenas@gmail.com>
-	 * @since 141015
+	 * @since 150120
 	 */
 	public function init_hook()
 	{
 		$generateVar = $this->©option->get('xml_generate_var');
 		if(empty($generateVar)){
-			$generateVar = 'skroutz_' . $this->©string->random(12, false, false);
+			$generateVar = 'bestprice_' . $this->©string->random(12, false, false);
 			$this->©option->update(array('xml_generate_var' => $generateVar));
 		}
 
@@ -77,7 +77,7 @@ class initializer extends \xd_v141226_dev\initializer
 		}
 
 		if (isset($$generateVar) && $$generateVar == $generateVarVal) {
-			$this->add_action('wp_loaded', '©skroutz.generate_and_print', PHP_INT_MAX);
+			$this->add_action('wp_loaded', '©bestprice.generate_and_print', PHP_INT_MAX);
 		}
 	}
 }

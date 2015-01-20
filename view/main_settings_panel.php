@@ -1,11 +1,11 @@
 <?php
 /**
- * Project: skroutz.gr-xml-feed
+ * Project: bestprice.gr-xml-feed
  * File: main_settings_panel.php
  * User: Panagiotis Vagenas <pan.vagenas@gmail.com>
  * Date: 18/10/2014
  * Time: 2:29 μμ
- * Since: 141017
+ * Since: 150120
  * Copyright: 2014 Panagiotis Vagenas
  */
 
@@ -13,7 +13,7 @@ if ( ! defined( 'WPINC' ) ) {
 	exit( 'Do NOT access this file directly: ' . basename( __FILE__ ) );
 }
 
-/* @var \skroutz\menu_pages\panels\main_settings $callee */
+/* @var \bestprice\menu_pages\panels\main_settings $callee */
 /* @var \xd_v141226_dev\views $this */
 
 ?>
