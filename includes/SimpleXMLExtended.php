@@ -9,10 +9,12 @@
 /**
  * Class SimpleXMLExtended extends SimpleXMLElement so CDATA con be added without enconding
  */
-class SimpleXMLExtended extends SimpleXMLElement {
-	public function addCData($cdata_text) {
-		$node = dom_import_simplexml($this);
-		$no   = $node->ownerDocument;
-		$node->appendChild($no->createCDATASection($cdata_text));
+if(!class_exists('SimpleXMLExtended')){
+	class SimpleXMLExtended extends SimpleXMLElement {
+		public function addCData($cdata_text) {
+			$node = dom_import_simplexml($this);
+			$no   = $node->ownerDocument;
+			$node->appendChild($no->createCDATASection($cdata_text));
+		}
 	}
-} 
+}

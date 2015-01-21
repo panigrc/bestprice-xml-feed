@@ -37,11 +37,11 @@
  $GLOBALS[__NAMESPACE__] = new framework(
 	 array(
 		 'plugin_root_ns' => __NAMESPACE__, // The root namespace
-		 'plugin_var_ns'  => 'skz',
+		 'plugin_var_ns'  => 'bsp',
 		 'plugin_cap'     => 'manage_options',
 		 'plugin_name'    => 'BestPrice.gr XML Feed',
 		 'plugin_version' => '150120',
-		 'plugin_site'    => 'http://interad.gr',
+		 'plugin_site'    => 'http://erp.xdark.eu',
 
 		 'plugin_dir'     => dirname(dirname(dirname(__FILE__))) // Your plugin directory.
 

@@ -14,7 +14,7 @@
  * Just a helper :p
  * @constructor
  */
-SKZHelper = function () {
+BSPHelper = function () {
 
 };
 
@@ -22,7 +22,7 @@ SKZHelper = function () {
  *
  * @type {{generateXMLNow: Function, updateProgressBar: Function}}
  */
-SKZHelper.prototype = {
+BSPHelper.prototype = {
 
     /**
      * Performs the request to generate the bestprice.xml file
@@ -49,7 +49,7 @@ SKZHelper.prototype = {
                 }
                 jQuery('.generate-now').removeClass('disabled');
                 $genNowBtn.removeClass('disabled');
-                SKZHelper.prototype.updateProgressBar($progressBar, 100);
+                BSPHelper.prototype.updateProgressBar($progressBar, 100);
                 //window.clearInterval(interval);
             },
             beforeSend: function () {
@@ -77,7 +77,7 @@ SKZHelper.prototype = {
         //                return;
         //            }
         //
-        //            SKZHelper.prototype.updateProgressBar($progressBar, response.responseJSON.progress);
+        //            BSPHelper.prototype.updateProgressBar($progressBar, response.responseJSON.progress);
         //
         //            if(response.responseJSON.progress > 90) {
         //                window.clearInterval(interval);

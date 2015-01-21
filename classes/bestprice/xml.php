@@ -18,55 +18,64 @@ class xml extends \xd_v141226_dev\xml {
 	/**
 	 * @var array
 	 */
-	protected $skzXMLFields = array(
-		'id',
-		'name',
-		'link',
-		'image',
-		'category',
-		'price_with_vat',
-		'instock',
-		'availability',
-		'manufacturer',
-		'mpn',
-		'isbn',
+	protected $bspXMLFields = array(
+		'productId',
+		'title',
+		'productURL',
+		'imageURL',
+		'price',
+		'categoryID',
+		'categoryPath',
+		'brand',
+		'ISBN',
 		'size',
-		'color',
-	);
-
-	/**
-	 * @var array
-	 */
-	protected $skzXMLFieldsLengths = array(
-		'id'             => 200,
-		'name'           => 300,
-		'link'           => 1000,
-		'image'          => 400,
-		'category'       => 250,
-		'price_with_vat' => 0,
-		'instock'        => 0,
-		'availability'   => 60,
-		'manufacturer'   => 100,
-		'mpn'            => 80,
-		'isbn' => 80,
-		'size'           => 500,
-		'color'          => 100,
-	);
-
-	/**
-	 * @var array
-	 */
-	protected $skzXMLRequiredFields = array(
-		'id',
-		'name',
-		'link',
-		'image',
-		'category',
-		'price_with_vat',
-		'instock',
+		'stock',
 		'availability',
-		'manufacturer',
-		'mpn',
+		'description',
+		'oldPrice',
+		'shipping',
+		'color',
+		'features',
+		'EAN',
+		'netprice',
+		'isBundle',
+	);
+
+	/**
+	 * @var array
+	 */
+	protected $bspXMLFieldsLengths = array(
+		'productId'    => 128,
+		'title'        => 250,
+		'productURL'   => 250,
+		'imageURL'     => 250,
+		'categoryID'   => 64,
+		'categoryPath' => 250,
+		'brand'        => 128,
+		'size'         => 256,
+		'stock'        => 1,
+		'availability' => 64,
+		'color'        => 128,
+		'EAN'          => 128,
+		'isBundle'     => 1,
+	);
+
+	/**
+	 * @var array
+	 */
+	protected $bspXMLRequiredFields = array(
+		'productId',
+		'title',
+		'productURL',
+		'imageURL',
+		'price',
+		'categoryID',
+		'categoryPath',
+		'brand',
+		'ISBN',
+		'size',
+		'stock',
+		'availability',
 	);
 
 	/**
@@ -87,16 +96,16 @@ class xml extends \xd_v141226_dev\xml {
 	/**
 	 * @var string
 	 */
-	public $createdAtName = 'created_at';
+	public $createdAtName = 'date';
 
 	/**
 	 * @var string
 	 */
-	protected $rootElemName = 'mywebstore';
+	protected $rootElemName = 'store';
 	/**
 	 * @var string
 	 */
-	protected $productsElemWrapper = 'products';
+	protected $productsElemWrapperName = 'products';
 	/**
 	 * @var string
 	 */
@@ -148,22 +157,11 @@ class xml extends \xd_v141226_dev\xml {
 	 * @since 150120
 	 */
 	protected function initSimpleXML() {
-		if ( ! $this->loadXML() ) {
-			$this->simpleXML = new \SimpleXMLExtended( '<?xml version="1.0" encoding="UTF-8"?><' . $this->rootElemName . '></' . $this->rootElemName . '>' );
-		}
-
-		// TODO We must update the created at child
-		/**
-		 * For now we recreate the XML file everytime so no need to check for updates
-		 */
-//		$createdAt =  $this->attribute( $this->simpleXML, $this->createdAtName );
-
-		// check for child nodes
-		$products = $this->simpleXML;
-
-		if ( !isset( $this->simpleXML->products ) ) {
-			$this->simpleXML->addChild( $this->productsElemWrapper );
-		};
+		$this->fileLocation = $this->getFileLocation();
+		
+		$this->simpleXML = new \SimpleXMLExtended( '<?xml version="1.0" encoding="UTF-8"?>' );
+		$rootElem = $this->simpleXML->addChild( $this->rootElemName );
+		$rootElem->simpleXML->addChild( $this->productsElemWrapperName );
 
 		return $this;
 	}
@@ -176,7 +174,7 @@ class xml extends \xd_v141226_dev\xml {
 	 * @since 150120
 	 */
 	protected function validateArrayKeys( Array $array ) {
-		foreach ( $this->skzXMLRequiredFields as $fieldName ) {
+		foreach ( $this->bspXMLRequiredFields as $fieldName ) {
 			if ( ! isset( $array[ $fieldName ] ) || empty($array[ $fieldName ])) {
 				$name = isset($array['name']) ? $array['name'] : (isset($array['id']) ? 'with id ' . $array['id'] : '');
 				$this->©diagnostic->forceDBLog('product', $array, 'Product <strong>'.$name.'</strong> not included in XML file because field '.$fieldName.' is missing or is invalid');
@@ -190,7 +188,7 @@ class xml extends \xd_v141226_dev\xml {
 		}
 
 		foreach ( $array as $k => $v ) {
-			if ( ! in_array( $k, $this->skzXMLFields ) ) {
+			if ( ! in_array( $k, $this->bspXMLFields ) ) {
 				unset( $array[ $k ] );
 			}
 		}
@@ -217,56 +215,15 @@ class xml extends \xd_v141226_dev\xml {
 	 * @since 150120
 	 */
 	protected function trimField( $value, $fieldName ) {
-		if ( ! isset( $this->skzXMLFieldsLengths[ $fieldName ] ) ) {
+		if ( ! isset( $this->bspXMLFieldsLengths[ $fieldName ] ) ) {
 			return false;
 		}
 
-		if ( $this->skzXMLFieldsLengths[ $fieldName ] === 0 ) {
+		if ( $this->bspXMLFieldsLengths[ $fieldName ] === 0 ) {
 			return $value;
 		}
 
-		return substr( (string) $value, 0, $this->skzXMLFieldsLengths[ $fieldName ] );
-	}
-
-
-	/**
-	 * @return bool
-	 * @throws exception
-	 * @author Panagiotis Vagenas <pan.vagenas@gmail.com>
-	 * @since 150120
-	 */
-	protected function loadXML() {
-		/**
-		 * For now we write it from scratch EVERY TIME
-		 */
-		$this->fileLocation = $this->getFileLocation();
-
-//		if(file_exists($this->fileLocation)){
-//			$this->simpleXML = new \SimpleXMLExtended(simplexml_load_file($this->fileLocation)->asXML());
-//			return true;
-//		}
-
-		return false;
-
-		try {
-			$locate = $this->©dirs_files->locate( $fileLocation, get_home_path() );
-		} catch ( exception $e ) {
-			return false;
-		}
-
-		if ( ! empty( $locate ) && file_exists( $locate ) && is_readable( $locate ) ) {
-			$this->simpleXML = simplexml_load_file( $locate );
-			if ( $this->simpleXML !== false ) {
-				$this->fileLocation = $locate;
-
-				return true;
-			}
-		} else {
-			// Assuming ABSPATH is writable
-			$this->fileLocation = $this->getFileLocation;
-		}
-
-		return false;
+		return mb_substr( (string) $value, 0, $this->bspXMLFieldsLengths[ $fieldName ] );
 	}
 
 	/**
@@ -501,7 +458,7 @@ class xml extends \xd_v141226_dev\xml {
 			return 0;
 		}
 
-		if ( $sXML->getName() == $this->productsElemWrapper ) {
+		if ( $sXML->getName() == $this->productsElemWrapperName ) {
 			return $sXML->count();
 		}elseif ( $sXML->getName() == $this->rootElemName ) {
 			return $sXML->children( )->children()->count();

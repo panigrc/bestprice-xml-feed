@@ -30,7 +30,7 @@ echo $callee->menu_page->©form_field->markup( $this->__( 'Generate XML Now' ), 
 <script type="text/javascript">
 	jQuery('document').ready(function ($) {
 		$('.generate-now').click(function () {
-			SKZHelper.prototype.generateXMLNow($('#generateNowModal'));
+			BSPHelper.prototype.generateXMLNow($('#generateNowModal'));
 		});
 	});
 </script>

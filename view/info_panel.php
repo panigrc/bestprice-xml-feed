@@ -58,7 +58,7 @@ echo $callee->menu_page->©form_field->markup( $this->__( 'Get XML Generation UR
 				alert('<?php echo $this->__('Please save your current options first'); ?>');
 				return false;
 			}
-			SKZHelper.prototype.copyToClipboard('<?php echo get_home_url(); ?>' + '?'+ $('#xml-generate-var').val() + '=' + $('#xml-generate-var-val').val());
+			BSPHelper.prototype.copyToClipboard('<?php echo get_home_url(); ?>' + '?'+ $('#xml-generate-var').val() + '=' + $('#xml-generate-var-val').val());
 		});
 	})(jQuery);
 </script>
