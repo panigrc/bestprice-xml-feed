@@ -29,6 +29,16 @@ class bestprice extends framework {
 	 */
 	protected $progressUpdateInterval = 5;
 
+	protected $is_fashion_store = false;
+	protected $is_book_store = false;
+
+	public function __construct( $instance ) {
+		parent::__construct( $instance );
+
+		$this->is_fashion_store = (bool) $this->©option->get( 'is_fashion_store' );
+		$this->is_book_store    = (bool) $this->©option->get( 'is_book_store' );
+	}
+
 	/**
 	 * @param $post_id
 	 *
@@ -55,22 +65,22 @@ class bestprice extends framework {
 	 * @author Panagiotis Vagenas <pan.vagenas@gmail.com>
 	 * @since 150120
 	 */
-	public function do_your_woo_stuff(){
-		$sTime = microtime(true);
-		ignore_user_abort(true);
+	public function do_your_woo_stuff() {
+		$sTime = microtime( true );
+		ignore_user_abort( true );
 
-		$this->©option->update(array('log'=> array()));
+		$this->©option->update( array( 'log' => array() ) );
 
-		$this->©diagnostic->forceDBLog('product', array(), '<strong>BestPrice XML generation started at '.date('d M, Y H:i:s').'</strong>');
+		$this->©diagnostic->forceDBLog( 'product', array(), '<strong>BestPrice XML generation started at ' . date( 'd M, Y H:i:s' ) . '</strong>' );
 
 		$productsArray = $this->createProductsArray();
-		if(!$this->©xml->parseArray($productsArray)){
-			$this->©notice->enqueue('There was an error generating XML for bestprice.gr at '.$this->©env->time_details().'. Please check your settings.');
+		if ( ! $this->©xml->parseArray( $productsArray ) ) {
+			$this->©notice->enqueue( 'There was an error generating XML for bestprice.gr at ' . $this->©env->time_details() . '. Please check your settings.' );
 		}
 
-		$this->©diagnostic->forceDBLog('product', array(), '<strong>BestPrice XML generation finished at '.date('d M, Y H:i:s').'</strong><br>Time taken: ' . round(microtime( true ) - $sTime, 2) . ' sec<br>Mem details: '.$this->©env->memory_details());
+		$this->©diagnostic->forceDBLog( 'product', array(), '<strong>BestPrice XML generation finished at ' . date( 'd M, Y H:i:s' ) . '</strong><br>Time taken: ' . round( microtime( true ) - $sTime, 2 ) . ' sec<br>Mem details: ' . $this->©env->memory_details() );
 
-		return count($productsArray);
+		return count( $productsArray );
 	}
 
 	/**
@@ -78,22 +88,22 @@ class bestprice extends framework {
 	 * @author Panagiotis Vagenas <pan.vagenas@gmail.com>
 	 * @since 150120
 	 */
-	public function generate_and_print(){
+	public function generate_and_print() {
 		$schedules = wp_get_schedules();
 
-		if(isset($schedules[$this->©option->get('xml_interval')])){
-			$interval = $schedules[$this->©option->get('xml_interval')]['interval'];
-			$xmlCreation = $this->©xml->getFileInfo();
-			$createdTime = strtotime($xmlCreation['File Creation Datetime']);
-			$nextCreationTime = $interval+$createdTime;
-			$time = time();
-			if( $time > $nextCreationTime){
+		if ( isset( $schedules[ $this->©option->get( 'xml_interval' ) ] ) ) {
+			$interval         = $schedules[ $this->©option->get( 'xml_interval' ) ]['interval'];
+			$xmlCreation      = $this->©xml->getFileInfo();
+			$createdTime      = strtotime( $xmlCreation['File Creation Datetime'] );
+			$nextCreationTime = $interval + $createdTime;
+			$time             = time();
+			if ( $time > $nextCreationTime ) {
 				$this->do_your_woo_stuff();
 			}
 		}
 
 		$this->©xml->printXML();
-		exit(0);
+		exit( 0 );
 	}
 
 	/**
@@ -108,12 +118,12 @@ class bestprice extends framework {
 		);
 		$loop = new \WP_Query( $args );
 
-		$mem = max(ceil($loop->post_count*0.4), 128);
-		ini_set('memory_limit', $mem.'M');
-		$time = max(ceil($loop->post_count*0.5), 30);
-		set_time_limit($time);
+		$mem = max( ceil( $loop->post_count * 0.4 ), 128 );
+		ini_set( 'memory_limit', $mem . 'M' );
+		$time = max( ceil( $loop->post_count * 0.5 ), 30 );
+		set_time_limit( $time );
 
-		$this->©diagnostic->forceDBLog('product', array(), 'Memory set to '.$mem.'M for current session<br>Time set to '.$time.' sec for current session');
+		$this->©diagnostic->forceDBLog( 'product', array(), 'Memory set to ' . $mem . 'M for current session<br>Time set to ' . $time . ' sec for current session' );
 
 		$this->updateXMLGenerationProgress( 0 );
 		$products = array();
@@ -122,31 +132,31 @@ class bestprice extends framework {
 			while ( $loop->have_posts() ) {
 				$loop->the_post();
 
-				$product = WC()->product_factory->get_product((int)$loop->post->ID);
+				$product = WC()->product_factory->get_product( (int) $loop->post->ID );
 
-				if (!is_object($product) || !($product instanceof \WC_Product) ) {
-					$this->©diagnostic->forceDBLog('product', $product, 'Product failed in '.__METHOD__);
+				if ( ! is_object( $product ) || ! ( $product instanceof \WC_Product ) ) {
+					$this->©diagnostic->forceDBLog( 'product', $product, 'Product failed in ' . __METHOD__ );
 					continue;
 				}
 
-				if (! $product->is_purchasable() || ! $product->is_visible() || $this->getAvailabilityString( $product ) === false ) {
+				if ( ! $product->is_purchasable() || ! $product->is_visible() || $this->getAvailabilityString( $product ) === false ) {
 					$reason = array();
-					if(! $product->is_purchasable()){
+					if ( ! $product->is_purchasable() ) {
 						$reason[] = 'product is not purchasable';
 					}
-					if(! $product->is_visible()){
+					if ( ! $product->is_visible() ) {
 						$reason[] = 'product is not visible';
 					}
-					if( $this->getAvailabilityString( $product ) === false){
+					if ( $this->getAvailabilityString( $product ) === false ) {
 						$reason[] = 'product is unavailable';
 					}
-					$this->©diagnostic->forceDBLog('product', array(
-						'id' => $product->id,
-						'SKU' => $product->get_sku(),
+					$this->©diagnostic->forceDBLog( 'product', array(
+						'id'             => $product->id,
+						'SKU'            => $product->get_sku(),
 						'is_purchasable' => $product->is_purchasable(),
-						'is_visible' => $product->is_visible(),
-						'availability' => $this->getAvailabilityString( $product )
-						), 'Product <strong>'.$product->get_formatted_name().'</strong> failed. Reason(s) is(are): '.implode(', ', $reason));
+						'is_visible'     => $product->is_visible(),
+						'availability'   => $this->getAvailabilityString( $product )
+					), 'Product <strong>' . $product->get_formatted_name() . '</strong> failed. Reason(s) is(are): ' . implode( ', ', $reason ) );
 					continue;
 				}
 
@@ -186,18 +196,25 @@ class bestprice extends framework {
 	protected function getProductArray( \WC_Product &$product ) {
 		$out = array();
 
-		$out['id']             = $this->getProductId( $product );
-		$out['mpn']            = $this->getProductMPN( $product );
-		$out['name']           = $this->getProductName( $product );
-		$out['link']           = $this->getProductLink( $product );
-		$out['image']          = $this->getProductImageLink( $product );
-		$out['category']       = $this->getProductCategories( $product );
-		$out['price_with_vat'] = $this->getProductPrice( $product );
-		$out['instock']        = $this->isInStock( $product );
-		$out['availability']   = $this->getAvailabilityString( $product );
-		$out['manufacturer']   = $this->getProductManufacturer( $product );
+		$out['productId']  = $this->getProductId( $product );
+		$out['title']      = $this->getProductName( $product );
+		$out['productURL'] = $this->getProductLink( $product );
+		// TODO Images may be an array. Check specs
+		$out['imageURL'] = $this->getProductImageLink( $product );
+		$out['price']    = $this->getProductPrice( $product );
+		// TODO <categoryID>123<categoryID>
+		// TODO This differs from skroutz <categoryPath>Υπολογιστές->Περιφερειακά->Εκτυπωτές</categoryPath>
+		$out['categoryPath'] = $this->getProductCategories( $product );
+		$out['brand']        = $this->getProductManufacturer( $product );
+		$out['stock']        = $this->isInStock( $product );
+		$out['availability'] = $this->getAvailabilityString( $product );
+		$out['ΕΑΝ']          = $this->getProductMPN( $product );
+		// TODO <netprice>1.500,30</netprice>
+		// TODO <isBundle>Y</isBundle>
 
-		if ( $product->product_type == 'variable' && (bool) $this->©option->get( 'is_fashion_store' ) ) {
+		$out['mpn'] = $this->getProductMPN( $product );
+
+		if ( $product->product_type == 'variable' && $this->is_fashion_store ) {
 			$variableProduct = new \WC_Product_Variable( $product );
 
 			$colors = $this->getProductColors( $variableProduct );
@@ -210,20 +227,11 @@ class bestprice extends framework {
 			if ( ! empty( $sizes ) ) {
 				$out['size'] = $sizes;
 			}
-		} elseif((bool) $this->©option->get( 'is_book_store' )){
-			$isbn = $this->getProductISBN($product);
-			if($isbn){
-				$out['isbn'] = $isbn;
+		} elseif ( $this->is_book_store ) {
+			$isbn = $this->getProductISBN( $product );
+			if ( $isbn ) {
+				$out['ISBN'] = $isbn;
 			}
-		}
-
-		if ( defined( 'BESTPRICE_DEBUG' ) ) {
-			$out['debug'] = array(
-				'product_attr_size'  => $product->get_attribute( 'size' ),
-				'_product_attr_size' => isset( $out['size'] ) ? $out['size'] : null,
-				'product_attr_brand' => $product->get_attribute( 'brands' ),
-				'product get attr'   => $product->get_attributes(),
-			);
 		}
 
 		return $out;
@@ -242,7 +250,7 @@ class bestprice extends framework {
 			return null;
 		}
 
-		$map = $this->©option->get( 'map_color' );
+		$map    = $this->©option->get( 'map_color' );
 		$colors = array();
 		foreach ( $map as $attrId ) {
 			$taxonomy = $this->getTaxonomyById( $attrId );
@@ -275,12 +283,13 @@ class bestprice extends framework {
 	 * @author Panagiotis Vagenas <pan.vagenas@gmail.com>
 	 * @since 150120
 	 */
-	protected function getProductISBN(\WC_Product &$product){
+	protected function getProductISBN( \WC_Product &$product ) {
 		$map = $this->©option->get( 'map_isbn' );
-		if($map == 0){
+		if ( $map == 0 ) {
 			return $product->get_sku();
 		}
-		return $this->getProductAttrValue($product, $map, false);
+
+		return $this->getProductAttrValue( $product, $map, false );
 	}
 
 	/**
@@ -313,7 +322,7 @@ class bestprice extends framework {
 			return null;
 		}
 
-		$map = $this->©option->get( 'map_size' );
+		$map   = $this->©option->get( 'map_size' );
 		$sizes = array();
 		foreach ( $map as $attrId ) {
 			$taxonomy = $this->getTaxonomyById( $attrId );
@@ -364,7 +373,7 @@ class bestprice extends framework {
 
 		$manufacturer = '';
 		if ( is_numeric( $option ) ) {
-			$manufacturer = $this->getProductAttrValue($product, $option, '' );
+			$manufacturer = $this->getProductAttrValue( $product, $option, '' );
 		}
 		if ( empty( $manufacturer ) ) {
 			$manufacturer = $this->getFormatedTextFromTerms( $product, $option );
@@ -407,7 +416,7 @@ class bestprice extends framework {
 				break;
 		}
 		// Fallback to product price in case other options return empty string
-		if(empty($price)){
+		if ( empty( $price ) ) {
 			$price = $product->get_price();
 		}
 
@@ -426,7 +435,7 @@ class bestprice extends framework {
 		$option     = $this->©option->get( 'map_category' );
 		$categories = '';
 		if ( is_numeric( $option ) ) {
-			$categories = $this->getProductAttrValue($product, $option, '' );
+			$categories = $this->getProductAttrValue( $product, $option, '' );
 		}
 		if ( empty( $categories ) ) {
 			$categories = $this->getFormatedTextFromTerms( $product, $option );
@@ -488,7 +497,7 @@ class bestprice extends framework {
 			return $product->get_sku();
 		}
 
-		return $this->getProductAttrValue($product, $option, $product->get_sku() );
+		return $this->getProductAttrValue( $product, $option, $product->get_sku() );
 	}
 
 	/**
@@ -526,7 +535,7 @@ class bestprice extends framework {
 		$name      = '';
 
 		if ( $option != 0 ) {
-			$name = $this->getProductAttrValue($product, $option, '' );
+			$name = $this->getProductAttrValue( $product, $option, '' );
 		}
 
 		if ( empty( $name ) ) {
@@ -534,8 +543,8 @@ class bestprice extends framework {
 		}
 
 		$name = trim( $name );
-		$pid = $this->getProductId( $product );
-		if ( $appendSKU && !empty($pid) && ! is_numeric( strpos( $product->get_title(), $pid ) )) {
+		$pid  = $this->getProductId( $product );
+		if ( $appendSKU && ! empty( $pid ) && ! is_numeric( strpos( $product->get_title(), $pid ) ) ) {
 			$name .= ' ' . $pid;
 		}
 
@@ -551,9 +560,10 @@ class bestprice extends framework {
 	 * @author Panagiotis Vagenas <pan.vagenas@gmail.com>
 	 * @since 150120
 	 */
-	protected function getProductAttrValue(\WC_Product &$product,  $attrId, $defaultValue = null ) {
-		$return  = $product->get_attribute($this->getAttributeNameFromId($attrId));
-		return empty($return) ? $defaultValue : $return;
+	protected function getProductAttrValue( \WC_Product &$product, $attrId, $defaultValue = null ) {
+		$return = $product->get_attribute( $this->getAttributeNameFromId( $attrId ) );
+
+		return empty( $return ) ? $defaultValue : $return;
 	}
 
 	/**
@@ -563,7 +573,7 @@ class bestprice extends framework {
 	 * @author Panagiotis Vagenas <pan.vagenas@gmail.com>
 	 * @since 150120
 	 */
-	protected function getAttributeNameFromId($attrId){
+	protected function getAttributeNameFromId( $attrId ) {
 		foreach ( wc_get_attribute_taxonomies() as $taxonomy ) {
 			if ( $taxonomy->attribute_id == $attrId ) {
 				return trim( $taxonomy->attribute_name );
@@ -657,7 +667,7 @@ class bestprice extends framework {
 		echo "<strong>real mem usage: </strong>" . ( memory_get_peak_usage( true ) / 1024 / 1024 ) . " MiB<br>";
 		$sTime     = microtime( true );
 		$prodArray = $this->createProductsArray();
-		$this->©xml->parseArray($prodArray);
+		$this->©xml->parseArray( $prodArray );
 		echo "<strong>time: </strong>" . ( microtime( true ) - $sTime ) . " sec<br><br>";
 		var_dump( $prodArray );
 		die;

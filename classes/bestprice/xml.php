@@ -111,6 +111,18 @@ class xml extends \xd_v141226_dev\xml {
 	 */
 	protected $productElemName = 'product';
 
+	public function __construct($instance){
+		parent::__construct($instance);
+
+		if(!$this->©bestprice->is_fashion_store){
+			unset($this->bspXMLRequiredFields['size']);
+		}
+
+		if(!$this->©bestprice->is_book_store){
+			unset($this->bspXMLRequiredFields['ISBN']);
+		}
+	}
+
 	/**
 	 * @param array $array
 	 *
@@ -176,8 +188,18 @@ class xml extends \xd_v141226_dev\xml {
 	protected function validateArrayKeys( Array $array ) {
 		foreach ( $this->bspXMLRequiredFields as $fieldName ) {
 			if ( ! isset( $array[ $fieldName ] ) || empty($array[ $fieldName ])) {
+				$fields = array();
+				foreach ( $this->bspXMLRequiredFields as $f){
+					if(! isset( $array[ $f ] ) || empty($array[ $f ])){
+						array_push($fields, $f);
+					}
+				}
 				$name = isset($array['name']) ? $array['name'] : (isset($array['id']) ? 'with id ' . $array['id'] : '');
-				$this->©diagnostic->forceDBLog('product', $array, 'Product <strong>'.$name.'</strong> not included in XML file because field '.$fieldName.' is missing or is invalid');
+				$this->©diagnostic->forceDBLog(
+					'product',
+					$array,
+					'Product <strong>'.$name.'</strong> not included in XML file because field(s) '.implode(', ', $fields).' is/are missing or is invalid'
+				);
 				return array();
 			} else {
 				$array[ $fieldName ] = $this->trimField( $array[ $fieldName ], $fieldName );
@@ -196,6 +218,13 @@ class xml extends \xd_v141226_dev\xml {
 		return $array;
 	}
 
+	/**
+	 * @param $name
+	 *
+	 * @return bool
+	 * @author Panagiotis Vagenas <pan.vagenas@gmail.com>
+	 * @since 150120
+	 */
 	protected function isValidXmlName( $name ) {
 		try {
 			new \DOMElement( $name );
@@ -299,75 +328,6 @@ class xml extends \xd_v141226_dev\xml {
 		}
 
 		return false;
-	}
-
-	/**
-	 * @param $sxi
-	 * @param null $key
-	 * @param null $tmp
-	 *
-	 * @return null
-	 * @author Panagiotis Vagenas <pan.vagenas@gmail.com>
-	 * @since 150120
-	 */
-	protected function sxiToXpath( $sxi, $key = null, &$tmp = null ) {
-		$keys_arr = array();
-		//get the keys count array
-		for ( $sxi->rewind(); $sxi->valid(); $sxi->next() ) {
-			$sk = $sxi->key();
-			if ( array_key_exists( $sk, $keys_arr ) ) {
-				$keys_arr[ $sk ] += 1;
-				$keys_arr[ $sk ] = $keys_arr[ $sk ];
-			} else {
-				$keys_arr[ $sk ] = 1;
-			}
-		}
-		//create the xpath
-		for ( $sxi->rewind(); $sxi->valid(); $sxi->next() ) {
-			$sk = $sxi->key();
-			if ( ! isset( $$sk ) ) {
-				$$sk = 1;
-			}
-			if ( $keys_arr[ $sk ] >= 1 ) {
-				$spk             = $sk . '[' . $$sk . ']';
-				$keys_arr[ $sk ] = $keys_arr[ $sk ] - 1;
-				$$sk ++;
-			} else {
-				$spk = $sk;
-			}
-			$kp = $key ? $key . '/' . $spk : '/' . $sxi->getName() . '/' . $spk;
-			if ( $sxi->hasChildren() ) {
-				$this->sxiToXpath( $sxi->getChildren(), $kp, $tmp );
-			} else {
-				$tmp[ $kp ] = strval( $sxi->current() );
-			}
-			$at = $sxi->current()->attributes();
-			if ( $at ) {
-				$tmp_kp = $kp;
-				foreach ( $at as $k => $v ) {
-					$kp .= '/@' . $k;
-					$tmp[ $kp ] = $v;
-					$kp         = $tmp_kp;
-				}
-			}
-		}
-
-		return $tmp;
-	}
-
-	/**
-	 * Transform an SimpleXMLElement to Xpath and return it
-	 *
-	 * @param $xml
-	 *
-	 * @return null|array
-	 * @author Panagiotis Vagenas <pan.vagenas@gmail.com>
-	 * @since 150120
-	 */
-	public function xmlToXpath( $xml ) {
-		$sxi = new \SimpleXmlIterator( $xml );
-
-		return $this->sxiToXpath( $sxi );
 	}
 
 	/**
