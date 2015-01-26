@@ -199,20 +199,29 @@ class bestprice extends framework {
 		$out['productId']  = $this->getProductId( $product );
 		$out['title']      = $this->getProductName( $product );
 		$out['productURL'] = $this->getProductLink( $product );
-		// TODO Images may be an array. Check specs
 		$out['imageURL'] = $this->getProductImageLink( $product );
-		$out['price']    = $this->getProductPrice( $product );
-		// TODO <categoryID>123<categoryID>
-		// TODO This differs from skroutz <categoryPath>Υπολογιστές->Περιφερειακά->Εκτυπωτές</categoryPath>
-		$out['categoryPath'] = $this->getProductCategories( $product );
+
+		/***********************************************
+		* Prices
+		***********************************************/
+		$price = $this->getProductPrice( $product );
+		$salePrice = $this->getProductPrice($product, 1);
+		if($salePrice && $salePrice < $price){
+			$out['price']    = $salePrice;
+			$out['oldPrice'] = $price;
+		} else {
+			$out['price'] = $price;
+		}
+		$out['netprice']     = $this->getProductPrice( $product, 2 );
+
+		$out['categoryID'] = $this->getProductCategories($product, true);
+		$out['categoryPath'] = $this->getProductCategories( $product, false );
 		$out['brand']        = $this->getProductManufacturer( $product );
 		$out['stock']        = $this->isInStock( $product );
 		$out['availability'] = $this->getAvailabilityString( $product );
 		$out['ΕΑΝ']          = $this->getProductMPN( $product );
-		// TODO <netprice>1.500,30</netprice>
-		// TODO <isBundle>Y</isBundle>
 
-		$out['mpn'] = $this->getProductMPN( $product );
+		// TODO <isBundle>Y</isBundle>
 
 		if ( $product->product_type == 'variable' && $this->is_fashion_store ) {
 			$variableProduct = new \WC_Product_Variable( $product );
@@ -396,14 +405,13 @@ class bestprice extends framework {
 	/**
 	 * @param \WC_Product $product
 	 *
+	 * @param $option 1: sale price, 2 tax excluded price, any other value regular price tax included. Default is last regular price tax included
+	 *
 	 * @return string
-	 * @throws \xd_v141226_dev\exception
 	 * @author Panagiotis Vagenas <pan.vagenas@gmail.com>
 	 * @since 150120
 	 */
-	protected function getProductPrice( \WC_Product &$product ) {
-		$option = $this->©option->get( 'map_price_with_vat' );
-
+	protected function getProductPrice( \WC_Product &$product, $option = 0 ) {
 		switch ( $option ) {
 			case 1:
 				$price = $product->get_sale_price();
@@ -415,30 +423,26 @@ class bestprice extends framework {
 				$price = $product->get_price();
 				break;
 		}
-		// Fallback to product price in case other options return empty string
-		if ( empty( $price ) ) {
-			$price = $product->get_price();
-		}
-
 		return $price;
 	}
 
 	/**
 	 * @param \WC_Product $product
 	 *
+	 * @param bool $ids
+	 *
 	 * @return null|string
-	 * @throws \xd_v141226_dev\exception
 	 * @author Panagiotis Vagenas <pan.vagenas@gmail.com>
 	 * @since 150120
 	 */
-	protected function getProductCategories( \WC_Product &$product ) {
+	protected function getProductCategories( \WC_Product &$product, $ids = false ) {
 		$option     = $this->©option->get( 'map_category' );
 		$categories = '';
 		if ( is_numeric( $option ) ) {
 			$categories = $this->getProductAttrValue( $product, $option, '' );
 		}
 		if ( empty( $categories ) ) {
-			$categories = $this->getFormatedTextFromTerms( $product, $option );
+			$categories = $ids ? $this->getIdsFromTerms($product, $option) : $this->getFormatedTextFromTerms( $product, $option, false, '->' );
 		}
 
 		return $categories;
@@ -456,13 +460,25 @@ class bestprice extends framework {
 		$option = $this->©option->get( 'map_image' );
 
 		// Maybe we will implement some additional functionality in the future
-		$imageLink = '';
+		$imageLink = array();
+		$i = 1;
 		if ( true || $option == 0 ) {
-			$imageLink = wp_get_attachment_image_src( $product->get_image_id() );
-			$imageLink = is_array( $imageLink ) ? $imageLink[0] : '';
+			$src = wp_get_attachment_image_src( $product->get_image_id() );
+			if(is_array( $src )){
+				$imageLink['img'.$i] = urldecode($imageLink[0]);
+				$i++;
+			}
+
+			foreach ( $product->get_gallery_attachment_ids() as $k => $id ) {
+				$src = wp_get_attachment_image_src( $id );
+				if(is_array( $src )){
+					$imageLink['img'.$i] = urldecode($imageLink[0]);
+					$i++;
+				}
+			}
 		}
 
-		return urldecode( $imageLink );
+		return $imageLink ;
 	}
 
 	/**
@@ -640,12 +656,13 @@ class bestprice extends framework {
 	/**
 	 * @param \WC_Product $product
 	 * @param $term
+	 * @param bool $removeDuplicates
 	 *
 	 * @return string
 	 * @author Panagiotis Vagenas <pan.vagenas@gmail.com>
 	 * @since 150120
 	 */
-	protected function getFormatedTextFromTerms( \WC_Product &$product, $term ) {
+	protected function getFormatedTextFromTerms( \WC_Product &$product, $term, $removeDuplicates = true, $glue = ' - ' ) {
 		$terms = get_the_terms( $product->id, $term );
 		$out   = array();
 		if ( is_array( $terms ) ) {
@@ -655,7 +672,27 @@ class bestprice extends framework {
 			}
 		}
 
-		return implode( ' - ', array_unique( $out ) );
+		return implode( $glue, ($removeDuplicates ? array_unique( $out ) : $out) );
+	}
+
+	/**
+	 * @param \WC_Product $product
+	 * @param $term
+	 *
+	 * @return array
+	 * @author Panagiotis Vagenas <pan.vagenas@gmail.com>
+	 * @since 150120
+	 */
+	protected function getIdsFromTerms( \WC_Product &$product, $term ) {
+		$terms = get_the_terms( $product->id, $term );
+		$out   = array();
+		if ( is_array( $terms ) ) {
+			foreach ( $terms as $k => $term ) {
+				$out[] = $term->term_id;
+			}
+		}
+
+		return $out;
 	}
 
 	/**

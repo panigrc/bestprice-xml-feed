@@ -150,17 +150,34 @@ class xml extends \xd_v141226_dev\xml {
 				$product = $products->addChild( $this->productElemName );
 
 				foreach ( $validated as $key => $value ) {
-					if ( $this->isValidXmlName( $value ) ) {
-						$product->addChild( $key, $value );
-					} else {
-						$product->$key = null;
-						$product->$key->addCData( $value );
-					}
+					$this->addChildNode($key, $value, $product);
 				}
 			}
 		}
 
 		return !empty($array) && $this->saveXML();
+	}
+
+	/**
+	 * @param $key
+	 * @param $value
+	 * @param \SimpleXMLElement $node
+	 *
+	 * @author Panagiotis Vagenas <pan.vagenas@gmail.com>
+	 * @since 150120
+	 */
+	protected function addChildNode($key, $value, \SimpleXMLElement $node){
+		if(is_array($value)){
+			$n = $node->addChild($key);
+			foreach ( $value as $k => $v ) {
+				$this->addChildNode($k, $v, $n);
+			}
+		} else if ( $this->isValidXmlName( $value ) ) {
+			$node->addChild( $key, $value );
+		} else {
+			$node->$key = null;
+			$node->$key->addCData( $value );
+		}
 	}
 
 	/**
