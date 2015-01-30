@@ -27,13 +27,7 @@ $genNowBtnOpts = array(
 <?php
 echo $callee->menu_page->©form_field->markup( $this->__( 'Generate XML Now' ), $genNowBtnOpts );
 ?>
-<script type="text/javascript">
-	jQuery('document').ready(function ($) {
-		$('.generate-now').click(function () {
-			BSPHelper.prototype.generateXMLNow($('#generateNowModal'));
-		});
-	});
-</script>
+
 
 <!-- Modal -->
 <div class="modal fade" id="generateNowModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
@@ -43,13 +37,13 @@ echo $callee->menu_page->©form_field->markup( $this->__( 'Generate XML Now' ), 
 			<div class="modal-header">
 				<h4 class="modal-title" id="myModalLabel"><?php echo $this->__( 'Generating XML File' ); ?></h4>
 			</div>
-<!--			<div class="modal-body">-->
+			<div class="modal-body">
 <!--				<div class="progress">-->
 <!--					<div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="0"-->
 <!--					     aria-valuemin="0" aria-valuemax="100" style="width: 0%">-->
 <!--					</div>-->
 <!--				</div>-->
-<!--			</div>-->
+			</div>
 		</div>
 	</div>
 </div>

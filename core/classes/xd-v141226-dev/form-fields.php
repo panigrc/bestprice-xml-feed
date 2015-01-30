@@ -207,7 +207,8 @@ namespace xd_v141226_dev
 			'submit',
 			'select',
 			'textarea',
-			'hidden'
+			'hidden',
+			'media'
 		);
 
 		/**
@@ -233,7 +234,8 @@ namespace xd_v141226_dev
 			'button',
 			'reset',
 			'submit',
-			'hidden'
+			'hidden',
+			'media'
 		);
 
 		/**
@@ -252,7 +254,8 @@ namespace xd_v141226_dev
 			'range',
 			'date',
 			'datetime',
-			'datetime-local'
+			'datetime-local',
+			'media'
 		);
 
 		/**
@@ -569,13 +572,25 @@ namespace xd_v141226_dev
 					         ' name="'.esc_attr($field['name_prefix'].$field['name'].'[___update]').'"'.
 					         ' value="'.esc_attr('___update').'"'.
 					         '/>';
+				} else if($field['type'] === 'media')
+				{
+					// TODO Implement
+					$this->©style->enqueue('thickbox');
+					$this->©script->enqueue('thickbox');
+					$this->©script->enqueue('media-upload');
+					$html .= '<div class="input-group input-media-wrapper">';
 				}
+
 				$html .= '<input'. // MANY conditions here.
 
 				         ' type="'.esc_attr($field['type']).'"'.
 				         ' id="'.esc_attr($field['id_prefix'].$field['id']).'"'.
 				         ((in_array($field['type'], $this->button_types, TRUE)) ? '' : ' name="'.esc_attr($field['name_prefix'].$field['name'].(($field['type'] === 'file' && $field['multiple']) ? '[]' : '')).'"').
-				         (($field['type'] === 'hidden' || !in_array($field['type'], $this->form_control_input_types, TRUE)) ? '' : ' class="form-control'.esc_attr($field['classes']).'"').
+				         (($field['type'] === 'hidden' || !in_array($field['type'], $this->form_control_input_types, TRUE))
+					         ? ''
+					         : ($field['type'] === 'media'
+						         ? ' class="form-control media-input '.esc_attr($field['classes']).'"'
+						         : ' class="form-control'.esc_attr($field['classes']).'"')).
 
 				         (($field['type'] === 'file') ? '' // Exclude (NOT possible to define a value for files).
 					         : ((in_array($field['type'], $this->single_check_types, TRUE)) ? ' value="'.esc_attr($field['checked_value']).'"'
@@ -613,6 +628,16 @@ namespace xd_v141226_dev
 
 				         $field['attrs']. // Custom attributes.
 				         ' />';
+				if($field['type'] === 'media')
+				{
+					// TODO Implement
+					$html .= '<span class="input-group-btn">';
+					$html .= '<button class="btn btn-default input-media-btn" type="button">';
+					$html .= isset($field['button_label']) ? $field['button_label'] : 'Go!';
+					$html .= '</button>';
+					$html .= '</span>';
+					$html .= '</div>';
+				}
 			}
 			else throw $this->©exception($this->method(__FUNCTION__).'#invalid_type', get_defined_vars(), sprintf($this->__('Invalid form field type: `%1$s`.'), $field['type']));
 
@@ -634,6 +659,7 @@ namespace xd_v141226_dev
 
 				$html .= $this->markup($field_value, $field_clone);
 			}
+
 			return $html; // HTML markup.
 		}
 

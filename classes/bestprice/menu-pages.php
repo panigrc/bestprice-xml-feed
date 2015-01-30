@@ -31,10 +31,10 @@ class menu_pages extends \xd_v141226_dev\menu_pages {
 	 */
 	public function admin_menu() {
 		add_options_page(
-			$this->instance->plugin_name . ' Settings',
-			$this->instance->plugin_name,
-			$this->instance->plugin_cap,
-			$this->instance->plugin_root_ns.'--'.$this->©menu_pages__settings->slug,
+			$this->©plugin->instance->plugin_name . ' Settings',
+			$this->©plugin->instance->plugin_name,
+			$this->©plugin->instance->plugin_cap,
+			$this->©plugin->instance->plugin_root_ns.'--'.$this->©menu_pages__settings->slug,
 			array($this, '©menu_pages__settings.display')
 		);
 	}

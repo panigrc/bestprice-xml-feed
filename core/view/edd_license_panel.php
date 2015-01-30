@@ -45,7 +45,7 @@ $activeLic = isset($license->license) && $license->license == 'valid';
 				<?php
 				$inputOptions = array(
 					'type'        => 'text',
-					'name'        => '[license]',
+					'name'        => '[license_input]',
 					'title'       => $this->__('License'),
 					'placeholder' => $this->__('Enter a valid license key'),
 					'required'    => true,

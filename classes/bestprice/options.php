@@ -61,7 +61,8 @@ class options extends \xd_v141226_dev\options {
 			 * License
 			 ***********************************************/
 			'edd.update'                                 => 1,
-			'edd.store_url'                              => 'https://erp.xdark.eu',
+			'edd.store_url'                              => 'http://erp.xdark.eu',
+			'edd_license'                                => '',
 			/*********************
 			 * XML File relative
 			 ********************/
@@ -224,7 +225,7 @@ class options extends \xd_v141226_dev\options {
 		}
 
 		// Delete old file if XML file path changed
-		if ( $new_options['xml_location'] != $this->get( 'xml_location' ) || $new_options['xml_fileName'] != $this->get( 'xml_fileName' ) ) {
+		if ( isset( $new_options['xml_location'] ) && ( $new_options['xml_location'] != $this->get( 'xml_location' ) || $new_options['xml_fileName'] != $this->get( 'xml_fileName' ) ) ) {
 			$this->©file->delete( $this->©xml->getFileLocation() );
 		}
 

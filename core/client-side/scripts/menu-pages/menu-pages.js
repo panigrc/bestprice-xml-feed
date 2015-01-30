@@ -156,56 +156,45 @@
 				                              });
 			       $menu_page.find('.sidebar-panels').on('sortupdate', update_sidebar_panels_order);
 
-				   $menu_page.find('.activate-lic').click(function () {
-					   var license = $('#license').val();
-					   $.ajax({
-						   url: ajaxurl,
-						   dataType: 'json',
-						   type: 'POST',
-						   data: {
-							   'action': 'activateEddLicense',
-							   'license': license
-						   },
-						   complete: function(response){
-							   location.reload();
-						   },
-						   error: function(response){
-								alert('License activation failed');
-						   },
-						   beforeSend: function(){
-							   if(license.length == 0){
-								   alert('Please enter a valid license key');
-								   return false;
+				   $menu_page
+					   .find('.activate-lic')
+					   .on('click', function()
+					   {
+						   //$menu_page.find('.activate-license-form')
+							//   .find('input.license')
+							//   .val($('#license').val())
+							//   .closest('form').submit();
+							//
+
+						   var license = $('#license').val();
+						   var $res = _.post(
+							   '©edd_updater.®ajaxActivateLicense',
+							   _.___private_type,
+							   [license],
+							   {
+								   complete: function(response){
+									   location.reload();
+								   }
 							   }
-							   return true;
-						   }
+						   );
 					   });
-				   });
-				   $menu_page.find('.deactivate-lic').click(function () {
-					   var license = $('#license').val();
-					   $.ajax({
-						   url: ajaxurl,
-						   dataType: 'json',
-						   type: 'POST',
-						   data: {
-							   'action': 'deactivateEddLicense',
-							   'license': license
-						   },
-						   complete: function(response){
-							   location.reload();
-						   },
-						   error: function(response){
-							   alert('License activation failed');
-						   },
-						   beforeSend: function(){
-							   if(license.length == 0){
-								   alert('Please enter a valid license key');
-								   return false;
+
+				   $menu_page
+					   .find('.deactivate-lic')
+					   .click(function () {
+						   var license = $('#license').val();
+						   var $res = _.post(
+							   '©edd_updater.®ajaxDeactivateLicense',
+							   _.___private_type,
+							   [license],
+							   {
+								   complete: function(response){
+									   location.reload();
+								   }
 							   }
-							   return true;
-						   }
-					   });
-				   });
+						   );
+					   }
+				   );
 		       };
 
 		       _.on_win_load = function()

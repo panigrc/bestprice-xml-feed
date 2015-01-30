@@ -61,7 +61,7 @@ namespace xd_v141226_dev\menu_pages\panels {
 					'name' => 'on1'
 				) ) .
 				'<div class="form-group">' .
-				'<div class="input-group select-input-group">' .
+				'<div class="input-group">' .
 				'<span class="input-group-addon"><i class="fa fa-location-arrow fa-fw"></i></span>' .
 				$form_fields->markup( $form_fields->¤value( $this->©urls->to_wp_home_uri() ), array(
 					'type' => 'text',

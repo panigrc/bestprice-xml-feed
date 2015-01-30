@@ -111,16 +111,18 @@ class xml extends \xd_v141226_dev\xml {
 	 */
 	protected $productElemName = 'product';
 
-	public function __construct($instance){
-		parent::__construct($instance);
+	public function __construct( $instance ) {
+		parent::__construct( $instance );
 
-		if(!$this->©bestprice->is_fashion_store){
-			unset($this->bspXMLRequiredFields['size']);
+		$d = array();
+		if ( ! (bool) $this->©option->get( 'is_fashion_store' ) ) {
+			$d[] = 'size';
 		}
 
-		if(!$this->©bestprice->is_book_store){
-			unset($this->bspXMLRequiredFields['ISBN']);
+		if ( ! (bool) $this->©option->get( 'is_book_store' ) ) {
+			$d[] = 'ISBN';
 		}
+		$this->bspXMLRequiredFields = array_diff($this->bspXMLRequiredFields, $d);
 	}
 
 	/**
@@ -150,12 +152,12 @@ class xml extends \xd_v141226_dev\xml {
 				$product = $products->addChild( $this->productElemName );
 
 				foreach ( $validated as $key => $value ) {
-					$this->addChildNode($key, $value, $product);
+					$this->addChildNode( $key, $value, $product );
 				}
 			}
 		}
 
-		return !empty($array) && $this->saveXML();
+		return ! empty( $array ) && $this->saveXML();
 	}
 
 	/**
@@ -166,16 +168,16 @@ class xml extends \xd_v141226_dev\xml {
 	 * @author Panagiotis Vagenas <pan.vagenas@gmail.com>
 	 * @since 150120
 	 */
-	protected function addChildNode($key, $value, \SimpleXMLElement $node){
-		if(is_array($value)){
-			$n = $node->addChild($key);
+	protected function addChildNode( $key, $value, \SimpleXMLElement $node ) {
+		if ( is_array( $value ) ) {
+			$n = $node->addChild( $key );
 			foreach ( $value as $k => $v ) {
-				$this->addChildNode($k, $v, $n);
+				$this->addChildNode( $k, $v, $n );
 			}
 		} else if ( $this->isValidXmlName( $value ) ) {
 			$node->addChild( $key, $value );
 		} else {
-			$node->$key = null;
+			if(!isset($node->$key)) $node->addChild($key);
 			$node->$key->addCData( $value );
 		}
 	}
@@ -187,10 +189,9 @@ class xml extends \xd_v141226_dev\xml {
 	 */
 	protected function initSimpleXML() {
 		$this->fileLocation = $this->getFileLocation();
-		
-		$this->simpleXML = new \SimpleXMLExtended( '<?xml version="1.0" encoding="UTF-8"?>' );
-		$rootElem = $this->simpleXML->addChild( $this->rootElemName );
-		$rootElem->simpleXML->addChild( $this->productsElemWrapperName );
+
+		$this->simpleXML = new \SimpleXMLExtended( '<' . $this->rootElemName . '></' . $this->rootElemName . '>' );
+		$this->simpleXML->addChild( $this->productsElemWrapperName );
 
 		return $this;
 	}
@@ -204,19 +205,20 @@ class xml extends \xd_v141226_dev\xml {
 	 */
 	protected function validateArrayKeys( Array $array ) {
 		foreach ( $this->bspXMLRequiredFields as $fieldName ) {
-			if ( ! isset( $array[ $fieldName ] ) || empty($array[ $fieldName ])) {
+			if ( ! isset( $array[ $fieldName ] ) || empty( $array[ $fieldName ] ) ) {
 				$fields = array();
-				foreach ( $this->bspXMLRequiredFields as $f){
-					if(! isset( $array[ $f ] ) || empty($array[ $f ])){
-						array_push($fields, $f);
+				foreach ( $this->bspXMLRequiredFields as $f ) {
+					if ( ! isset( $array[ $f ] ) || empty( $array[ $f ] ) ) {
+						array_push( $fields, $f );
 					}
 				}
-				$name = isset($array['name']) ? $array['name'] : (isset($array['id']) ? 'with id ' . $array['id'] : '');
+				$name = isset( $array['name'] ) ? $array['name'] : ( isset( $array['id'] ) ? 'with id ' . $array['id'] : '' );
 				$this->©diagnostic->forceDBLog(
 					'product',
 					$array,
-					'Product <strong>'.$name.'</strong> not included in XML file because field(s) '.implode(', ', $fields).' is/are missing or is invalid'
+					'Product <strong>' . $name . '</strong> not included in XML file because field(s) ' . implode( ', ', $fields ) . ' is(are) missing or invalid'
 				);
+
 				return array();
 			} else {
 				$array[ $fieldName ] = $this->trimField( $array[ $fieldName ], $fieldName );
@@ -261,11 +263,15 @@ class xml extends \xd_v141226_dev\xml {
 	 * @since 150120
 	 */
 	protected function trimField( $value, $fieldName ) {
-		if ( ! isset( $this->bspXMLFieldsLengths[ $fieldName ] ) ) {
-			return false;
+		if ( ! isset( $this->bspXMLFieldsLengths[ $fieldName ] ) || !is_string($value) ||$this->bspXMLFieldsLengths[ $fieldName ] === 0 ) {
+			return $value;
 		}
 
-		if ( $this->bspXMLFieldsLengths[ $fieldName ] === 0 ) {
+		if ( is_array( $value ) ) {
+			foreach ( $value as $k => $v ) {
+				$value[ $k ] = $this->trimField( $v, $fieldName );
+			}
+
 			return $value;
 		}
 
@@ -280,9 +286,9 @@ class xml extends \xd_v141226_dev\xml {
 	 * @author Panagiotis Vagenas <pan.vagenas@gmail.com>
 	 * @since 150120
 	 */
-	public function updateProductInXML($prodId, Array $newValues){
-		$newValues = $this->validateArrayKeys($newValues);
-		if(empty($newValues)){
+	public function updateProductInXML( $prodId, Array $newValues ) {
+		$newValues = $this->validateArrayKeys( $newValues );
+		if ( empty( $newValues ) ) {
 			return false;
 		}
 		// init simple xml if is not initialized already
@@ -290,9 +296,9 @@ class xml extends \xd_v141226_dev\xml {
 			$this->initSimpleXML();
 		}
 
-		$p = $this->locateProductNode($prodId);
-		if(!$p){
-			$p = $this->simpleXML->products->addChild($this->productElemName);
+		$p = $this->locateProductNode( $prodId );
+		if ( ! $p ) {
+			$p = $this->simpleXML->products->addChild( $this->productElemName );
 		}
 		foreach ( $newValues as $key => $value ) {
 			if ( $this->isValidXmlName( $value ) ) {
@@ -302,6 +308,7 @@ class xml extends \xd_v141226_dev\xml {
 				$p->$key->addCData( $value );
 			}
 		}
+
 		return $this->saveXML();
 	}
 
@@ -312,16 +319,17 @@ class xml extends \xd_v141226_dev\xml {
 	 * @author Panagiotis Vagenas <pan.vagenas@gmail.com>
 	 * @since 150120
 	 */
-	protected function locateProductNode($nodeId){
-		if(!($this->simpleXML instanceof \SimpleXMLElement)){
+	protected function locateProductNode( $nodeId ) {
+		if ( ! ( $this->simpleXML instanceof \SimpleXMLElement ) ) {
 			return false;
 		}
 
 		foreach ( $this->simpleXML->products->product as $k => $p ) {
-			if($p->id == $nodeId){
+			if ( $p->id == $nodeId ) {
 				return $p;
 			}
 		}
+
 		return false;
 	}
 
@@ -331,16 +339,17 @@ class xml extends \xd_v141226_dev\xml {
 	 * @since 150120
 	 */
 	protected function saveXML() {
-		$dir = dirname($this->fileLocation);
-		if(!file_exists($dir)){
-			mkdir($dir, 0755, true);
+		$dir = dirname( $this->fileLocation );
+		if ( ! file_exists( $dir ) ) {
+			mkdir( $dir, 0755, true );
 		}
 
-		if ( $this->simpleXML && ! empty( $this->fileLocation ) && (is_writable( $this->fileLocation ) || is_writable($dir) ) ) {
-			if(is_file($this->fileLocation)){
-				unlink($this->fileLocation);
+		if ( $this->simpleXML && ! empty( $this->fileLocation ) && ( is_writable( $this->fileLocation ) || is_writable( $dir ) ) ) {
+			if ( is_file( $this->fileLocation ) ) {
+				unlink( $this->fileLocation );
 			}
 			$this->simpleXML->addChild( $this->createdAtName, date( 'Y-m-d H:i' ) );
+
 			return $this->simpleXML->asXML( $this->fileLocation );
 		}
 
@@ -355,21 +364,23 @@ class xml extends \xd_v141226_dev\xml {
 	 * @since 150120
 	 */
 	public function printXML() {
-		if(headers_sent()) return;
+		if ( headers_sent() ) {
+			return;
+		}
 
-		if ( ! ( $this->simpleXML instanceof \SimpleXMLExtended )) {
+		if ( ! ( $this->simpleXML instanceof \SimpleXMLExtended ) ) {
 			$fileLocation = $this->getFileLocation();
-			if ( !$this->existsAndReadable( $fileLocation ) ) {
+			if ( ! $this->existsAndReadable( $fileLocation ) ) {
 				return;
 			}
 			$this->simpleXML = simplexml_load_file( $fileLocation );
 		}
 
-		header ("Content-Type:text/xml");
+		header( "Content-Type:text/xml" );
 
 		echo $this->simpleXML->asXML();
 
-		exit(0);
+		exit( 0 );
 	}
 
 	/**
@@ -384,9 +395,9 @@ class xml extends \xd_v141226_dev\xml {
 		$location = $this->©options->get( 'xml_location' );
 		$fileName = $this->©options->get( 'xml_fileName' );
 
-		$location = empty($location) || $location == '/' ? '' : (trim($location, '\\/') . '/');
+		$location = empty( $location ) || $location == '/' ? '' : ( trim( $location, '\\/' ) . '/' );
 
-		return rtrim( ABSPATH, '\\/' ) . '/' . $location . trim($fileName, '\\/');
+		return rtrim( ABSPATH, '\\/' ) . '/' . $location . trim( $fileName, '\\/' );
 	}
 
 	/**
@@ -402,14 +413,14 @@ class xml extends \xd_v141226_dev\xml {
 		if ( $this->existsAndReadable( $fileLocation ) ) {
 			$info = array();
 
-			$sXML = simplexml_load_file( $fileLocation );
+			$sXML         = simplexml_load_file( $fileLocation );
 			$cratedAtName = $this->createdAtName;
 
-			$info[ 'File Creation Datetime' ] = end( $sXML->$cratedAtName );
-			$info['Products Count']       = $this->countProductsInFile( $sXML );
-			$info['File Path']            = $fileLocation;
-			$info['File Url']             = $this->©url->to_wp_site_uri( str_replace( ABSPATH, '', $fileLocation ) );
-			$info['File Size']            = filesize( $fileLocation );
+			$info['File Creation Datetime'] = end( $sXML->$cratedAtName );
+			$info['Products Count']         = $this->countProductsInFile( $sXML );
+			$info['File Path']              = $fileLocation;
+			$info['File Url']               = $this->©url->to_wp_site_uri( str_replace( ABSPATH, '', $fileLocation ) );
+			$info['File Size']              = filesize( $fileLocation );
 
 			return $info;
 		} else {
@@ -437,8 +448,8 @@ class xml extends \xd_v141226_dev\xml {
 
 		if ( $sXML->getName() == $this->productsElemWrapperName ) {
 			return $sXML->count();
-		}elseif ( $sXML->getName() == $this->rootElemName ) {
-			return $sXML->children( )->children()->count();
+		} elseif ( $sXML->getName() == $this->rootElemName ) {
+			return $sXML->children()->children()->count();
 		}
 
 		return 0;

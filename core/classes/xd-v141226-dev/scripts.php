@@ -332,6 +332,11 @@ namespace xd_v141226_dev
 				$data .= $this->©action->ajax_verifier_property_for_call('©menu_pages__'.$current_menu_page_slug_class_basename.'.®update_content_panels_state', $this::private_type).',';
 				$data .= $this->©action->ajax_verifier_property_for_call('©menu_pages__'.$current_menu_page_slug_class_basename.'.®update_sidebar_panels_order', $this::private_type).',';
 				$data .= $this->©action->ajax_verifier_property_for_call('©menu_pages__'.$current_menu_page_slug_class_basename.'.®update_sidebar_panels_state', $this::private_type).',';
+
+				if($this->©edd_updater->isEDD()){
+					$data .= $this->©action->ajax_verifier_property_for_call('©edd_updater.®ajaxActivateLicense', $this::private_type).',';
+					$data .= $this->©action->ajax_verifier_property_for_call('©edd_updater.®ajaxDeactivateLicense', $this::private_type).',';
+				}
 			}
 			$data .= $this->build_verifiers_for_core_inline_data(); // Make this easy for class extenders.
 

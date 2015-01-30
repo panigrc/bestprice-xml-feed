@@ -24,7 +24,7 @@ class ajax extends \xd_v141226_dev\ajax {
 	 * @author Panagiotis Vagenas <pan.vagenas@gmail.com>
 	 * @since 150120
 	 */
-	public function generateBestpriceXML() {
+	public function ®ajaxGenerateBestpriceXML() {
 		if ( ! $this->©user->is_super_admin() ) {
 			$this->sendJSONError( 'Authorization failed', 401 );
 		}
@@ -33,35 +33,11 @@ class ajax extends \xd_v141226_dev\ajax {
 		}
 
 		$foundProducts = $this->©bestprice->do_your_woo_stuff();
+		$this->©action->set_call_data_for($this->dynamic_call(__FUNCTION__), get_defined_vars());
 		if($foundProducts > 0){
 			$this->sendJSONSuccess( array( 'result' => true, 'productsUpdated' => $foundProducts ) );
 		} else {
 			$this->sendJSONError($this->__('No products found'), 200);
 		}
 	}
-
-	/**
-	 * AJAX out XML generation progress
-	 * @important AJAX HOOKED
-	 * @throws \xd_v141226_dev\exception
-	 * @author Panagiotis Vagenas <pan.vagenas@gmail.com>
-	 * @since 150120
-	 */
-	public function generateBestpriceXMLProgress() {
-		if ( ! $this->©user->is_super_admin() ) {
-			$this->sendJSONError( 'Authorization failed', 401 );
-		}
-		$this->sendJSONSuccess( array( 'progress' => (float) $this->©option->get( 'xml.progress' ) ) );
-	}
-
-	/**
-	 * Binds AJAX actions
-	 * @important This is called from initializer so no need to directly call it
-	 * @author Panagiotis Vagenas <pan.vagenas@gmail.com>
-	 * @since 150120
-	 */
-	public function bind_ajax_actions() {
-		$this->add_action( 'wp_ajax_generateBestpriceXML', '©ajax.generateBestpriceXML' );
-		$this->add_action( 'wp_ajax_generateBestpriceXMLProgress', '©ajax.generateBestpriceXMLProgress' );
-	}
-} 
+}

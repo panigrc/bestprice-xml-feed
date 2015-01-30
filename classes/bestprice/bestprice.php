@@ -129,6 +129,7 @@ class bestprice extends framework {
 		$products = array();
 		if ( $loop->have_posts() ) {
 			$products = array();
+
 			while ( $loop->have_posts() ) {
 				$loop->the_post();
 
@@ -206,13 +207,14 @@ class bestprice extends framework {
 		***********************************************/
 		$price = $this->getProductPrice( $product );
 		$salePrice = $this->getProductPrice($product, 1);
-		if($salePrice && $salePrice < $price){
+		if($salePrice > 0 && $salePrice < $price){
 			$out['price']    = $salePrice;
 			$out['oldPrice'] = $price;
 		} else {
 			$out['price'] = $price;
 		}
-		$out['netprice']     = $this->getProductPrice( $product, 2 );
+		// TODO This should be in options before implement it
+		//$out['netprice']     = $this->getProductPrice( $product, 2 );
 
 		$out['categoryID'] = $this->getProductCategories($product, true);
 		$out['categoryPath'] = $this->getProductCategories( $product, false );
@@ -423,7 +425,7 @@ class bestprice extends framework {
 				$price = $product->get_price();
 				break;
 		}
-		return $price;
+		return number_format(floatval($price), 2, ',', '.');
 	}
 
 	/**
@@ -445,7 +447,7 @@ class bestprice extends framework {
 			$categories = $ids ? $this->getIdsFromTerms($product, $option) : $this->getFormatedTextFromTerms( $product, $option, false, '->' );
 		}
 
-		return $categories;
+		return is_array($categories) ? implode('-', $categories) : $categories;
 	}
 
 	/**
@@ -465,14 +467,14 @@ class bestprice extends framework {
 		if ( true || $option == 0 ) {
 			$src = wp_get_attachment_image_src( $product->get_image_id() );
 			if(is_array( $src )){
-				$imageLink['img'.$i] = urldecode($imageLink[0]);
+				$imageLink['img'.$i] = urldecode($src[0]);
 				$i++;
 			}
 
 			foreach ( $product->get_gallery_attachment_ids() as $k => $id ) {
 				$src = wp_get_attachment_image_src( $id );
 				if(is_array( $src )){
-					$imageLink['img'.$i] = urldecode($imageLink[0]);
+					$imageLink['img'.$i] = urldecode($src[0]);
 					$i++;
 				}
 			}
@@ -636,8 +638,9 @@ class bestprice extends framework {
 	 */
 	protected function formatSizeColorStrings( $string ) {
 		if ( is_array( $string ) ) {
-			array_walk( $string, function ( $item, $key ) {
-				return $this->formatSizeColorStrings( $item );
+			$that = $this;
+			array_walk( $string, function ( $item, $key ) use ($that) {
+				return $that->formatSizeColorStrings( $item );
 			} );
 
 			return implode( ',', $string );

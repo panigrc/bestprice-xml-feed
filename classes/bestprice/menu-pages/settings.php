@@ -34,7 +34,7 @@ class settings extends menu_page {
 		parent::__construct( $instance );
 
 		$this->heading_title           = $this->__( 'Main Settings' );
-		$this->sub_heading_description = sprintf( $this->__( 'Configure main settings for %1$s' ), esc_html( $this->instance->plugin_name ) );
+		$this->sub_heading_description = sprintf( $this->__( 'Configure main settings for %1$s' ), esc_html( $this->©plugin->instance->plugin_name ) );
 	}
 
 	/**

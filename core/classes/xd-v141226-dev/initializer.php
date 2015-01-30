@@ -82,7 +82,6 @@ namespace xd_v141226_dev
 			}
 
 			$this->after_setup_theme_hooks(); // Additional hooks/filters needed by an extender.
-			$this->©ajax->bind_ajax_core_actions(); // Bind ajax actions
 			$this->do_action('after_setup_theme_hooks'); // Additional hooks/filters.
 		}
 
