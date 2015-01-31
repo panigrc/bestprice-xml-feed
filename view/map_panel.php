@@ -376,7 +376,7 @@ $attrTaxonomies = wc_get_attribute_taxonomies();
 						'name'        => '[map_size]',
 						'title'       => $this->__( 'Product Sizes' ),
 						'placeholder' => $this->__( 'Select the attribute that describes product sizes' ),
-						'required'    => (bool)$this->©option->get('map_size_use'),
+						'required'    => (bool)$this->©option->get('is_fashion_store'),
 						'id'          => 'map-size',
 						'attrs'       => '',
 						'classes'     => 'form-control',
@@ -384,24 +384,6 @@ $attrTaxonomies = wc_get_attribute_taxonomies();
 					);
 					if(!empty($attrTaxonomies))
 						echo $callee->menu_page->option_form_fields->markup( $this->©option->get( 'map_size' ), $inputOptions );
-					?>
-				</div>
-
-				<label for="map-size-use"
-				       class="col-md-3 control-label"><?php echo $this->__( 'Use size variations' ); ?></label>
-
-				<div class="col-sm-2">
-					<?php
-
-					$inputOptions = array(
-						'type'    => 'checkbox',
-						'name'    => '[map_size_use]',
-						'title'   => $this->__( 'Uncheck this if you don\'t use size variations' ),
-						'id'      => 'map-size-use',
-						'classes' => 'form-control',
-					);
-					if(!empty($attrTaxonomies))
-						echo $callee->menu_page->option_form_fields->markup( $this->©option->get( 'map_size_use' ), $inputOptions );
 					?>
 				</div>
 
@@ -428,7 +410,6 @@ $attrTaxonomies = wc_get_attribute_taxonomies();
 						'name'        => '[map_colors]',
 						'title'       => $this->__( 'Product Colors' ),
 						'placeholder' => $this->__( 'Select the attribute that describes product colors' ),
-						'required'    => (bool)$this->©option->get('map_color_use'),
 						'id'          => 'map-color',
 						'attrs'       => '',
 						'classes'     => 'form-control',
@@ -436,24 +417,6 @@ $attrTaxonomies = wc_get_attribute_taxonomies();
 					);
 					if(!empty($attrTaxonomies))
 						echo $callee->menu_page->option_form_fields->markup( $this->©option->get( 'map_color' ), $inputOptions );
-					?>
-				</div>
-
-				<label for="map-color-use"
-				       class="col-md-3 control-label"><?php echo $this->__( 'Use color variations' ); ?></label>
-
-				<div class="col-sm-2">
-					<?php
-
-					$inputOptions = array(
-						'type'    => 'checkbox',
-						'name'    => '[map_color_use]',
-						'title'   => $this->__( 'Uncheck this if you don\'t use color variations' ),
-						'id'      => 'map-color-use',
-						'classes' => 'form-control',
-					);
-					if(!empty($attrTaxonomies))
-						echo $callee->menu_page->option_form_fields->markup( $this->©option->get( 'map_color_use' ), $inputOptions );
 					?>
 				</div>
 

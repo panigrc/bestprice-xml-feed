@@ -209,8 +209,8 @@ if ( ! defined( 'WPINC' ) ) {
 			$inputOptions = array(
 				'type'        => 'text',
 				'name'        => '[avail_outOfStock]',
-				'title'       => $this->__( 'Product availability when item is out of stock' ),
-				'placeholder' => $this->__( 'Enter the availability of product when this is out of stock as it appears in frontend. Leave this empty if you don\'t want to include out of stock products in XML.' ),
+				'title'       => $this->__( 'Product availability when item is out of stock. Leave this empty if you don\'t want to include out of stock products in XML.' ),
+				'placeholder' => $this->__( 'Enter the availability of product when this is out of stock as it appears in frontend' ),
 				'id'          => 'avail-outOfStock',
 				'attrs'       => '',
 				'classes'     => 'form-control col-md-10'
@@ -236,8 +236,8 @@ if ( ! defined( 'WPINC' ) ) {
 			$inputOptions = array(
 				'type'        => 'text',
 				'name'        => '[avail_backorders]',
-				'title'       => $this->__( 'Product availability when item is out of stock and backorders are allowed' ),
-				'placeholder' => $this->__( 'Enter the availability of product, as it appears in frontend, when this is out of stock and backorders are allowed. Leave this empty if you don\'t want to include out of stock products in XML.' ),
+				'title'       => $this->__( 'Product availability when item is out of stock and backorders are allowed. Leave this empty if you don\'t want to include out of stock products in XML.' ),
+				'placeholder' => $this->__( 'Enter the availability of product, as it appears in frontend, when this is out of stock and backorders are allowed' ),
 				'id'          => 'avail-backorders',
 				'attrs'       => '',
 				'classes'     => 'form-control col-md-10'

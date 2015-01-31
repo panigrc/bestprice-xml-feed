@@ -102,9 +102,7 @@ class options extends \xd_v141226_dev\options {
 			'map_manufacturer'                           => 0,
 			'map_mpn'                                    => 0,
 			'map_size'                                   => array(),
-			'map_size_use'                               => 1,
 			'map_color'                                  => array(),
-			'map_color_use'                              => 0,
 			/***********************************************
 			 * Fashion store
 			 ***********************************************/
@@ -147,10 +145,8 @@ class options extends \xd_v141226_dev\options {
 			'map_price_with_vat'     => array( 'string:numeric >=' => 0, 'string:numeric <=' => 3 ),
 			'map_manufacturer'       => array( 'string' ),
 			'map_mpn'                => array( 'string:numeric >=' => 0 ),
-			'map_size'               => array( 'array' ),
-			'map_size_use'           => array( 'string:numeric >=' => 0, 'string:numeric <=' => 1 ),
+			'map_size'               => array( 'array:!empty' ),
 			'map_color'              => array( 'array' ),
-			'map_color_use'          => array( 'string:numeric >=' => 0, 'string:numeric <=' => 1 ),
 			'is_fashion_store'       => array( 'string:numeric >=' => 0, 'string:numeric <=' => 1 ),
 			'map_isbn'               => array( 'string' ),
 			'is_book_store'          => array( 'string:numeric >=' => 0, 'string:numeric <=' => 1 ),
@@ -208,7 +204,7 @@ class options extends \xd_v141226_dev\options {
 	 * @param array $new_options
 	 */
 	public function ®update( $new_options = array() ) {
-		$bools = array( 'is_fashion_store', 'map_name_append_sku', 'map_color_use', 'map_size_use' );
+		$bools = array( 'is_fashion_store', 'is_book_store' );
 		foreach ( $bools as $v ) {
 			if ( ! isset( $new_options[ $v ] ) ) {
 				$new_options[ $v ] = 0;

@@ -257,11 +257,12 @@ class bestprice extends framework {
 	 * @since 150120
 	 */
 	protected function getProductColors( \WC_Product_Variable &$product ) {
-		if ( ! (bool) $this->©option->get( 'map_color_use' ) ) {
-			return null;
+		$map    = $this->©option->get( 'map_color' );
+
+		if(empty($map)){
+			return array();
 		}
 
-		$map    = $this->©option->get( 'map_color' );
 		$colors = array();
 		foreach ( $map as $attrId ) {
 			$taxonomy = $this->getTaxonomyById( $attrId );
@@ -329,11 +330,10 @@ class bestprice extends framework {
 	 * @since 150120
 	 */
 	protected function getProductSizes( \WC_Product &$product ) {
-		if ( ! (bool) $this->©option->get( 'map_size_use' ) ) {
-			return null;
-		}
-
 		$map   = $this->©option->get( 'map_size' );
+		if(empty($map)){
+			return array();
+		}
 		$sizes = array();
 		foreach ( $map as $attrId ) {
 			$taxonomy = $this->getTaxonomyById( $attrId );
