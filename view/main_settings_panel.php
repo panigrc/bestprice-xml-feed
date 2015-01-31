@@ -181,40 +181,14 @@ if ( ! defined( 'WPINC' ) ) {
 		<div class="col-sm-7">
 			<?php
 			$inputOptions = array(
-				'type'        => 'select',
+				'type'        => 'text',
 				'name'        => '[avail_inStock]',
 				'title'       => $this->__( 'Product availability when item is in stock' ),
-				'placeholder' => $this->__( 'Choose the availability of product when this is in stock' ),
+				'placeholder' => $this->__( 'Enter the availability of product when this is in stock as it appears in frontend' ),
 				'required'    => true,
 				'id'          => 'avail-inStock',
 				'attrs'       => '',
-				'classes'     => 'form-control col-md-10',
-				'options'     => array(
-					array(
-						'label' => $this->__( 'Available' ),
-						'value' => '0'
-					),
-					array(
-						'label' => $this->__( '1 to 3 days' ),
-						'value' => '1'
-					),
-					array(
-						'label' => $this->__( '4 to 7 days' ),
-						'value' => '2'
-					),
-					array(
-						'label' => $this->__( '7+ days' ),
-						'value' => '3'
-					),
-					array(
-						'label' => $this->__( 'Upon order' ),
-						'value' => '4'
-					),
-					array(
-						'label' => $this->__( 'Pre-order' ),
-						'value' => '5'
-					)
-				)
+				'classes'     => 'form-control col-md-10'
 			);
 			echo $callee->menu_page->option_form_fields->markup( $this->©option->get( 'avail_inStock' ), $inputOptions );
 			?>
@@ -225,6 +199,7 @@ if ( ! defined( 'WPINC' ) ) {
 	 * Availability when products are out of stock
 	 ***********************************************/
 	?>
+
 	<div class="form-group row">
 		<label for="avail-outOfStock"
 		       class="col-md-3 control-label"><?php echo $this->__( 'Product availability when item is out of stock' ); ?></label>
@@ -232,98 +207,44 @@ if ( ! defined( 'WPINC' ) ) {
 		<div class="col-sm-7">
 			<?php
 			$inputOptions = array(
-				'type'        => 'select',
+				'type'        => 'text',
 				'name'        => '[avail_outOfStock]',
 				'title'       => $this->__( 'Product availability when item is out of stock' ),
-				'placeholder' => $this->__( 'Choose the availability of product when this is out of stock' ),
-				'required'    => true,
+				'placeholder' => $this->__( 'Enter the availability of product when this is out of stock as it appears in frontend. Leave this empty if you don\'t want to include out of stock products in XML.' ),
 				'id'          => 'avail-outOfStock',
 				'attrs'       => '',
-				'classes'     => 'form-control col-md-10',
-				'options'     => array(
-					array(
-						'label' => $this->__( 'Available' ),
-						'value' => '0'
-					),
-					array(
-						'label' => $this->__( '1 to 3 days' ),
-						'value' => '1'
-					),
-					array(
-						'label' => $this->__( '4 to 7 days' ),
-						'value' => '2'
-					),
-					array(
-						'label' => $this->__( '7+ days' ),
-						'value' => '3'
-					),
-					array(
-						'label' => $this->__( 'Upon order' ),
-						'value' => '4'
-					),
-					array(
-						'label' => $this->__( 'Pre-order' ),
-						'value' => '5'
-					),
-					array(
-						'label' => $this->__( 'Do not Include' ),
-						'value' => '6'
-					)
-				)
+				'classes'     => 'form-control col-md-10'
 			);
 			echo $callee->menu_page->option_form_fields->markup( $this->©option->get( 'avail_outOfStock' ), $inputOptions );
 			?>
 		</div>
 	</div>
 
+	<?php
+	/***********************************************
+	* Availability when product are out of stock
+	* and backorders are allowed
+	***********************************************/
+	?>
 	<div class="form-group row">
-		<label for="avail-backorders"
-		       class="col-md-3 control-label"><?php echo $this->__( 'Product availability when item is out of stock and backorders are allowed' ); ?></label>
+		<label for="avail-backorders" class="col-md-3 control-label">
+			<?php echo $this->__( 'Product availability when item is out of stock and backorders are allowed' ); ?>
+		</label>
 
 		<div class="col-sm-7">
 			<?php
 			$inputOptions = array(
-				'type'        => 'select',
+				'type'        => 'text',
 				'name'        => '[avail_backorders]',
 				'title'       => $this->__( 'Product availability when item is out of stock and backorders are allowed' ),
-				'placeholder' => $this->__( 'Choose the availability of product when this is out of stock and backorders are allowed' ),
-				'required'    => true,
+				'placeholder' => $this->__( 'Enter the availability of product, as it appears in frontend, when this is out of stock and backorders are allowed. Leave this empty if you don\'t want to include out of stock products in XML.' ),
 				'id'          => 'avail-backorders',
 				'attrs'       => '',
-				'classes'     => 'form-control col-md-10',
-				'options'     => array(
-					array(
-						'label' => $this->__( 'Available' ),
-						'value' => '0'
-					),
-					array(
-						'label' => $this->__( '1 to 3 days' ),
-						'value' => '1'
-					),
-					array(
-						'label' => $this->__( '4 to 7 days' ),
-						'value' => '2'
-					),
-					array(
-						'label' => $this->__( '7+ days' ),
-						'value' => '3'
-					),
-					array(
-						'label' => $this->__( 'Upon order' ),
-						'value' => '4'
-					),
-					array(
-						'label' => $this->__( 'Pre-order' ),
-						'value' => '5'
-					),
-					array(
-						'label' => $this->__( 'Do not Include' ),
-						'value' => '6'
-					)
-				)
+				'classes'     => 'form-control col-md-10'
 			);
 			echo $callee->menu_page->option_form_fields->markup( $this->©option->get( 'avail_backorders' ), $inputOptions );
 			?>
 		</div>
 	</div>
+
 </div>

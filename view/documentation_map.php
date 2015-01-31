@@ -10,7 +10,7 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 /* @var \bestprice\menu_pages\panels\generate $callee */
-/* @var \bestprice\views $this */
+/* @var \xd_v141226_dev\views $this */
 
 ?>
 <div class="row">

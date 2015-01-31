@@ -10,6 +10,7 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 /* @var \bestprice\menu_pages\panels\generate $callee */
+/* @var \xd_v141226_dev\views $this */
 
 ?>
 <div>
@@ -42,8 +43,9 @@ if ( ! defined( 'WPINC' ) ) {
 		<dd>
 			<?php echo $this->__( 'This option specifies the generation interval of the XML file.' ); ?>
 			<?php echo $this->__( 'BestPrice.gr requires the file to be generated daily, but you can specify lower intervals.' ); ?>
-			<cite
-				class="text-info"><?php echo $this->__( 'Please beware that generating the XML file consumes system resources' ); ?></cite>.
+			<cite class="text-info">
+				<?php echo $this->__( 'Please beware that generating the XML file consumes system resources' ); ?>
+			</cite>.
 		</dd>
 
 		<dt>

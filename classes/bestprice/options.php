@@ -84,11 +84,11 @@ class options extends \xd_v141226_dev\options {
 			// Include products
 			'products_include'                           => array( 'product' ),
 			// Availability when products in stock
-			'avail_inStock'                              => 1,
+			'avail_inStock'                              => 'Διαθέσιμο σε 1-3 ημέρες',
 			// Availability when products out stock
-			'avail_outOfStock'                           => 3,
+			'avail_outOfStock'                           => '',
 			// Availability when products out stock and backorders are allowed
-			'avail_backorders'                           => count( $this->availOptions ),
+			'avail_backorders'                           => '',
 			/*********************
 			 * Custom fields
 			 ********************/
@@ -135,18 +135,9 @@ class options extends \xd_v141226_dev\options {
 				)
 			),
 			'products_include'       => array( 'array' ), // TODO Not implemented yet
-			'avail_inStock'          => array(
-				'string:numeric >=' => 0,
-				'string:numeric <=' => count( $this->availOptions ) - 1
-			),
-			'avail_outOfStock'       => array(
-				'string:numeric >=' => 0,
-				'string:numeric <=' => count( $this->availOptions )
-			),
-			'avail_backorders'       => array(
-				'string:numeric >=' => 0,
-				'string:numeric <=' => count( $this->availOptions )
-			),
+			'avail_inStock'          => array( 'string:!empty' ),
+			'avail_outOfStock'       => array( 'string' ),
+			'avail_backorders'       => array( 'string' ),
 			'map_id'                 => array( 'string:numeric >=' => 0 ),
 			'map_name'               => array( 'string:numeric >=' => 0 ),
 			'map_name_append_sku'    => array( 'string:numeric >=' => 0, 'string:numeric <=' => 1 ),

@@ -387,7 +387,7 @@ class bestprice extends framework {
 			$manufacturer = $this->getProductAttrValue( $product, $option, '' );
 		}
 		if ( empty( $manufacturer ) ) {
-			$manufacturer = $this->getFormatedTextFromTerms( $product, $option );
+			$manufacturer = $this->getFormattedTextFromTerms( $product, $option );
 		}
 
 		return $manufacturer;
@@ -444,7 +444,7 @@ class bestprice extends framework {
 			$categories = $this->getProductAttrValue( $product, $option, '' );
 		}
 		if ( empty( $categories ) ) {
-			$categories = $ids ? $this->getIdsFromTerms($product, $option) : $this->getFormatedTextFromTerms( $product, $option, false, '->' );
+			$categories = $ids ? $this->getIdsFromTerms($product, $option) : $this->getFormattedTextFromTerms( $product, $option, false, '->' );
 		}
 
 		return is_array($categories) ? implode('-', $categories) : $categories;
@@ -611,22 +611,23 @@ class bestprice extends framework {
 	 */
 	protected function getAvailabilityString( \WC_Product &$product ) {
 		// If product is in stock
+		$out = false;
 		if ( $product->is_in_stock() ) {
-			return $this->©option->availOptions[ $this->©option->get( 'avail_inStock' ) ];
+			$out = $this->©option->get( 'avail_inStock' );
 		} elseif ( $product->backorders_allowed() ) {
 			// if product is out of stock and no backorders then return false
-			if ( $this->©option->get( 'avail_backorders' ) == count( $this->©option->availOptions ) ) {
-				return false;
+			$backOrdersString = $this->©option->get( 'avail_backorders' );
+			if ( $this->©string->is_not_empty($backOrdersString)  ) {
+				$out = $backOrdersString;
 			}
-
-			// else return value
-			return $this->©option->availOptions[ $this->©option->get( 'avail_backorders' ) ];
-		} elseif ( $this->©option->get( 'avail_outOfStock' ) != count( $this->©option->availOptions ) ) {
-			// no stock, no backorders but must include product. Return value
-			return $this->©option->availOptions[ $this->©option->get( 'avail_outOfStock' ) ];
+		} else {
+			$outOfStockString = $this->©option->get( 'avail_outOfStock' );
+			if($this->©string->is_not_empty($outOfStockString)){
+				$out = $outOfStockString;
+			}
 		}
 
-		return false;
+		return $out;
 	}
 
 	/**
@@ -665,7 +666,7 @@ class bestprice extends framework {
 	 * @author Panagiotis Vagenas <pan.vagenas@gmail.com>
 	 * @since 150120
 	 */
-	protected function getFormatedTextFromTerms( \WC_Product &$product, $term, $removeDuplicates = true, $glue = ' - ' ) {
+	protected function getFormattedTextFromTerms( \WC_Product &$product, $term, $removeDuplicates = true, $glue = ' - ' ) {
 		$terms = get_the_terms( $product->id, $term );
 		$out   = array();
 		if ( is_array( $terms ) ) {
@@ -726,19 +727,14 @@ class bestprice extends framework {
 		}
 
 		$validStrings = array(
-			'XXS',
+			'XXXS',
 			'XS',
 			'S',
 			'M',
 			'L',
 			'XL',
 			'XXL',
-			'XXXL',
-			'Extra Small',
-			'Small',
-			'Medium',
-			'Large',
-			'Extra Large'
+			'XXXL'
 		);
 
 		return in_array( $string, $validStrings );
