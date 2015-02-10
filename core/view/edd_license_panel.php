@@ -15,25 +15,42 @@ if(!$this->©edd_updater->isEDD()){
 	echo 'No valid license params. Please set edd.update = 1 and enter a valid url in edd.store_url option.';
 	return;
 }
+$isInDemo = $this->©edd_updater->hasDemo() && $this->©edd_updater->isDemoActive();
+if($isInDemo && !$this->©edd_updater->getLicenseStatus(false)){
+	$status = 'Demo Mode';
+	$ends = $this->©edd_updater->getDemoEndTime();
+	$expiryDate = date('d M, Y', $ends);
+	$licensedTo = 'Demo User';
+	$timesActivated = 1;
+	$activationsLeft = 0;
+	$activeLic = false;
+} else {
+	$license   = $this->©edd_updater->getLicenseDataFromServer();
+	$activeLic = isset($license->license) && $license->license == 'valid';
 
-$license   = $this->©edd_updater->getLicenseDataFromServer();
-$activeLic = isset($license->license) && $license->license == 'valid';
+	$status = $activeLic ? 'Active' : 'Inactive';
+	$expiryDate = $license->expires ? date('d M, Y',strtotime($license->expires)) : 'No data';
+	$licensedTo = $license->customer_email ? $license->customer_email : 'No data';
+	$timesActivated = $license->site_count ? $license->site_count : 'No data';
+	$activationsLeft = $license->activations_left ? $license->activations_left : 'No data';
+}
+
 ?>
 	<ul class="list-group">
 		<li class="list-group-item">
-			Status: <?php echo ($activeLic ? '<strong class="text-success">Active</strong>' : '<strong class="text-danger">Inactive</strong>'); ?>
+			Status: <strong class="<?php echo $activeLic ? 'text-success' : 'text-danger'; ?>"><?php echo $status; ?></strong>
 		</li>
 		<li class="list-group-item">
-			Expiry Date: <strong><?php if($license->expires) echo date('d M, Y',strtotime($license->expires)); else echo 'No data'; ?></strong>
+			Expiry Date: <strong><?php echo $expiryDate; ?></strong>
 		</li>
 		<li class="list-group-item">
-			Licensed to: <strong><?php if($license->customer_email) echo $license->customer_email; else echo 'No data'; ?></strong>
+			Licensed to: <strong><?php echo $licensedTo; ?></strong>
 		</li>
 		<li class="list-group-item">
-			Times Activated: <strong><?php if($license->site_count) echo $license->site_count; else echo '0'; ?></strong>
+			Times Activated: <strong><?php echo $timesActivated; ?></strong>
 		</li>
 		<li class="list-group-item">
-			Activations Left: <strong><?php if($license->activations_left) echo $license->activations_left; else echo 'None'; ?></strong>
+			Activations Left: <strong><?php echo $activationsLeft; ?></strong>
 		</li>
 	</ul>
 
@@ -60,29 +77,19 @@ $activeLic = isset($license->license) && $license->license == 'valid';
 	</div>
 <?php
 $btnOpts = array(
-	// Required.
 	'type'    => 'button',
 	'name'    => 'deactivate',
-	// Common, but optional.
 	'title'   => 'Deactivate License',
-	// Custom classes.
 	'classes' => 'btn btn-danger deactivate-lic col-md-5',
-	// Custom attributes.
 	'attrs'   => 'readonly data-target="#" '.($activeLic ? '' : 'disabled')
 );
 echo $callee->menu_page->©form_field->markup($this->__('Deactivate'), $btnOpts);
 
 $btnOpts = array(
-	// Required.
 	'type'    => 'button',
 	'name'    => 'activate',
-	// Common, but optional.
 	'title'   => 'Activate License',
-	// Custom classes.
 	'classes' => 'btn btn-success activate-lic col-md-5 col-md-offset-2',
-	// Custom attributes.
 	'attrs'   => 'readonly data-target="#" '.($activeLic ? 'disabled' : '')
 );
 echo $callee->menu_page->©form_field->markup($this->__('Activate'), $btnOpts);
-
-

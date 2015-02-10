@@ -574,10 +574,7 @@ namespace xd_v141226_dev
 					         '/>';
 				} else if($field['type'] === 'media')
 				{
-					// TODO Implement
-					$this->©style->enqueue('thickbox');
-					$this->©script->enqueue('thickbox');
-					$this->©script->enqueue('media-upload');
+					wp_enqueue_media();
 					$html .= '<div class="input-group input-media-wrapper">';
 				}
 

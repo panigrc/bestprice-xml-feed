@@ -60,6 +60,9 @@ namespace xd_v141226_dev
 			{
 				update_option($this->instance->plugin_root_ns_stub.'__version', $this->instance->plugin_version);
 				$this->©plugin->is_active_at_current_version($this::reconsider);
+				if($this->©plugin->©edd_updater->isEDD() && $this->©plugin->©edd_updater->hasDemo()){
+					$this->©plugin->©edd_updater->startDemo();
+				}
 
 				$this->©notice->enqueue( // A complete success.
 					'<p>'.

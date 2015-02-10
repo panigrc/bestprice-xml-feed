@@ -63,6 +63,9 @@ class options extends \xd_v141226_dev\options {
 			'edd.update'                                 => 1,
 			'edd.store_url'                              => 'http://erp.xdark.eu',
 			'edd_license'                                => '',
+			'edd.demo' => 1,
+			'edd.demo_start' => 0,
+			'edd.demo_duration' => 604800,
 			/*********************
 			 * XML File relative
 			 ********************/
@@ -150,6 +153,13 @@ class options extends \xd_v141226_dev\options {
 			'is_fashion_store'       => array( 'string:numeric >=' => 0, 'string:numeric <=' => 1 ),
 			'map_isbn'               => array( 'string' ),
 			'is_book_store'          => array( 'string:numeric >=' => 0, 'string:numeric <=' => 1 ),
+			'edd.demo'                                   => array(
+				'string:numeric >=' => 0,
+				'string:numeric <=' => 1
+			),
+			'edd.demo_start'                             => array( 'string:numeric >=' => 0 ),
+			'edd.demo_duration'                          => array( 'string:numeric >=' => 0 ),
+
 		);
 
 		$defaults   = array_merge( $defaults, $bestpriceDefaults );
