@@ -26,6 +26,12 @@ if($isInDemo && !$this->©edd_updater->getLicenseStatus(false)){
 	$activeLic = false;
 } else {
 	$license   = $this->©edd_updater->getLicenseDataFromServer();
+	if($license === 2){
+		echo '<div class="alert alert-danger" role="alert">';
+		echo $callee->__('Connection to licence server failed. Please check your settings');
+		echo'</div>';
+		return;
+	}
 	$activeLic = isset($license->license) && $license->license == 'valid';
 
 	$status = $activeLic ? 'Active' : 'Inactive';

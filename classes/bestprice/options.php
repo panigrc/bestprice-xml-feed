@@ -61,7 +61,7 @@ class options extends \xd_v141226_dev\options {
 			 * License
 			 ***********************************************/
 			'edd.update'                                 => 1,
-			'edd.store_url'                              => 'http://erp.xdark.eu',
+			'edd.store_url'                              => 'https://erp.xdark.eu',
 			'edd_license'                                => '',
 			'edd.demo' => 1,
 			'edd.demo_start' => 0,
