@@ -14,7 +14,7 @@
 
 Version: 150120
 Stable tag: 150120
-Tested up to: 4.1
+Tested up to: 4.2.2
 Requires at least: 3.5.1
 
 Requires at least Apache version: 2.1
@@ -23,18 +23,18 @@ Tested up to Apache version: 2.4.7
 Requires at least PHP version: 5.3.1
 Tested up to PHP version: 5.5.12
 
-Copyright: © 2014 XDaRk.eu
+Copyright: © 2015 Panagiotis Vagenas <pan.vagenas@gmail.com>
 License: GNU General Public License
-Contributors: XDaRk.eu
+Contributors: pan.vagenas
 
 Author: Panagiotis Vagenas <pan.vagenas@gmail.com>
-Author URI: http://erp.xdark.eu
+Author URI: http://gr.linkedin.com/in/panvagenas
 
 Text Domain: bestprice-xml-feed
 Domain Path: /translations
 
 Plugin Name: BestPrice.gr XML Feed
-Plugin URI: http://erp.xdark.eu
+Plugin URI: todo
 
 Description: Generate XML sheet according to bestprice.gr specs
 Tags: bestprice, bestprice.gr, XML, generate XML, price comparison
