@@ -72,6 +72,8 @@ class options extends \xd_v141226_dev\options {
 			'xml_generate_var'                           => 'bestprice',
 			// XML Generate Request Var Value
 			'xml_generate_var_value'                     => '',
+			// advanced options
+			'show_advanced'                              => 0,
 			/*********************
 			 * Products relative
 			 ********************/
@@ -126,6 +128,7 @@ class options extends \xd_v141226_dev\options {
 					'daily'
 				)
 			),
+			'show_advanced'          => array( 'string:numeric >=' => 0, 'string:numeric <=' => 1 ),
 			'products_include'       => array( 'array' ), // TODO Not implemented yet
 			'avail_inStock'          => array( 'string:!empty' ),
 			'avail_outOfStock'       => array( 'string' ),
@@ -159,7 +162,7 @@ class options extends \xd_v141226_dev\options {
 	 * @param array $new_options
 	 */
 	public function ®update( $new_options = array() ) {
-		$bools = array( 'is_fashion_store', 'is_book_store' );
+		$bools = array( 'is_fashion_store', 'is_book_store', 'show_advanced' );
 		foreach ( $bools as $v ) {
 			if ( ! isset( $new_options[ $v ] ) ) {
 				$new_options[ $v ] = 0;

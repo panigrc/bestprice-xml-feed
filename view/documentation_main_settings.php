@@ -16,27 +16,6 @@ if ( ! defined( 'WPINC' ) ) {
 <div>
 	<h3><?php echo $this->__( 'Main settings' ); ?></h3>
 	<dl>
-		<dt>XML Generate Request Variable</dt>
-		<dd>
-			<?php echo $this->__( 'The variable name to use in XML generation request' ); ?>
-		</dd>
-
-		<dt>XML Generate Request Variable Value</dt>
-		<dd>
-			<?php echo $this->__( 'XML request variable value. Please use a unique alphanumeric string at least 12 chars long.' ); ?>
-		</dd>
-
-		<dt>Cached XML Filename</dt>
-		<dd>
-			<?php echo $this->__( 'Enter the name of the generated file. The XML file name must always have an .xml extension and not containing spaces.' ); ?>
-		</dd>
-
-		<dt><?php echo $this->__( 'Cached XML File Location' ); ?></dt>
-		<dd>
-			<?php echo $this->__( 'File location is relative to your WordPress install directory' ); ?>.
-			<?php echo $this->__( 'eg to generate the file under the WordPress install dir enter "/", to generate it under uploads dir enter "/wp-content/uploads"' ); ?>
-		</dd>
-
 		<dt>
 			<?php echo $this->__( 'XML File Generation Interval' ); ?>
 		</dt>
@@ -69,5 +48,28 @@ if ( ! defined( 'WPINC' ) ) {
 			</dl>
 		</dd>
 
+	</dl>
+	<h4><?php echo $this->__( 'Advanced options' ); ?></h4>
+	<dl>
+		<dt>XML Generate Request Variable</dt>
+		<dd>
+			<?php echo $this->__( 'The variable name to use in XML generation request' ); ?>
+		</dd>
+
+		<dt>XML Generate Request Variable Value</dt>
+		<dd>
+			<?php echo $this->__( 'XML request variable value. Please use a unique alphanumeric string at least 12 chars long.' ); ?>
+		</dd>
+
+		<dt>Cached XML Filename</dt>
+		<dd>
+			<?php echo $this->__( 'Enter the name of the generated file. The XML file name must always have an .xml extension and not containing spaces.' ); ?>
+		</dd>
+
+		<dt><?php echo $this->__( 'Cached XML File Location' ); ?></dt>
+		<dd>
+			<?php echo $this->__( 'File location is relative to your WordPress install directory' ); ?>.
+			<?php echo $this->__( 'eg to generate the file under the WordPress install dir enter "/", to generate it under uploads dir enter "/wp-content/uploads"' ); ?>
+		</dd>
 	</dl>
 </div>
