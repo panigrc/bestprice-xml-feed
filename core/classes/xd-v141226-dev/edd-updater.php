@@ -92,9 +92,10 @@ class edd_updater extends framework {
 	 * @author Panagiotis Vagenas <pan.vagenas@gmail.com>
 	 * @since 141226
 	 */
-	public function getDemoEndTime(){
-		$duration = (int) $this->©option->get( 'edd.demo_duration', true );
+	public function getDemoEndTime() {
+		$duration   = (int) $this->©option->get( 'edd.demo_duration', true );
 		$demo_start = (int) $this->©option->get( 'edd.demo_start' );
+
 		return $duration + $demo_start;
 	}
 
@@ -114,15 +115,16 @@ class edd_updater extends framework {
 	 * @since 141226
 	 */
 	public function startDemo( $startTime = null ) {
-		if(!$this->hasDemo()){
+		if ( ! $this->hasDemo() ) {
 			return;
 		}
 		if ( ! $startTime ) {
 			$startTime = time();
 		}
-		$demo_start = (int)$this->©option->get( 'edd.demo_start' );
-		if($demo_start === 0)
+		$demo_start = (int) $this->©option->get( 'edd.demo_start' );
+		if ( $demo_start === 0 ) {
 			$this->©option->®update( array( 'edd.demo_start' => $startTime ) );
+		}
 	}
 
 	/**
@@ -324,9 +326,10 @@ class edd_updater extends framework {
 		);
 
 		// Call the custom API.
-		$response = wp_remote_get( add_query_arg( $api_params, $this->©option->get( 'edd.store_url', true ) ), array( 'timeout'   => 15,
-		                                                                                                              'sslverify' => false
-		) );
+		$response = wp_remote_get(
+			add_query_arg( $api_params, $this->©option->get( 'edd.store_url', true ) ),
+			array( 'timeout' => 15, 'sslverify' => false )
+		);
 
 		if ( is_wp_error( $response ) ) {
 			return 2;
@@ -451,9 +454,10 @@ class edd_updater extends framework {
 			'author'     => $data['author'],
 			'url'        => home_url()
 		);
-		$request    = wp_remote_post( $this->api_url, array( 'timeout'   => 15,
-		                                                     'sslverify' => false,
-		                                                     'body'      => $api_params
+		$request    = wp_remote_post( $this->api_url, array(
+			'timeout'   => 15,
+			'sslverify' => false,
+			'body'      => $api_params
 		) );
 
 		if ( ! is_wp_error( $request ) ):
