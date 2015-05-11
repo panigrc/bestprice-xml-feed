@@ -4,8 +4,7 @@
  * Date: 9/11/14
  * Time: 10:10 PM
  * @author Panagiotis Vagenas <pan.vagenas@gmail.com>
- * @copyright 9/11/14 XDaRk.eu <xdark.eu@gmail.com>
- * @link http://xdark.eu
+ * @copyright 2015 Panagiotis Vagenas <pan.vagenas@gmail.com>
  */
 
 namespace bestprice;
@@ -28,29 +27,7 @@ class initializer extends \xd_v141226_dev\initializer
 	 */
 	public function after_setup_theme_hooks()
 	{
-		if ($this->©edd_updater->getLicenseStatus()) {
-			$this->add_action('wp_loaded', '©initializer.wp_loaded', 100000);
-			$this->add_action('init', '©initializer.init_hook');
-		} else {
-			$this->©crons->delete(true);
-		}
-	}
-
-	/**
-	 * @throws \xd_v141226_dev\exception
-	 * @author Panagiotis Vagenas <pan.vagenas@gmail.com>
-	 * @since 150120
-	 */
-	public function wp_loaded()
-	{
-		$cron_jobs = array(
-			array(
-				'©class.method' =>
-					'©bestprice.do_your_woo_stuff',
-				'schedule'      => $this->©option->get('xml_interval')
-			)
-		);
-		$this->©crons->config($cron_jobs);
+		$this->add_action('init', '©initializer.init_hook');
 	}
 
 	/**

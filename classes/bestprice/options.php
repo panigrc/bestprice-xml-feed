@@ -44,7 +44,7 @@ class options extends \xd_v141226_dev\options {
 	public function setup( $defaults, $validators ) {
 		$bestpriceDefaults = array(
 			'encryption.key'                             => 'jkiabOKBNJO89347KJBKJBasfd',
-			'support.url'                                => 'http://erp.xdark.eu/documentation/get-help/',
+			'support.url'                                => 'http://example.com', // todo
 			'styles.front_side.theme'                    => 'yeti',
 			'crons.config'                               => array(),
 			'menu_pages.theme'                           => 'yeti',
@@ -57,22 +57,13 @@ class options extends \xd_v141226_dev\options {
 			'menu_pages.panels.community_forum.feed_url' => '',
 			'menu_pages.panels.news_kb.feed_url'         => '',
 			'menu_pages.panels.videos.yt_playlist'       => '',
-			/***********************************************
-			 * License
-			 ***********************************************/
-			'edd.update'                                 => 1,
-			'edd.store_url'                              => 'https://erp.xdark.eu',
-			'edd_license'                                => '',
-			'edd.demo' => 1,
-			'edd.demo_start' => 0,
-			'edd.demo_duration' => 604800,
 			/*********************
 			 * XML File relative
 			 ********************/
 			// Internal, indicates XML generation progress
 			'xml.progress'                               => 0,
 			// File location
-			'xml_location'                               => '/wp-content/uploads',
+			'xml_location'                               => '',
 			// File name
 			'xml_fileName'                               => 'bestprice.xml',
 			// Generation interval
@@ -153,58 +144,12 @@ class options extends \xd_v141226_dev\options {
 			'is_fashion_store'       => array( 'string:numeric >=' => 0, 'string:numeric <=' => 1 ),
 			'map_isbn'               => array( 'string' ),
 			'is_book_store'          => array( 'string:numeric >=' => 0, 'string:numeric <=' => 1 ),
-			'edd.demo'                                   => array(
-				'string:numeric >=' => 0,
-				'string:numeric <=' => 1
-			),
-			'edd.demo_start'                             => array( 'string:numeric >=' => 0 ),
-			'edd.demo_duration'                          => array( 'string:numeric >=' => 0 ),
-
 		);
 
 		$defaults   = array_merge( $defaults, $bestpriceDefaults );
 		$validators = array_merge( $validators, $bestpriceDefaultsValidators );
 
 		$this->_setup( $defaults, $validators );
-	}
-
-	/**
-	 * Get current license string
-	 * @return array|string
-	 * @throws exception
-	 * @author Panagiotis Vagenas <pan.vagenas@gmail.com>
-	 * @since 150120
-	 */
-	public function getLic() {
-		return $this->©edd_updater->getLicense();
-	}
-
-	public function getLicenseStatus() {
-		return $this->©edd_updater->getLicenseStatus();
-	}
-
-	/**
-	 * @param string $lic
-	 *
-	 * @return int 2 for WP_Error, 1 for valid, 0 for invalid
-	 * @throws exception
-	 * @author Panagiotis Vagenas <pan.vagenas@gmail.com>
-	 * @since 150120
-	 */
-	public function chkLicense( $lic = '' ) {
-		return $this->©edd_updater->chkLicense( $lic );
-	}
-
-	public function activateLicense( $license ) {
-		return $this->©edd_updater->activateLicense( $license );
-	}
-
-	public function deactivateLicense( $license ) {
-		return $this->©edd_updater->deactivateLicense( $license );
-	}
-
-	public function getLicenseDataFromServer( $licenseAction = 'check_license', $license = '' ) {
-		return $this->©edd_updater->getLicenseDataFromServer( $licenseAction, $license );
 	}
 
 	/**

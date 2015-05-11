@@ -5,8 +5,7 @@
  * Time: 9:53 PM
  * 
  * @author Panagiotis Vagenas <pan.vagenas@gmail.com>
- * @copyright 9/11/14 XDaRk.eu <xdark.eu@gmail.com>
- * @link http://xdark.eu
+ * @copyright 2015 Panagiotis Vagenas <pan.vagenas@gmail.com>
  */
  
  namespace bestprice;
@@ -41,7 +40,7 @@
 		 'plugin_cap'     => 'manage_options',
 		 'plugin_name'    => 'BestPrice.gr XML Feed',
 		 'plugin_version' => '150120',
-		 'plugin_site'    => 'http://erp.xdark.eu',
+		 'plugin_site'    => 'http://example.com', // todo
 
 		 'plugin_dir'     => dirname(dirname(dirname(__FILE__))) // Your plugin directory.
 

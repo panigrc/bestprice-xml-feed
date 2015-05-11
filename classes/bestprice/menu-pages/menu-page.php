@@ -85,10 +85,9 @@ class menu_page extends \xd_v141226_dev\menu_pages\menu_page {
 	 */
 	public function display_sidebar_panels()
 	{
-		$this->add_sidebar_panel( $this->©menu_pages__panels__info( $this ) );
-		$this->add_sidebar_panel( $this->©menu_pages__panels__generate( $this ) );
-		$this->add_sidebar_panel( $this->©menu_pages__panels__edd_license( $this ) );
-		$this->add_sidebar_panel( $this->©menu_pages__panels__donations( $this ) );
+		$this->add_sidebar_panel( $this->©menu_pages__panels__donations( $this ), true );
+		$this->add_sidebar_panel( $this->©menu_pages__panels__info( $this ), true );
+		$this->add_sidebar_panel( $this->©menu_pages__panels__generate( $this ), true );
 
 		$this->display_sidebar_panels_in_order();
 	}

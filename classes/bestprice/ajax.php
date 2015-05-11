@@ -28,9 +28,6 @@ class ajax extends \xd_v141226_dev\ajax {
 		if ( ! $this->©user->is_super_admin() ) {
 			$this->sendJSONError( 'Authorization failed', 401 );
 		}
-		if(!$this->©edd_updater()->getLicenseStatus()){
-			$this->sendJSONError( 'License Is Not Valid', 401 );
-		}
 
 		$foundProducts = $this->©bestprice->do_your_woo_stuff();
 		$this->©action->set_call_data_for($this->dynamic_call(__FUNCTION__), get_defined_vars());
