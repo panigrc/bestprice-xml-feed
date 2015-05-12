@@ -19,18 +19,29 @@ if(empty($info)){
 	echo $this->__('File not generated yet. Please use the <i>Generate XML Now</i> button to generate a new file');
 } else {
 	?>
+
+	<div class="alert alert-success" role="alert">
+		<p>
+			<?php echo $this->__('Give the following path to bestprice.gr:'); ?>
+		</p>
+		<p>
+			<strong><?php echo $this->©bestprice->getGenerateXmlUrl(); ?></strong>
+		</p>
+	</div>
+
 	<ul class="list-group">
 		<?php
 		foreach ( $info as $k => $v ) {
-			echo '<li class="list-group-item">'.$k.': <strong>'.$v.'</strong></li>';
+			echo '<li class="list-group-item">'.$v['label'].': <strong>'.$v['value'].'</strong></li>';
 		}
 		echo '<li class="list-group-item">';
-		echo '<a class="btn btn-primary btn-sm" href="'.$info['File Url'].'" target="_blank" role="button">Open Cached File</a>';
-		echo '<a class="pull-right btn btn-primary btn-sm copy-gen-url" href="' . home_url() . '/?'.$this->©option->get('xml_generate_var').'='.$this->©option->get('xml_generate_var_value').'" target="_blank" role="button">Open Generate URL</a>';
+		echo '<a class="btn btn-primary btn-sm" href="'.$info['url']['value'].'" target="_blank" role="button">Open Cached File</a>';
+		echo '<a class="pull-right btn btn-primary btn-sm copy-gen-url" href="' . $this->©bestprice->getGenerateXmlUrl().'" target="_blank" role="button">Open Generate URL</a>';
 		echo '</li>';
 		?>
 	</ul>
-	<?php
+
+<?php
 }
 
 $getGenUrlButton = array(

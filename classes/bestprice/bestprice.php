@@ -73,14 +73,11 @@ class bestprice extends framework {
 
 		$this->©diagnostic->forceDBLog( 'product', array(), '<strong>BestPrice XML generation started at ' . date( 'd M, Y H:i:s' ) . '</strong>' );
 
-		$productsArray = $this->createProductsArray();
-		if ( ! $this->©xml->parseArray( $productsArray ) ) {
-			$this->©notice->enqueue( 'There was an error generating XML for bestprice.gr at ' . $this->©env->time_details() . '. Please check your settings.' );
-		}
+		$prodInXml = $this->processProducts();
 
 		$this->©diagnostic->forceDBLog( 'product', array(), '<strong>BestPrice XML generation finished at ' . date( 'd M, Y H:i:s' ) . '</strong><br>Time taken: ' . round( microtime( true ) - $sTime, 2 ) . ' sec<br>Mem details: ' . $this->©env->memory_details() );
 
-		return count( $productsArray );
+		return $prodInXml;
 	}
 
 	/**
@@ -94,7 +91,7 @@ class bestprice extends framework {
 		if ( isset( $schedules[ $this->©option->get( 'xml_interval' ) ] ) ) {
 			$interval         = $schedules[ $this->©option->get( 'xml_interval' ) ]['interval'];
 			$xmlCreation      = $this->©xml->getFileInfo();
-			$createdTime      = strtotime( $xmlCreation['File Creation Datetime'] );
+			$createdTime      = strtotime( $xmlCreation[ $this->©xml->createdAtName ]['value'] );
 			$nextCreationTime = $interval + $createdTime;
 			$time             = time();
 			if ( $time > $nextCreationTime ) {
@@ -107,69 +104,73 @@ class bestprice extends framework {
 	}
 
 	/**
-	 * @return array
+	 * @return string
 	 * @author Panagiotis Vagenas <pan.vagenas@gmail.com>
 	 * @since 150120
 	 */
-	public function createProductsArray() {
-		$args = array(
-			'post_type'      => 'product',
-			'posts_per_page' => - 1
-		);
-		$loop = new \WP_Query( $args );
+	public function getGenerateXmlUrl() {
+		return home_url() . '/?' . $this->©option->get( 'xml_generate_var' ) . '=' . $this->©option->get( 'xml_generate_var_value' );
+	}
 
-		$mem = max( ceil( $loop->post_count * 0.4 ), 128 );
+	/**
+	 * @return int
+	 * @author Panagiotis Vagenas <pan.vagenas@gmail.com>
+	 * @since 150120
+	 */
+	public function processProducts() {
+		$prodArray = (array) $this->©db->get_col( 'SELECT ID FROM ' . $this->©db->posts . ' WHERE post_type="product"' );
+
+		$wpMemLimit = $this->getMemInM(WP_MAX_MEMORY_LIMIT)/1024/1024;
+
+		$mem = min( ceil( count( $prodArray ) * 0.3 ), $wpMemLimit );
+
 		ini_set( 'memory_limit', $mem . 'M' );
-		$time = max( ceil( $loop->post_count * 0.5 ), 30 );
+
+		$time = max( ceil( count( $prodArray ) * 0.5 ), 30 );
 		set_time_limit( $time );
 
 		$this->©diagnostic->forceDBLog( 'product', array(), 'Memory set to ' . $mem . 'M for current session<br>Time set to ' . $time . ' sec for current session' );
 
-		$this->updateXMLGenerationProgress( 0 );
-		$products = array();
-		if ( $loop->have_posts() ) {
-			$products = array();
+		$memLimit = ($mem-10)*1024*1024;
 
-			while ( $loop->have_posts() ) {
-				$loop->the_post();
+		foreach ( $prodArray as $i => $pid ) {
 
-				$product = WC()->product_factory->get_product( (int) $loop->post->ID );
-
-				if ( ! is_object( $product ) || ! ( $product instanceof \WC_Product ) ) {
-					$this->©diagnostic->forceDBLog( 'product', $product, 'Product failed in ' . __METHOD__ );
-					continue;
-				}
-
-				if ( ! $product->is_purchasable() || ! $product->is_visible() || $this->getAvailabilityString( $product ) === false ) {
-					$reason = array();
-					if ( ! $product->is_purchasable() ) {
-						$reason[] = 'product is not purchasable';
-					}
-					if ( ! $product->is_visible() ) {
-						$reason[] = 'product is not visible';
-					}
-					if ( $this->getAvailabilityString( $product ) === false ) {
-						$reason[] = 'product is unavailable';
-					}
-					$this->©diagnostic->forceDBLog( 'product', array(
-						'id'             => $product->id,
-						'SKU'            => $product->get_sku(),
-						'is_purchasable' => $product->is_purchasable(),
-						'is_visible'     => $product->is_visible(),
-						'availability'   => $this->getAvailabilityString( $product )
-					), 'Product <strong>' . $product->get_formatted_name() . '</strong> failed. Reason(s) is(are): ' . implode( ', ', $reason ) );
-					continue;
-				}
-
-				$products[] = $this->getProductArray( $product );
-				$this->updateXMLGenerationProgress( count( $products ) / $loop->found_posts );
+			if(memory_get_usage() > $memLimit){
+				wp_cache_flush();
 			}
+
+			$product = WC()->product_factory->get_product( (int) $pid );
+
+			if ( ! is_object( $product ) || ! ( $product instanceof \WC_Product ) ) {
+				$this->©diagnostic->forceDBLog( 'product', $product, 'Product failed in ' . __METHOD__ );
+				continue;
+			}
+
+			if ( ! $product->is_purchasable() || ! $product->is_visible() || $this->getAvailabilityString( $product ) === false ) {
+				$reason = array();
+				if ( ! $product->is_purchasable() ) {
+					$reason[] = 'product is not purchasable';
+				}
+				if ( ! $product->is_visible() ) {
+					$reason[] = 'product is not visible';
+				}
+				if ( $this->getAvailabilityString( $product ) === false ) {
+					$reason[] = 'product is unavailable';
+				}
+				$this->©diagnostic->forceDBLog( 'product', array(
+					'id'             => $product->id,
+					'SKU'            => $product->get_sku(),
+					'is_purchasable' => $product->is_purchasable(),
+					'is_visible'     => $product->is_visible(),
+					'availability'   => $this->getAvailabilityString( $product )
+				), 'Product <strong>' . $product->get_formatted_name() . '</strong> failed. Reason(s) is(are): ' . implode( ', ', $reason ) );
+				continue;
+			}
+
+			$this->©xml->appendProduct( $this->getProductArray( $product ) );
 		}
-		wp_reset_postdata();
 
-		$this->updateXMLGenerationProgress( 110 );
-
-		return $products;
+		return $this->©xml->saveXML() ? $this->©xml->countProductsInFile( $this->©xml->simpleXML ) : 0;
 	}
 
 	/**
@@ -703,21 +704,6 @@ class bestprice extends framework {
 	}
 
 	/**
-	 * @author Panagiotis Vagenas <pan.vagenas@gmail.com>
-	 * @since 150120
-	 */
-	public function debug() {
-		echo "<strong>not real mem usage: </strong>" . ( memory_get_peak_usage( false ) / 1024 / 1024 ) . " MiB<br>";
-		echo "<strong>real mem usage: </strong>" . ( memory_get_peak_usage( true ) / 1024 / 1024 ) . " MiB<br>";
-		$sTime     = microtime( true );
-		$prodArray = $this->createProductsArray();
-		$this->©xml->parseArray( $prodArray );
-		echo "<strong>time: </strong>" . ( microtime( true ) - $sTime ) . " sec<br><br>";
-		var_dump( $prodArray );
-		die;
-	}
-
-	/**
 	 * @param $string
 	 *
 	 * @return bool
@@ -741,5 +727,38 @@ class bestprice extends framework {
 		);
 
 		return in_array( $string, $validStrings );
+	}
+
+	/**
+	 * @param $mem
+	 *
+	 * @return bool
+	 * @author Panagiotis Vagenas <pan.vagenas@gmail.com>
+	 * @since 150501
+	 */
+	protected function getMemInM($mem){
+		if(is_numeric($mem)){
+			return $mem;
+		}
+		preg_match('/^(\d+)([MmKkGg]?)$/', $mem, $matches);
+		if(is_string($mem)){
+			if(isset($matches[2])){
+				switch($matches[2]){
+					case 'k':
+					case 'K':
+						return $matches[1] * 1024;
+					case 'm':
+					case 'M':
+						return $matches[1] * 1024 * 1024;
+					case 'g':
+					case 'G':
+						return $matches[1] * 1024 * 1024 * 1024;
+					default:
+						return $matches[1];
+				}
+			}
+		}
+
+		return false;
 	}
 } 

@@ -30,7 +30,6 @@ class ajax extends \xd_v141226_dev\ajax {
 		}
 
 		$foundProducts = $this->©bestprice->do_your_woo_stuff();
-		$this->©action->set_call_data_for($this->dynamic_call(__FUNCTION__), get_defined_vars());
 		if($foundProducts > 0){
 			$this->sendJSONSuccess( array( 'result' => true, 'productsUpdated' => $foundProducts ) );
 		} else {

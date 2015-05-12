@@ -138,26 +138,41 @@ class xml extends \xd_v141226_dev\xml {
 			$this->initSimpleXML();
 		}
 
-		// get products node
-		$products = $this->simpleXML->children();
-
 		// parse array
 		foreach ( $array as $k => $v ) {
-			$validated = $this->validateArrayKeys( $v );
-
-			if ( empty( $validated ) ) {
-				unset( $array[ $k ] );
-			} else {
-				/* @var \SimpleXMLExtended $product */
-				$product = $products->addChild( $this->productElemName );
-
-				foreach ( $validated as $key => $value ) {
-					$this->addChildNode( $key, $value, $product );
-				}
-			}
+			$this->appendProduct( $v );
 		}
 
 		return ! empty( $array ) && $this->saveXML();
+	}
+
+	/**
+	 * @param array $p
+	 *
+	 * @return int
+	 * @author Panagiotis Vagenas <pan.vagenas@gmail.com>
+	 * @since 150120
+	 */
+	public function appendProduct( Array $p ) {
+		if ( ! $this->simpleXML ) {
+			$this->initSimpleXML();
+		}
+
+		$products = $this->simpleXML->children();
+
+		$validated = $this->validateArrayKeys( $p );
+
+		if ( ! empty( $validated ) ) {
+			$product = $products->addChild( $this->productElemName );
+
+			foreach ( $validated as $key => $value ) {
+				$this->addChildNode($key, $value, $product);
+			}
+
+			return 1;
+		}
+
+		return 0;
 	}
 
 	/**
@@ -190,7 +205,7 @@ class xml extends \xd_v141226_dev\xml {
 	protected function initSimpleXML() {
 		$this->fileLocation = $this->getFileLocation();
 
-		$this->simpleXML = new \SimpleXMLExtended( '<' . $this->rootElemName . '></' . $this->rootElemName . '>' );
+		$this->simpleXML = new \SimpleXMLExtended( '<?xml version="1.0" encoding="UTF-8"?><' . $this->rootElemName . '></' . $this->rootElemName . '>' );
 		$this->simpleXML->addChild( $this->productsElemWrapperName );
 
 		return $this;
@@ -342,7 +357,7 @@ class xml extends \xd_v141226_dev\xml {
 	 * @author Panagiotis Vagenas <pan.vagenas@gmail.com>
 	 * @since 150120
 	 */
-	protected function saveXML() {
+	public function saveXML() {
 		$dir = dirname( $this->fileLocation );
 		if ( ! file_exists( $dir ) ) {
 			mkdir( $dir, 0755, true );
@@ -420,11 +435,24 @@ class xml extends \xd_v141226_dev\xml {
 			$sXML         = simplexml_load_file( $fileLocation );
 			$cratedAtName = $this->createdAtName;
 
-			$info['File Creation Datetime'] = end( $sXML->$cratedAtName );
-			$info['Products Count']         = $this->countProductsInFile( $sXML );
-			$info['File Path']              = $fileLocation;
-			$info['File Url']               = $this->©url->to_wp_site_uri( str_replace( ABSPATH, '', $fileLocation ) );
-			$info['File Size']              = filesize( $fileLocation );
+			$info[ $this->createdAtName ] = array(
+				'value' => end( $sXML->$cratedAtName ),
+				'label' => 'Cached File Creation Datetime'
+			);
+
+			$info['productCount'] = array(
+				'value' => $this->countProductsInFile( $sXML ),
+				'label' => 'Number of Products Included'
+			);
+
+			$info['cachedFilePath'] = array( 'value' => $fileLocation, 'label' => 'Cached File Path' );
+
+			$info['url'] = array(
+				'value' => $this->©url->to_wp_site_uri( str_replace( ABSPATH, '', $fileLocation ) ),
+				'label' => 'Cached File Url'
+			);
+
+			$info['size'] = array( 'value' => filesize( $fileLocation ), 'label' => 'Cached File Size' );
 
 			return $info;
 		} else {
