@@ -34,7 +34,7 @@ Text Domain: bestprice-xml-feed
 Domain Path: /translations
 
 Plugin Name: BestPrice.gr XML Feed
-Plugin URI: todo
+Plugin URI: https://github.com/panvagenas/bestprice-xml-feed
 
 Description: Generate XML sheet according to bestprice.gr specs
 Tags: bestprice, bestprice.gr, XML, generate XML, price comparison

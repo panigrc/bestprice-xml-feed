@@ -44,7 +44,7 @@ class options extends \xd_v141226_dev\options {
 	public function setup( $defaults, $validators ) {
 		$bestpriceDefaults = array(
 			'encryption.key'                             => 'jkiabOKBNJO89347KJBKJBasfd',
-			'support.url'                                => 'http://example.com', // todo
+			'support.url'                                => 'https://github.com/panvagenas/bestprice-xml-feed/issues',
 			'styles.front_side.theme'                    => 'yeti',
 			'crons.config'                               => array(),
 			'menu_pages.theme'                           => 'yeti',
