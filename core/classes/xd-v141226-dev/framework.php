@@ -883,7 +883,7 @@ namespace xd_v141226_dev {
 
 				           && !empty($instance['plugin_site']) && is_string($instance['plugin_site'])
 				           && ($instance['plugin_site'] = rtrim($instance['plugin_site'], '/'))
-				           && preg_match('/^http\:\/\/.+/i', $instance['plugin_site'])
+				           && preg_match('/^http(s)?\:\/\/.+/i', $instance['plugin_site'])
 
 				) // A fully validated `$instance` array (we'll convert to an object).
 				{
