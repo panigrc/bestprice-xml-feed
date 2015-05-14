@@ -1,13 +1,12 @@
 <?php
 /**
- * ${FILE_NAME}
+ * plugin.php
  * User: vagenas
  * Date: 9/11/14
  * Time: 9:51 PM
  *
  * @author Panagiotis Vagenas <pan.vagenas@gmail.com>
- * @copyright 9/11/14 XDaRk.eu <xdark.eu@gmail.com>
- * @link http://xdark.eu
+ * @copyright 2015 Panagiotis Vagenas <pan.vagenas@gmail.com>
  */
 
 /* -- WordPress® --------------------------------------------------------------------------------------------------------------------------
