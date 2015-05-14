@@ -1,6 +1,6 @@
 === BestPrice.gr XML Feed for WooCommerce ===
 Contributors: pan.vagenas
-Tags: generate xml, price comparison, skroutz, skroutz.gr, xml, xml feed, feed
+Tags: generate xml, price comparison, bestprice, bestprice.gr, xml, xml feed, feed
 Requires at least: 3.5.1
 Tested up to: 4.2.2
 Stable tag: 150120
