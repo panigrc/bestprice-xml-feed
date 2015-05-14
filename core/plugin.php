@@ -25,36 +25,6 @@ www        w        ww eeeeeeeee  bbbbbbbb      sssssssssss   hhhh        hhhh  
  * @package XDaRk\Core
  * @since 130310
  */
-/* -- WordPress® --------------------------------------------------------------------------------------------------------------------------
-
-Version: 141226-dev
-Stable tag: 141226-dev
-Tested up to: 3.9.1
-Requires at least: 3.5.1
-
-Requires at least Apache version: 2.1
-Tested up to Apache version: 2.4.7
-
-Requires at least PHP version: 5.3.1
-Tested up to PHP version: 5.5.12
-
-Copyright: © 2012 WebSharks, Inc.
-License: GNU General Public License
-Contributors: WebSharks
-
-Author: WebSharks, Inc.
-Author URI: http://www.websharks-inc.com
-
-Text Domain: xd
-Domain Path: /translations
-
-Plugin Name: XDaRk Core
-Plugin URI: http://github.com/WebSharks/Core
-
-Description: XDaRk Core framework for WordPress® plugin development.
-Tags: websharks, websharks core, framework, plugin framework, development, developers
-
--- end section for WordPress®. --------------------------------------------------------------------------------------------------------- */
 
 if(!defined('WPINC'))
 	exit('Do NOT access this file directly: '.basename(__FILE__));
