@@ -3,7 +3,7 @@ Contributors: pan.vagenas
 Tags: generate xml, price comparison, bestprice, bestprice.gr, xml, xml feed, feed
 Requires at least: 3.5.1
 Tested up to: 4.2.2
-Stable tag: 150521
+Stable tag: 150610
 License: GNU General Public License V3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.txt
 
@@ -38,6 +38,10 @@ Please consult WordPress plugin [installation guide](https://codex.wordpress.org
 3. Info panel
 
 == Changelog ==
+
+#### 150610
+
+* Fixed: Bug fix in color attributes
 
 #### 150521
 

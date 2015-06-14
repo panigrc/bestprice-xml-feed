@@ -39,6 +39,10 @@ along with this program.  If not, see [http://www.gnu.org/licenses/](http://www.
 
 ## Changelog
 
+#### 150610
+
+* Fixed: Bug fix in color attributes
+
 #### 150521
 
 * Fixed: Unpublished products were included in XML
