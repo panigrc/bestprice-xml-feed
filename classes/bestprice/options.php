@@ -94,7 +94,7 @@ class options extends \xd_v141226_dev\options {
 			'map_link'                                   => 0,
 			'map_image'                                  => 0,
 			'map_category'                               => 'product',
-			'map_price_with_vat'                         => 0,
+			'map_price_with_vat'                         => 1,
 			'map_manufacturer'                           => 0,
 			'map_mpn'                                    => 0,
 			'map_size'                                   => array(),

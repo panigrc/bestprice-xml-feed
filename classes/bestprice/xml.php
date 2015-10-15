@@ -232,10 +232,10 @@ class xml extends \xd_v141226_dev\xml {
 					: ( isset( $array['productId'] )
 						? 'with id ' . $array['productId']
 						: '' );
-				$this->©diagnostic->forceDBLog(
+				$this->©error->forceDBLog(
 					'product',
 					$array,
-					'Product <strong>' . $name . '</strong> not included in XML file because field(s) ' . implode( ', ', $fields ) . ' is(are) missing or invalid'
+					'Product <strong>' . $name . '</strong> not included in XML file because field(s) ' . implode( ', ', $fields ) . ' is/are missing or is invalid'
 				);
 
 				return array();
@@ -358,6 +358,9 @@ class xml extends \xd_v141226_dev\xml {
 	 * @since 150120
 	 */
 	public function saveXML() {
+		if ( ! ( $this->simpleXML instanceof \SimpleXMLExtended ) ) {
+			return false;
+		}
 		$dir = dirname( $this->fileLocation );
 		if ( ! file_exists( $dir ) ) {
 			mkdir( $dir, 0755, true );

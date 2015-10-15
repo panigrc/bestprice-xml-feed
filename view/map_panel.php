@@ -74,11 +74,19 @@ $attrTaxonomies = wc_get_attribute_taxonomies();
 					'label' => $this->__( 'Use Product Tags' ),
 					'value' => 'product_tag'
 				);
+				global $wp_taxonomies;
 
 				foreach ( $attrTaxonomies as $taxonomies ) {
 					$options[] = array(
 						'label' => $taxonomies->attribute_label,
 						'value' => $taxonomies->attribute_id
+					);
+				}
+
+				if($this->©bestprice->hasBrandsPlugin() && ($brandsTax = $this->©bestprice->getBrandsPluginTaxonomy())){
+					$options[] = array(
+						'label' => 'Use WooCommerce Brands Plugin',
+						'value' => $brandsTax->name
 					);
 				}
 
@@ -407,7 +415,7 @@ $attrTaxonomies = wc_get_attribute_taxonomies();
 					$inputOptions = array(
 						'type'        => 'select',
 						'multiple'    => true,
-						'name'        => '[map_colors]',
+						'name'        => '[map_color]',
 						'title'       => $this->__( 'Product Colors' ),
 						'placeholder' => $this->__( 'Select the attribute that describes product colors' ),
 						'id'          => 'map-color',

@@ -133,7 +133,6 @@ $showAdvancedHide = $showAdvanced ? '' : ' style="display:none;"'
 				'name'        => '[xml_location]',
 				'title'       => $this->__( 'XML File Location' ),
 				'placeholder' => $this->__( 'Enter the location you want the file to be saved, relative to WordPress install dir' ),
-				'required'    => true,
 				'id'          => 'xml-location',
 				'attrs'       => '',
 				'classes'     => 'form-control col-md-10'
