@@ -2,7 +2,7 @@
 Contributors: pan.vagenas
 Tags: generate xml, price comparison, bestprice, bestprice.gr, xml, xml feed, feed
 Requires at least: 3.5.1
-Tested up to: 4.2.2
+Tested up to: 4.3.1
 Stable tag: 151015
 License: GNU General Public License V3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.txt

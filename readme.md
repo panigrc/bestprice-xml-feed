@@ -42,7 +42,7 @@ along with this program.  If not, see [http://www.gnu.org/licenses/](http://www.
 #### 151015
 
 * Fixed: Availability when product is out of stock and/or backorders allowed
-* Fixed: Options submiting bug when XML path were empty
+* Fixed: Options submitting bug when XML path were empty
 * New: WooCommerce Brands Addon support
 
 #### 150610

@@ -26,7 +26,7 @@
 
 Version: 151015
 Stable tag: 151015
-Tested up to: 4.2.2
+Tested up to: 4.3.1
 Requires at least: 3.5.1
 
 Requires at least Apache version: 2.1
