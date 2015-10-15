@@ -16,7 +16,7 @@ if ( ! defined( 'WPINC' ) ) {
  * Menu Page.
  *
  * @package randomizer\menu_pages
- * @since 140914
+ * @since   140914
  *
  * @assert ($GLOBALS[__NAMESPACE__])
  */
@@ -27,14 +27,15 @@ class settings extends menu_page {
 	 * Constructor.
 	 *
 	 * @param object|array $instance Required at all times.
-	 *    A parent object instance, which contains the parent's ``$instance``,
-	 *    or a new ``$instance`` array.
+	 *                               A parent object instance, which contains the parent's ``$instance``,
+	 *                               or a new ``$instance`` array.
 	 */
 	public function __construct( $instance ) {
 		parent::__construct( $instance );
 
 		$this->heading_title           = $this->__( 'Main Settings' );
-		$this->sub_heading_description = sprintf( $this->__( 'Configure main settings for %1$s' ), esc_html( $this->©plugin->instance->plugin_name ) );
+		$this->sub_heading_description = sprintf( $this->__( 'Configure main settings for %1$s' ),
+			esc_html( $this->©plugin->instance->plugin_name ) );
 	}
 
 	/**
@@ -42,8 +43,8 @@ class settings extends menu_page {
 	 */
 	public function display_content_panels() {
 		$this->add_content_panel( $this->©menu_pages__panels__main_settings( $this ), true );
-		$this->add_content_panel( $this->©menu_pages__panels__map( $this ), TRUE );
-		$this->add_content_panel( $this->©menu_pages__panels__log( $this ), TRUE );
+		$this->add_content_panel( $this->©menu_pages__panels__map( $this ), true );
+		$this->add_content_panel( $this->©menu_pages__panels__log( $this ), true );
 
 		$this->display_content_panels_in_order();
 	}

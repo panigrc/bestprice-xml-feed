@@ -8,21 +8,24 @@
 
 namespace bestprice;
 
-if ( ! defined( 'WPINC' ) )
+if ( ! defined( 'WPINC' ) ) {
 	exit( 'Do NOT access this file directly: ' . basename( __FILE__ ) );
+}
 
 /**
  * Class ajax
+ *
  * @package bestprice
- * @author Panagiotis Vagenas <pan.vagenas@gmail.com>
- * @since 150120
+ * @author  Panagiotis Vagenas <pan.vagenas@gmail.com>
+ * @since   150120
  */
 class ajax extends \xd_v141226_dev\ajax {
 	/**
 	 * Generates bestprice.xml
+	 *
 	 * @important AJAX HOOKED
-	 * @author Panagiotis Vagenas <pan.vagenas@gmail.com>
-	 * @since 150120
+	 * @author    Panagiotis Vagenas <pan.vagenas@gmail.com>
+	 * @since     150120
 	 */
 	public function ®ajaxGenerateBestpriceXML() {
 		if ( ! $this->©user->is_super_admin() ) {
@@ -30,10 +33,10 @@ class ajax extends \xd_v141226_dev\ajax {
 		}
 
 		$foundProducts = $this->©bestprice->do_your_woo_stuff();
-		if($foundProducts > 0){
+		if ( $foundProducts > 0 ) {
 			$this->sendJSONSuccess( array( 'result' => true, 'productsUpdated' => $foundProducts ) );
 		} else {
-			$this->sendJSONError($this->__('No products found'), 200);
+			$this->sendJSONError( $this->__( 'No products found' ), 200 );
 		}
 	}
 }

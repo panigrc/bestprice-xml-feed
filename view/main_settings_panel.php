@@ -15,22 +15,24 @@ if ( ! defined( 'WPINC' ) ) {
 
 /* @var \bestprice\menu_pages\panels\main_settings $callee */
 /* @var \xd_v141226_dev\views $this */
-$showAdvanced = (bool)$this->©option->get( 'show_advanced' );
+$showAdvanced = (bool) $this->©option->get( 'show_advanced' );
 $showAdvancedHide = $showAdvanced ? '' : ' style="display:none;"'
 ?>
 <div class="form-horizontal main-settings-form-wrapper" role="form">
 	<div class="form-group row">
-		<label for="show-advanced" class="col-md-3 control-label"><?php echo $this->__( 'Show advanced options' ); ?></label>
+		<label for="show-advanced"
+		       class="col-md-3 control-label"><?php echo $this->__( 'Show advanced options' ); ?></label>
 
 		<div class="col-sm-7">
 			<?php
 			$inputOptions = array(
-				'type'    => 'checkbox',
-				'name'    => '[show_advanced]',
-				'title'   => $this->__( 'Show advanced options' ),
-				'id'      => 'show-advanced',
+				'type'  => 'checkbox',
+				'name'  => '[show_advanced]',
+				'title' => $this->__( 'Show advanced options' ),
+				'id'    => 'show-advanced',
 			);
-			echo $callee->menu_page->option_form_fields->markup( $this->©option->get( 'show_advanced' ), $inputOptions );
+			echo $callee->menu_page->option_form_fields->markup( $this->©option->get( 'show_advanced' ),
+				$inputOptions );
 			?>
 		</div>
 	</div>
@@ -55,7 +57,8 @@ $showAdvancedHide = $showAdvanced ? '' : ' style="display:none;"'
 				'attrs'       => '',
 				'classes'     => 'form-control col-md-10'
 			);
-			echo $callee->menu_page->option_form_fields->markup( $this->©option->get( 'xml_generate_var' ), $inputOptions );
+			echo $callee->menu_page->option_form_fields->markup( $this->©option->get( 'xml_generate_var' ),
+				$inputOptions );
 			?>
 		</div>
 	</div>
@@ -80,7 +83,8 @@ $showAdvancedHide = $showAdvanced ? '' : ' style="display:none;"'
 				'attrs'       => '',
 				'classes'     => 'form-control col-md-10'
 			);
-			echo $callee->menu_page->option_form_fields->markup( $this->©option->get( 'xml_generate_var_value' ), $inputOptions );
+			echo $callee->menu_page->option_form_fields->markup( $this->©option->get( 'xml_generate_var_value' ),
+				$inputOptions );
 			?>
 		</div>
 	</div>
@@ -205,7 +209,8 @@ $showAdvancedHide = $showAdvanced ? '' : ' style="display:none;"'
 				'attrs'       => '',
 				'classes'     => 'form-control col-md-10'
 			);
-			echo $callee->menu_page->option_form_fields->markup( $this->©option->get( 'avail_inStock' ), $inputOptions );
+			echo $callee->menu_page->option_form_fields->markup( $this->©option->get( 'avail_inStock' ),
+				$inputOptions );
 			?>
 		</div>
 	</div>
@@ -230,16 +235,17 @@ $showAdvancedHide = $showAdvanced ? '' : ' style="display:none;"'
 				'attrs'       => '',
 				'classes'     => 'form-control col-md-10'
 			);
-			echo $callee->menu_page->option_form_fields->markup( $this->©option->get( 'avail_outOfStock' ), $inputOptions );
+			echo $callee->menu_page->option_form_fields->markup( $this->©option->get( 'avail_outOfStock' ),
+				$inputOptions );
 			?>
 		</div>
 	</div>
 
 	<?php
 	/***********************************************
-	* Availability when product are out of stock
-	* and backorders are allowed
-	***********************************************/
+	 * Availability when product are out of stock
+	 * and backorders are allowed
+	 ***********************************************/
 	?>
 	<div class="form-group row">
 		<label for="avail-backorders" class="col-md-3 control-label">
@@ -257,7 +263,8 @@ $showAdvancedHide = $showAdvanced ? '' : ' style="display:none;"'
 				'attrs'       => '',
 				'classes'     => 'form-control col-md-10'
 			);
-			echo $callee->menu_page->option_form_fields->markup( $this->©option->get( 'avail_backorders' ), $inputOptions );
+			echo $callee->menu_page->option_form_fields->markup( $this->©option->get( 'avail_backorders' ),
+				$inputOptions );
 			?>
 		</div>
 	</div>

@@ -16,16 +16,16 @@ if ( ! defined( 'WPINC' ) ) {
 /* @var \xd_v141226_dev\views $this */
 
 $this->©diagnostic->loadDBLog();
-$messages = $this->©diagnostic->get_messages('product');
+$messages = $this->©diagnostic->get_messages( 'product' );
 
 //var_dump( $this->©diagnostic->get_messages_as_markup('product'));
-if(empty($messages)){
+if ( empty( $messages ) ) {
 	echo '<p>Log is empty</p>';
 } else {
 	$ids = array();
 	foreach ( $messages as $k => $message ) {
 //		$message['data'] = json_decode($message['data']);
-		switch ($message['type']){
+		switch ( $message['type'] ) {
 			case 'error':
 				$msgClass = 'alert alert-danger';
 				break;
@@ -41,9 +41,9 @@ if(empty($messages)){
 				break;
 		}
 		?>
-			<div class="<?php echo $msgClass; ?>">
-				<?php echo $message['msg']; ?>
-			</div>
+		<div class="<?php echo $msgClass; ?>">
+			<?php echo $message['msg']; ?>
+		</div>
 		<?php
 	}
 }

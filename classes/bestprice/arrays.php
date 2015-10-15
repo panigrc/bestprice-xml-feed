@@ -8,14 +8,15 @@
 
 namespace bestprice {
 
-	if ( ! defined( 'WPINC' ) )
+	if ( ! defined( 'WPINC' ) ) {
 		exit( 'Do NOT access this file directly: ' . basename( __FILE__ ) );
+	}
 
 	class arrays extends \xd_v141226_dev\arrays {
 		/**
 		 *
-		 * @param $array1
-		 * @param $array2
+		 * @param      $array1
+		 * @param      $array2
 		 * @param bool $___recursion
 		 *
 		 * @return array

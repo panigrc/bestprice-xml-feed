@@ -83,7 +83,7 @@ $attrTaxonomies = wc_get_attribute_taxonomies();
 					);
 				}
 
-				if($this->©bestprice->hasBrandsPlugin() && ($brandsTax = $this->©bestprice->getBrandsPluginTaxonomy())){
+				if ( $this->©bestprice->hasBrandsPlugin() && ( $brandsTax = $this->©bestprice->getBrandsPluginTaxonomy() ) ) {
 					$options[] = array(
 						'label' => 'Use WooCommerce Brands Plugin',
 						'value' => $brandsTax->name
@@ -101,14 +101,16 @@ $attrTaxonomies = wc_get_attribute_taxonomies();
 					'classes'     => 'form-control',
 					'options'     => $options
 				);
-				echo $callee->menu_page->option_form_fields->markup( $this->©option->get( 'map_manufacturer' ), $inputOptions );
+				echo $callee->menu_page->option_form_fields->markup( $this->©option->get( 'map_manufacturer' ),
+					$inputOptions );
 				?>
 			</div>
 
 		</div>
 
 		<div class="form-group row">
-			<label for="map-mpn" class="col-md-3 control-label"><?php echo $this->__( 'Product Manufacturer SKU' ); ?></label>
+			<label for="map-mpn"
+			       class="col-md-3 control-label"><?php echo $this->__( 'Product Manufacturer SKU' ); ?></label>
 
 			<div class="col-sm-7">
 				<?php
@@ -191,7 +193,8 @@ $attrTaxonomies = wc_get_attribute_taxonomies();
 					'id'      => 'map-name-append-sku',
 					'classes' => 'form-control',
 				);
-				echo $callee->menu_page->option_form_fields->markup( $this->©option->get( 'map_name_append_sku' ), $inputOptions );
+				echo $callee->menu_page->option_form_fields->markup( $this->©option->get( 'map_name_append_sku' ),
+					$inputOptions );
 				?>
 			</div>
 		</div>
@@ -220,7 +223,8 @@ $attrTaxonomies = wc_get_attribute_taxonomies();
 					'classes'     => 'form-control',
 					'options'     => $options
 				);
-				echo $callee->menu_page->option_form_fields->markup( $this->©option->get( 'map_image' ), $inputOptions );
+				echo $callee->menu_page->option_form_fields->markup( $this->©option->get( 'map_image' ),
+					$inputOptions );
 				?>
 			</div>
 
@@ -257,7 +261,8 @@ $attrTaxonomies = wc_get_attribute_taxonomies();
 		</div>
 
 		<div class="form-group row">
-			<label for="map-price-with-vat" class="col-md-3 control-label"><?php echo $this->__( 'Product Price' ); ?></label>
+			<label for="map-price-with-vat"
+			       class="col-md-3 control-label"><?php echo $this->__( 'Product Price' ); ?></label>
 
 			<div class="col-sm-7">
 				<?php
@@ -288,7 +293,8 @@ $attrTaxonomies = wc_get_attribute_taxonomies();
 					'classes'     => 'form-control',
 					'options'     => $options
 				);
-				echo $callee->menu_page->option_form_fields->markup( $this->©option->get( 'map_price_with_vat' ), $inputOptions );
+				echo $callee->menu_page->option_form_fields->markup( $this->©option->get( 'map_price_with_vat' ),
+					$inputOptions );
 				?>
 			</div>
 
@@ -331,7 +337,8 @@ $attrTaxonomies = wc_get_attribute_taxonomies();
 					'classes'     => 'form-control',
 					'options'     => $options
 				);
-				echo $callee->menu_page->option_form_fields->markup( $this->©option->get( 'map_category' ), $inputOptions );
+				echo $callee->menu_page->option_form_fields->markup( $this->©option->get( 'map_category' ),
+					$inputOptions );
 				?>
 			</div>
 
@@ -345,7 +352,7 @@ $attrTaxonomies = wc_get_attribute_taxonomies();
 				<?php
 				$isFashionStore = $this->©option->get( 'is_fashion_store' );
 
-				$inputOptions   = array(
+				$inputOptions = array(
 					'type'        => 'checkbox',
 					'name'        => '[is_fashion_store]',
 					'title'       => $this->__( 'This Store Contains Fashion Products' ),
@@ -353,17 +360,19 @@ $attrTaxonomies = wc_get_attribute_taxonomies();
 					'id'          => 'is-fashion-store',
 					'classes'     => 'form-control'
 				);
-				if(!empty($attrTaxonomies)){
+				if ( ! empty( $attrTaxonomies ) ) {
 					echo $callee->menu_page->option_form_fields->markup( $isFashionStore, $inputOptions );
-				}else{
-					echo '<p class="bg-danger">'.$this->__('If your store contains fashion products please add some product attributes to specify color and sizes').'</p>';
+				} else {
+					echo '<p class="bg-danger">' . $this->__( 'If your store contains fashion products please add some product attributes to specify color and sizes' ) . '</p>';
 				}
 				?>
 			</div>
 
 		</div>
-		<div id="fashion-store-fields" <?php if ( ! $isFashionStore ) {echo 'style="display:none;"';} ?>>
-			<div class="form-group row" >
+		<div id="fashion-store-fields" <?php if ( ! $isFashionStore ) {
+			echo 'style="display:none;"';
+		} ?>>
+			<div class="form-group row">
 				<label for="map-size" class="col-md-3 control-label"><?php echo $this->__( 'Product Sizes' ); ?></label>
 
 				<div class="col-sm-3">
@@ -384,21 +393,24 @@ $attrTaxonomies = wc_get_attribute_taxonomies();
 						'name'        => '[map_size]',
 						'title'       => $this->__( 'Product Sizes' ),
 						'placeholder' => $this->__( 'Select the attribute that describes product sizes' ),
-						'required'    => (bool)$this->©option->get('is_fashion_store'),
+						'required'    => (bool) $this->©option->get( 'is_fashion_store' ),
 						'id'          => 'map-size',
 						'attrs'       => '',
 						'classes'     => 'form-control',
 						'options'     => $options
 					);
-					if(!empty($attrTaxonomies))
-						echo $callee->menu_page->option_form_fields->markup( $this->©option->get( 'map_size' ), $inputOptions );
+					if ( ! empty( $attrTaxonomies ) ) {
+						echo $callee->menu_page->option_form_fields->markup( $this->©option->get( 'map_size' ),
+							$inputOptions );
+					}
 					?>
 				</div>
 
 			</div>
 
 			<div class="form-group row">
-				<label for="map-color" class="col-md-3 control-label"><?php echo $this->__( 'Product Colors' ); ?></label>
+				<label for="map-color"
+				       class="col-md-3 control-label"><?php echo $this->__( 'Product Colors' ); ?></label>
 
 				<div class="col-sm-3">
 					<?php
@@ -423,8 +435,10 @@ $attrTaxonomies = wc_get_attribute_taxonomies();
 						'classes'     => 'form-control',
 						'options'     => $options
 					);
-					if(!empty($attrTaxonomies))
-						echo $callee->menu_page->option_form_fields->markup( $this->©option->get( 'map_color' ), $inputOptions );
+					if ( ! empty( $attrTaxonomies ) ) {
+						echo $callee->menu_page->option_form_fields->markup( $this->©option->get( 'map_color' ),
+							$inputOptions );
+					}
 					?>
 				</div>
 
@@ -439,7 +453,7 @@ $attrTaxonomies = wc_get_attribute_taxonomies();
 				<?php
 				$isBookStore = $this->©option->get( 'is_book_store' );
 
-				$inputOptions   = array(
+				$inputOptions = array(
 					'type'        => 'checkbox',
 					'name'        => '[is_book_store]',
 					'title'       => $this->__( 'Are You Selling Books' ),
@@ -453,8 +467,10 @@ $attrTaxonomies = wc_get_attribute_taxonomies();
 
 		</div>
 
-		<div id="book-store-fields" <?php if ( ! $isBookStore ) {echo 'style="display:none;"';} ?>>
-			<div class="form-group row" >
+		<div id="book-store-fields" <?php if ( ! $isBookStore ) {
+			echo 'style="display:none;"';
+		} ?>>
+			<div class="form-group row">
 				<label for="map-isbn" class="col-md-3 control-label"><?php echo $this->__( 'ISBN' ); ?></label>
 
 				<div class="col-sm-7">
@@ -484,7 +500,8 @@ $attrTaxonomies = wc_get_attribute_taxonomies();
 						'classes'     => 'form-control',
 						'options'     => $options
 					);
-					echo $callee->menu_page->option_form_fields->markup( $this->©option->get( 'map_isbn' ), $inputOptions );
+					echo $callee->menu_page->option_form_fields->markup( $this->©option->get( 'map_isbn' ),
+						$inputOptions );
 					?>
 				</div>
 			</div>
@@ -496,18 +513,18 @@ $attrTaxonomies = wc_get_attribute_taxonomies();
 <script type="text/javascript">
 	jQuery('document').ready(function ($) {
 		$('#is-fashion-store').change(function () {
-			if(this.checked) {
-				$('#fashion-store-fields').slideDown({duration:'fast', easing:'swing'});
+			if (this.checked) {
+				$('#fashion-store-fields').slideDown({duration: 'fast', easing: 'swing'});
 			} else {
-				$('#fashion-store-fields').slideUp({duration:'fast', easing:'swing'});
+				$('#fashion-store-fields').slideUp({duration: 'fast', easing: 'swing'});
 			}
 		});
 
 		$('#is-book-store').change(function () {
-			if(this.checked) {
-				$('#book-store-fields').slideDown({duration:'fast', easing:'swing'});
+			if (this.checked) {
+				$('#book-store-fields').slideDown({duration: 'fast', easing: 'swing'});
 			} else {
-				$('#book-store-fields').slideUp({duration:'fast', easing:'swing'});
+				$('#book-store-fields').slideUp({duration: 'fast', easing: 'swing'});
 			}
 		});
 	});

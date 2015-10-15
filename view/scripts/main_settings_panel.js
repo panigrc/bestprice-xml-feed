@@ -57,9 +57,9 @@
         $bestprice.$ajax.generateXMLNow($('#generateNowModal'));
     });
 
-    $('#show-advanced').change(function(e){
+    $('#show-advanced').change(function (e) {
         e.preventDefault();
-        if($(this).is(':checked')){
+        if ($(this).is(':checked')) {
             $('.main-settings-form-wrapper').find('.advanced').slideDown('fast');
         } else {
             $('.main-settings-form-wrapper').find('.advanced').slideUp('fast');

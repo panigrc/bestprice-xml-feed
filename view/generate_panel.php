@@ -5,8 +5,9 @@
  * Date: 17/10/2014
  * Time: 8:25 μμ
  */
-if ( ! defined( 'WPINC' ) )
+if ( ! defined( 'WPINC' ) ) {
 	exit( 'Do NOT access this file directly: ' . basename( __FILE__ ) );
+}
 
 /* @var \bestprice\menu_pages\panels\generate $callee */
 /* @var \xd_v141226_dev\views $this */
@@ -38,11 +39,11 @@ echo $callee->menu_page->©form_field->markup( $this->__( 'Generate XML Now' ), 
 				<h4 class="modal-title" id="myModalLabel"><?php echo $this->__( 'Generating XML File' ); ?></h4>
 			</div>
 			<div class="modal-body">
-<!--				<div class="progress">-->
-<!--					<div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="0"-->
-<!--					     aria-valuemin="0" aria-valuemax="100" style="width: 0%">-->
-<!--					</div>-->
-<!--				</div>-->
+				<!--				<div class="progress">-->
+				<!--					<div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="0"-->
+				<!--					     aria-valuemin="0" aria-valuemax="100" style="width: 0%">-->
+				<!--					</div>-->
+				<!--				</div>-->
 			</div>
 		</div>
 	</div>

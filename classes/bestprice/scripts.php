@@ -8,11 +8,11 @@
 
 namespace bestprice;
 
-if(!defined('WPINC'))
-	exit('Do NOT access this file directly: '.basename(__FILE__));
+if ( ! defined( 'WPINC' ) ) {
+	exit( 'Do NOT access this file directly: ' . basename( __FILE__ ) );
+}
 
-class scripts extends \xd_v141226_dev\scripts
-{
+class scripts extends \xd_v141226_dev\scripts {
 	/**
 	 * Builds the initial set of front-side components.
 	 *
@@ -20,16 +20,18 @@ class scripts extends \xd_v141226_dev\scripts
 	 *
 	 * @return array An array of any additional front-side components.
 	 */
-	public function front_side_components()
-	{
-		$this->register(array(
+	public function front_side_components() {
+		$this->register( array(
 			$this->©plugin->instance->plugin_root_ns_with_dashes . '--front-side' => array(
-				'deps' => array('jquery', $this->©plugin->instance->plugin_root_ns_with_dashes . '--stand-alone'),
-				'url' => $this->©url->to_plugin_dir_file('templates/client-side/scripts/front-side.min.js'),
-				'ver' => $this->©plugin->instance->plugin_version_with_dashes,
+				'deps'      => array(
+					'jquery',
+					$this->©plugin->instance->plugin_root_ns_with_dashes . '--stand-alone'
+				),
+				'url'       => $this->©url->to_plugin_dir_file( 'templates/client-side/scripts/front-side.min.js' ),
+				'ver'       => $this->©plugin->instance->plugin_version_with_dashes,
 				'in_footer' => true
 			)
-		));
+		) );
 
 		return array(
 			$this->©plugin->instance->plugin_root_ns_with_dashes . '--front-side'
@@ -43,16 +45,15 @@ class scripts extends \xd_v141226_dev\scripts
 	 *
 	 * @return array An array of any additional stand-alone components.
 	 */
-	public function stand_alone_components()
-	{
-		$this->register(array(
+	public function stand_alone_components() {
+		$this->register( array(
 			$this->©plugin->instance->plugin_root_ns_with_dashes . '--stand-alone' => array(
-				'deps' => array('jquery'),
-				'url' => $this->©url->to_plugin_dir_file('templates/client-side/scripts/stand-alone.min.js'),
-				'ver' => $this->©plugin->instance->plugin_version_with_dashes,
+				'deps'      => array( 'jquery' ),
+				'url'       => $this->©url->to_plugin_dir_file( 'templates/client-side/scripts/stand-alone.min.js' ),
+				'ver'       => $this->©plugin->instance->plugin_version_with_dashes,
 				'in_footer' => true
 			),
-		));
+		) );
 
 		return array(
 			$this->©plugin->instance->plugin_root_ns_with_dashes . '--stand-alone'
@@ -66,8 +67,7 @@ class scripts extends \xd_v141226_dev\scripts
 	 *
 	 * @return array An array of any additional menu page components.
 	 */
-	public function menu_page_components()
-	{
+	public function menu_page_components() {
 		$scripts = array(
 			$this->©plugin->instance->plugin_root_ns_with_dashes . '--stand-alone'
 		); // Not implemented by core.
@@ -82,12 +82,13 @@ class scripts extends \xd_v141226_dev\scripts
 	 *
 	 * @return string Additional verifiers for inline data.
 	 */
-	public function build_verifiers_for_core_inline_data()
-	{
+	public function build_verifiers_for_core_inline_data() {
 		$data = '';
 		foreach ( get_class_methods( $this->©ajax ) as $k => $method ) {
-			if(strpos(strtolower($method), '®ajax') !== 0) continue;
-			$data .= $this->©action->ajax_verifier_property_for_call('©ajax.'.$method, $this::private_type).',';
+			if ( strpos( strtolower( $method ), '®ajax' ) !== 0 ) {
+				continue;
+			}
+			$data .= $this->©action->ajax_verifier_property_for_call( '©ajax.' . $method, $this::private_type ) . ',';
 		}
 
 		return $data;

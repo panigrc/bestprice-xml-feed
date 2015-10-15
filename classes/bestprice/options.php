@@ -33,7 +33,7 @@ class options extends \xd_v141226_dev\options {
 	 * @extenders Can be overridden by class extenders (i.e. to override the defaults/validators);
 	 *    or to add additional default options and their associated validators.
 	 *
-	 * @param array $defaults An associative array of default options.
+	 * @param array $defaults   An associative array of default options.
 	 * @param array $validators An array of validators (can be a combination of numeric/associative keys).
 	 *
 	 * @return array The current array of options.

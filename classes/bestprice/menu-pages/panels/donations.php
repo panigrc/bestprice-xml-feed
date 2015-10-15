@@ -10,14 +10,15 @@ namespace bestprice\menu_pages\panels;
 
 use xd_v141226_dev\menu_pages\panels\panel;
 
-if ( ! defined( 'WPINC' ) )
+if ( ! defined( 'WPINC' ) ) {
 	exit( 'Do NOT access this file directly: ' . basename( __FILE__ ) );
+}
 
 /**
  * Menu Page Panel.
  *
  * @package WebSharks\Core
- * @since 140914
+ * @since   140914
  *
  * @assert ($GLOBALS[__NAMESPACE__])
  */
@@ -26,11 +27,11 @@ class donations extends panel {
 	 * Constructor.
 	 *
 	 * @param object|array $instance Required at all times.
-	 *    A parent object instance, which contains the parent's ``$instance``,
-	 *    or a new ``$instance`` array.
+	 *                               A parent object instance, which contains the parent's ``$instance``,
+	 *                               or a new ``$instance`` array.
 	 *
 	 * @param \xd_v141226_dev\menu_pages\menu_page
-	 *    $menu_page A menu page class instance.
+	 *                               $menu_page A menu page class instance.
 	 */
 	public function __construct( $instance, $menu_page ) {
 		parent::__construct( $instance, $menu_page );

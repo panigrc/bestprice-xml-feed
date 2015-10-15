@@ -8,12 +8,13 @@
 
 namespace bestprice\menu_pages\panels;
 
-if ( ! defined( 'WPINC' ) )
+if ( ! defined( 'WPINC' ) ) {
 	exit( 'Do NOT access this file directly: ' . basename( __FILE__ ) );
+}
 
 use xd_v141226_dev\menu_pages\panels\panel;
 
-class map extends panel{
+class map extends panel {
 	/**
 	 * @var string Heading/title for this panel.
 	 * @extenders Should be overridden by class extenders.
@@ -37,7 +38,7 @@ class map extends panel{
 		/**
 		 * Add the content
 		 */
-		$this->content_body = $this->©views->view($this, 'map_panel.php');
-		$this->documentation = $this->©views->view($this, 'documentation_map.php');
+		$this->content_body  = $this->©views->view( $this, 'map_panel.php' );
+		$this->documentation = $this->©views->view( $this, 'documentation_map.php' );
 	}
 } 

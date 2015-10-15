@@ -11,15 +11,16 @@ namespace bestprice\menu_pages\panels;
 
 use xd_v141226_dev\menu_pages\panels\panel;
 
-if(!defined('WPINC'))
-	exit('Do NOT access this file directly: '.basename(__FILE__));
+if ( ! defined( 'WPINC' ) ) {
+	exit( 'Do NOT access this file directly: ' . basename( __FILE__ ) );
+}
 
 /**
  *
  * @package randomizer\menu_pages\panels
- * @author pan.vagenas <pan.vagenas@gmail.com>
+ * @author  pan.vagenas <pan.vagenas@gmail.com>
  */
-class main_settings extends panel{
+class main_settings extends panel {
 	/**
 	 * @var string Heading/title for this panel.
 	 * @extenders Should be overridden by class extenders.
@@ -44,9 +45,9 @@ class main_settings extends panel{
 		/**
 		 * Add the content
 		 */
-		$this->content_body = $this->©views->view($this, 'main_settings_panel.php');
+		$this->content_body = $this->©views->view( $this, 'main_settings_panel.php' );
 
 		// Documentation
-		$this->documentation = $this->©views->view($this, 'documentation_main_settings.php');
+		$this->documentation = $this->©views->view( $this, 'documentation_main_settings.php' );
 	}
 }
