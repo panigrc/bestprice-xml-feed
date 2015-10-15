@@ -3,7 +3,7 @@ Contributors: pan.vagenas
 Tags: generate xml, price comparison, bestprice, bestprice.gr, xml, xml feed, feed
 Requires at least: 3.5.1
 Tested up to: 4.2.2
-Stable tag: 150610
+Stable tag: 151015
 License: GNU General Public License V3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.txt
 
@@ -38,6 +38,12 @@ Please consult WordPress plugin [installation guide](https://codex.wordpress.org
 3. Info panel
 
 == Changelog ==
+
+#### 151015
+
+* Fixed: Availability when product is out of stock and/or backorders allowed
+* Fixed: Options submiting bug when XML path were empty
+* New: WooCommerce Brands Addon support
 
 #### 150610
 

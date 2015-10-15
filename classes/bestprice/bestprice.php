@@ -783,7 +783,7 @@ class bestprice extends framework {
 	/**
 	 * @return bool
 	 * @author Panagiotis Vagenas <pan.vagenas@gmail.com>
-	 * @since  150707
+	 * @since  151015
 	 */
 	public function hasBrandsPlugin() {
 		return is_plugin_active( 'woocommerce-brands/woocommerce-brands.php' ) && taxonomy_exists( 'product_brand' );
@@ -792,7 +792,7 @@ class bestprice extends framework {
 	/**
 	 * @return bool|null|object
 	 * @author Panagiotis Vagenas <pan.vagenas@gmail.com>
-	 * @since  150707
+	 * @since  151015
 	 */
 	public function getBrandsPluginTaxonomy() {
 		if ( $this->hasBrandsPlugin() ) {
