@@ -258,13 +258,11 @@ class bestprice extends framework {
 	/**
 	 * @param \WC_Product $product
 	 *
-	 * @param             $option 1: sale price, 2 tax excluded price, any other value regular price tax included. Default is last regular price tax included
-	 *
 	 * @return string
 	 * @author Panagiotis Vagenas <pan.vagenas@gmail.com>
 	 * @since  150120
 	 */
-	protected function getProductPrice( \WC_Product &$product, $option = 0 ) {
+	protected function getProductPrice( \WC_Product &$product ) {
 		$option = $this->©option->get( 'map_price_with_vat' );
 
 		switch ( $option ) {
@@ -481,7 +479,8 @@ class bestprice extends framework {
 
 			foreach ( $variations as $variation ) {
 				$attrName = wc_attribute_taxonomy_name( $taxonomy->attribute_name );
-				$key      = 'attribute_' . $attrName;
+				$key      = sanitize_title('attribute_' . $attrName);
+
 				if ( isset( $variation['attributes'][ $key ] ) && $variation['is_in_stock'] && $variation['is_purchasable'] ) {
 					if ( empty( $variation['attributes'][ $key ] ) ) {
 						$attr = $product->get_attribute( $attrName );
@@ -548,7 +547,8 @@ class bestprice extends framework {
 
 			foreach ( $variations as $variation ) {
 				$attrName = wc_attribute_taxonomy_name( $taxonomy->attribute_name );
-				$key      = 'attribute_' . $attrName;
+                $key      = sanitize_title('attribute_' . $attrName);
+
 				if ( isset( $variation['attributes'][ $key ] ) && $variation['is_in_stock'] && $variation['is_purchasable'] ) {
 					if ( empty( $variation['attributes'][ $key ] ) ) {
 						$attr = $product->get_attribute( $attrName );
