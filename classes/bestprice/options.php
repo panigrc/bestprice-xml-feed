@@ -92,7 +92,7 @@ class options extends \xd_v141226_dev\options {
 			'map_name'                                   => 0,
 			'map_name_append_sku'                        => 1,
 			'map_link'                                   => 0,
-			'map_image'                                  => 0,
+			'map_image'                                  => 3,
 			'map_category'                               => 'product',
 			'map_price_with_vat'                         => 1,
 			'map_manufacturer'                           => 0,
