@@ -233,26 +233,26 @@ class bestprice extends framework {
 	protected function getProductImageLink( \WC_Product &$product ) {
 		$option = $this->©option->get( 'map_image' );
 
-		// Maybe we will implement some additional functionality in the future
-		$imageLink = array();
-		$i         = 1;
-		if ( true || $option == 0 ) {
-			$src = wp_get_attachment_image_src( $product->get_image_id() );
-			if ( is_array( $src ) ) {
-				$imageLink[ 'img' . $i ] = urldecode( $src[0] );
-				$i ++;
-			}
-
-			foreach ( $product->get_gallery_attachment_ids() as $k => $id ) {
-				$src = wp_get_attachment_image_src( $id );
-				if ( is_array( $src ) ) {
-					$imageLink[ 'img' . $i ] = urldecode( $src[0] );
-					$i ++;
-				}
-			}
+		switch ( $option ) {
+			case '0':
+				$imageSize = 'thumbnail';
+				break;
+			case '1':
+				$imageSize = 'medium';
+				break;
+			case '2':
+				$imageSize = 'large';
+				break;
+			default:
+			case '3':
+				$imageSize = 'full';
+				break;
 		}
 
-		return $imageLink;
+		$imageLink = wp_get_attachment_image_src( $product->get_image_id(), $imageSize );
+		$imageLink = is_array( $imageLink ) && isset($imageLink[0]) ? $imageLink[0] : '';
+
+		return urldecode( $imageLink );
 	}
 
 	/**

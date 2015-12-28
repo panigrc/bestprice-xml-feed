@@ -205,11 +205,23 @@ $attrTaxonomies = wc_get_attribute_taxonomies();
 			<div class="col-sm-7">
 				<?php
 
-				$options = array();
-
-				$options[] = array(
-					'label' => $this->__( 'Use Product Image' ),
-					'value' => '0'
+				$options = array(
+					array(
+						'label' => $this->__( 'Thumbnail' ),
+						'value' => '0'
+					),
+					array(
+						'label' => $this->__( 'Medium' ),
+						'value' => '1'
+					),
+					array(
+						'label' => $this->__( 'Large' ),
+						'value' => '2'
+					),
+					array(
+						'label' => $this->__( 'Full' ),
+						'value' => '3'
+					)
 				);
 
 				$inputOptions = array(
