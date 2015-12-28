@@ -22,10 +22,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/gpl-3.0.txt>.
  */
 
-/* -- WordPress® --------------------------------------------------------------------------------------------------------------------------
+/* -- WordPress® -------------------------------------------------------------------------------------------------------
 
-Version: 151015
-Stable tag: 151015
+Version: 151228
+Stable tag: 151228
 Tested up to: 4.3.1
 Requires at least: 3.5.1
 
@@ -52,7 +52,7 @@ Description: Generate XML sheet according to bestprice.gr specs
 Tags: bestprice, bestprice.gr, XML, generate XML, price comparison
 Kudos: WebSharks™ http://www.websharks-inc.com
 
--- end section for WordPress®. --------------------------------------------------------------------------------------------------------- */
+-- end section for WordPress®. -------------------------------------------------------------------------------------- */
 
 namespace bestprice {
 

@@ -39,7 +39,7 @@ $GLOBALS[ __NAMESPACE__ ] = new framework(
 		'plugin_var_ns'  => 'bsp',
 		'plugin_cap'     => 'manage_options',
 		'plugin_name'    => 'BestPrice.gr XML Feed',
-		'plugin_version' => '150120',
+		'plugin_version' => '151228',
 		'plugin_site'    => 'https://github.com/panvagenas/bestprice-xml-feed',
 		'plugin_dir'     => dirname( dirname( dirname( __FILE__ ) ) ) // Your plugin directory.
 

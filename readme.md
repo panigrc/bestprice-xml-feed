@@ -39,6 +39,11 @@ along with this program.  If not, see [http://www.gnu.org/licenses/](http://www.
 
 ## Changelog
 
+#### 151228
+
+* Fix: Attributes with Greek slug won't appear in XML
+* Tweak: Support for larger product image sizes
+
 #### 151015
 
 * Fixed: Availability when product is out of stock and/or backorders allowed

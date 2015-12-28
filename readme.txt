@@ -3,7 +3,7 @@ Contributors: pan.vagenas
 Tags: generate xml, price comparison, bestprice, bestprice.gr, xml, xml feed, feed
 Requires at least: 3.5.1
 Tested up to: 4.3.1
-Stable tag: 151015
+Stable tag: 151228
 License: GNU General Public License V3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.txt
 
@@ -38,6 +38,11 @@ Please consult WordPress plugin [installation guide](https://codex.wordpress.org
 3. Info panel
 
 == Changelog ==
+
+#### 151228
+
+* Fix: Attributes with Greek slug won't appear in XML
+* Tweak: Support for larger product image sizes
 
 #### 151015
 
