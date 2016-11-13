@@ -1,8 +1,8 @@
 === BestPrice.gr XML Feed for WooCommerce ===
 Contributors: pan.vagenas
 Tags: generate xml, price comparison, bestprice, bestprice.gr, xml, xml feed, feed
-Requires at least: 3.5.1
-Tested up to: 4.3.1
+Requires at least: 4.0
+Tested up to: 4.6.1
 Stable tag: 151228
 License: GNU General Public License V3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.txt

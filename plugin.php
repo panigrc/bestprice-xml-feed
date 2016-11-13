@@ -26,14 +26,14 @@
 
 Version: 151228
 Stable tag: 151228
-Tested up to: 4.3.1
-Requires at least: 3.5.1
+Tested up to: 4.6.1
+Requires at least: 4.0
 
 Requires at least Apache version: 2.1
 Tested up to Apache version: 2.4.7
 
-Requires at least PHP version: 5.3.1
-Tested up to PHP version: 5.5.12
+Requires at least PHP version: 5.5
+Tested up to PHP version: 5.5.9
 
 Copyright: © 2015 Panagiotis Vagenas <pan.vagenas@gmail.com>
 License: GNU General Public License
