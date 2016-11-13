@@ -255,15 +255,16 @@ class bestprice extends framework {
 		return urldecode( $imageLink );
 	}
 
-	/**
-	 * @param \WC_Product $product
-	 *
-	 * @return string
-	 * @author Panagiotis Vagenas <pan.vagenas@gmail.com>
-	 * @since  150120
-	 */
-	protected function getProductPrice( \WC_Product &$product ) {
-		$option = $this->©option->get( 'map_price_with_vat' );
+    /**
+     * @param \WC_Product $product
+     * @param int         $optionOverride
+     *
+     * @return string
+     * @author Panagiotis Vagenas <pan.vagenas@gmail.com>
+     * @since  150120
+     */
+	protected function getProductPrice( \WC_Product &$product, $optionOverride = 0 ) {
+		$option = $optionOverride > 0 ? $optionOverride : $this->©option->get( 'map_price_with_vat' );
 
 		switch ( $option ) {
 			case 1:
@@ -300,8 +301,10 @@ class bestprice extends framework {
 			$categories = $this->getProductAttrValue( $product, $option, '' );
 		}
 		if ( empty( $categories ) ) {
-			$categories = $ids ? $this->getIdsFromTerms( $product,
-				$option ) : $this->getFormattedTextFromTerms( $product, $option, false, '->' );
+			$categories = $ids
+                ? $this->getIdsFromTerms( $product, $option )
+                : $this->getFormattedTextFromTerms( $product, $option, false, '->',
+                    (bool) $this->©option->get( 'map_category_tree' ) && ! is_numeric( $option ) );
 		}
 
 		return is_array( $categories ) ? implode( '-', $categories ) : $categories;
@@ -327,31 +330,89 @@ class bestprice extends framework {
 		return $out;
 	}
 
-	/**
-	 * @param \WC_Product $product
-	 * @param             $term
-	 * @param bool        $removeDuplicates
-	 *
-	 * @return string
-	 * @author Panagiotis Vagenas <pan.vagenas@gmail.com>
-	 * @since  150120
-	 */
+    /**
+     * @param \WC_Product $product
+     * @param             $productTerm
+     * @param bool        $removeDuplicates
+     * @param string      $glue
+     * @param bool        $includeParents
+     *
+     * @return string
+     * @author Panagiotis Vagenas <pan.vagenas@gmail.com>
+     * @since  150120
+     */
 	protected function getFormattedTextFromTerms(
 		\WC_Product &$product,
-		$term,
+        $productTerm,
 		$removeDuplicates = true,
-		$glue = ' - '
+		$glue = ' - ',
+        $includeParents = false
 	) {
-		$terms = get_the_terms( $product->id, $term );
-		$out   = array();
-		if ( is_array( $terms ) ) {
-			foreach ( $terms as $k => $term ) {
-				$name  = rtrim( ltrim( $term->name ) );
-				$out[] = $name;
-			}
+        $terms = get_the_terms( $product->id, $productTerm );
+        $out   = array();
+
+        if ( is_array( $terms ) ) {
+            $occurredTaxIds = array();
+            foreach ( $terms as $term ) {
+                if ( $includeParents && in_array( $term->term_id, $occurredTaxIds ) ) {
+                    continue;
+                }
+
+                if ( $includeParents ) {
+                    $ancestors = get_ancestors( $term->term_id, $productTerm );
+                    foreach ( $ancestors as $ancestor ) {
+                        if ( array_key_exists( $ancestor, $out ) ) {
+                            unset( $out[ $ancestor ] );
+                        }
+                    }
+
+                    $taxAncestorsTree = $this->taxonomyAncestorsTree( $term->term_id, $productTerm );
+
+                    if ( $taxAncestorsTree && ! is_wp_error( $taxAncestorsTree ) ) {
+                        $name = $taxAncestorsTree;
+                    } else {
+                        continue;
+                    }
+                } else {
+                    $name = rtrim( ltrim( $term->name ) );
+                }
+
+                $occurredTaxIds = array_merge( $occurredTaxIds, get_ancestors( $term->term_id, $productTerm ) );
+
+                $out[ $term->term_id ] = $name;
+            }
+        }
+
+        return implode( $glue, ( $removeDuplicates ? array_unique( $out ) : $out ) );
+	}
+
+    /**
+     * @param        $taxId
+     * @param        $taxonomy
+     * @param string $separator
+     * @param array  $visited
+     *
+     * @return array|null|object|string|\WP_Error
+     * @author Panagiotis Vagenas <pan.vagenas@gmail.com>
+     * @since  151228
+     */
+	function taxonomyAncestorsTree( $taxId, $taxonomy, $separator = ' > ', $visited = array() ) {
+		$chain  = '';
+		$parent = get_term( $taxId, $taxonomy );
+		if ( is_wp_error( $parent ) ) {
+			return $parent;
 		}
 
-		return implode( $glue, ( $removeDuplicates ? array_unique( $out ) : $out ) );
+		$name = $parent->name;
+
+		if ( $parent->parent && ( $parent->parent != $parent->term_id ) && ! in_array( $parent->parent, $visited ) ) {
+			$visited[] = $parent->parent;
+			$chain .= $this->taxonomyAncestorsTree( $parent->parent, $taxonomy, $separator, $visited ) . $separator;
+		}
+
+		$chain .= $name;
+
+		return $chain;
 	}
 
 	/**

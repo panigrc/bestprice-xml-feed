@@ -14,6 +14,18 @@ if ( ! defined( 'WPINC' ) ) {
 	exit( 'Do NOT access this file directly: ' . basename( __FILE__ ) );
 }
 
+/**
+ * Class options
+ *
+ * @author    Panagiotis Vagenas <pan.vagenas@gmail.com>
+ * @date      ${YEAR}-${MONTH}-${DAY}
+ * @since     150501
+ * @package   bestprice
+ * @copyright Copyright (c) ${YEAR} Panagiotis Vagenas
+ *
+ * @property \bestprice\xml       $©xml
+ * @method \bestprice\xml        ©xml()
+ */
 class options extends \xd_v141226_dev\options {
 	/**
 	 * @var array Availability options for bestprice.gr
@@ -93,7 +105,8 @@ class options extends \xd_v141226_dev\options {
 			'map_name_append_sku'                        => 1,
 			'map_link'                                   => 0,
 			'map_image'                                  => 3,
-			'map_category'                               => 'product',
+			'map_category'                               => 'product_cat',
+            'map_category_tree'                          => 0,
 			'map_price_with_vat'                         => 1,
 			'map_manufacturer'                           => 0,
 			'map_mpn'                                    => 0,
@@ -139,6 +152,7 @@ class options extends \xd_v141226_dev\options {
 			'map_link'               => array( 'string:numeric >=' => 0 ),
 			'map_image'              => array( 'string:numeric >=' => 0 ),
 			'map_category'           => array( 'string' ),
+            'map_category_tree'      => array( 'string:numeric >=' => 0, 'string:numeric <=' => 1 ),
 			'map_price_with_vat'     => array( 'string:numeric >=' => 0, 'string:numeric <=' => 3 ),
 			'map_manufacturer'       => array( 'string' ),
 			'map_mpn'                => array( 'string:numeric >=' => 0 ),
@@ -152,7 +166,7 @@ class options extends \xd_v141226_dev\options {
 		$defaults   = array_merge( $defaults, $bestpriceDefaults );
 		$validators = array_merge( $validators, $bestpriceDefaultsValidators );
 
-		$this->_setup( $defaults, $validators );
+		return $this->_setup( $defaults, $validators );
 	}
 
 	/**
@@ -162,7 +176,7 @@ class options extends \xd_v141226_dev\options {
 	 * @param array $new_options
 	 */
 	public function ®update( $new_options = array() ) {
-		$bools = array( 'is_fashion_store', 'is_book_store', 'show_advanced' );
+		$bools = array( 'is_fashion_store', 'is_book_store', 'show_advanced', 'map_category_tree' );
 		foreach ( $bools as $v ) {
 			if ( ! isset( $new_options[ $v ] ) ) {
 				$new_options[ $v ] = 0;
