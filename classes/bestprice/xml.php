@@ -106,6 +106,176 @@ class xml extends \xd_v141226_dev\xml {
 	 */
 	protected $productElemName = 'product';
 
+		/**
+		 * @param $sliceNumber
+		 *
+		 * @return bool|mixed
+		 * @author Nikos Papagiannopoulos
+		 * @since 160904
+		 */
+	public function saveXMLSlice($sliceNumber = 0) {
+		$fileName = "bestprice-slice-$sliceNumber.xml";
+		$dir = dirname( $this->getFileLocation() );
+
+		$fileLocation = $dir . '/' . $fileName;
+
+		if ( ! ( $this->simpleXML instanceof \SimpleXMLExtended ) ) {
+			return false;
+		}
+
+		if ( ! file_exists( $dir ) ) {
+			mkdir( $dir, 0755, true );
+		}
+
+		if ( $this->simpleXML && ! empty( $fileLocation ) && ( is_writable( $fileLocation ) || is_writable( $dir ) ) ) {
+			if ( is_file( $fileLocation ) ) {
+				unlink( $fileLocation );
+			}
+
+			return $this->simpleXML->asXML( $fileLocation );
+		}
+
+		return false;
+	}
+
+	/**
+	 * @param $sliceNumber
+	 *
+	 * @return bool
+	 * @author Nikos Papagiannopoulos
+	 * @since 160904
+	 */
+	public function checkXMLSlice($sliceNumber = 0) {
+		$fileName = "bestprice-slice-$sliceNumber.xml";
+		$dir = dirname( $this->getFileLocation() );
+
+		$fileLocation = $dir . '/' . $fileName;
+
+		if ( is_file( $fileLocation ) ) {
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+	/**
+	 * @param $sliceNumber
+	 *
+	 * @return bool|mixed
+	 * @author Nikos Papagiannopoulos
+	 * @since 160904
+	 */
+	public function getXMLSlice($sliceNumber = 0) {
+		$fileName = "bestprice-slice-$sliceNumber.xml";
+		$dir = dirname( $this->getFileLocation() );
+
+		$fileLocation = $dir . '/' . $fileName;
+
+		if ( is_file( $fileLocation ) ) {
+				return file_get_contents($fileLocation);
+		}
+
+		return false;
+	}
+
+	/**
+	 * @param $sliceNumber
+	 *
+	 * @return bool|mixed
+	 * @author Nikos Papagiannopoulos
+	 * @since 160904
+	 */
+	public function appendXMLSlice($sliceNumber = 0) {
+		if ( ! $this->simpleXML ) {
+			$this->initSimpleXML();
+		}
+
+		$fileName = "bestprice-slice-$sliceNumber.xml";
+		$dir = dirname( $this->getFileLocation() );
+
+		$fileLocation = $dir . '/' . $fileName;
+
+		if ( is_file( $fileLocation ) ) {
+
+			$slice = new \DOMDocument('1.0', 'UTF-8');
+
+			$slice->load($fileLocation);
+
+			$mergedXML = dom_import_simplexml($this->simpleXML)->ownerDocument;
+
+			$mergedXMLProducts = $mergedXML->getElementsByTagName( $this->productsElemWrapperName )->item(0);
+			$products = $slice->getElementsByTagName( $this->productElemName );
+
+			for ($i = 0; $i < $products->length; $i++)
+			{
+				$product = $products->item($i);
+
+				$mergedXMLProducts->appendChild( $mergedXML->importNode( $product, true ) );
+			}
+			$this->simpleXML = simplexml_import_dom($mergedXML, 'SimpleXMLExtended');
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * @param $sliceNumber
+	 *
+	 * @return bool
+	 * @author Nikos Papagiannopoulos
+	 * @since 160904
+	 */
+	public function deleteXMLSlice($sliceNumber = 0) {
+		$fileName = "bestprice-slice-$sliceNumber.xml";
+		$dir = dirname( $this->getFileLocation() );
+
+		$fileLocation = $dir . '/' . $fileName;
+
+		if ( ! file_exists( $dir ) ) {
+				mkdir( $dir, 0755, true );
+		}
+
+		if ( ! empty( $fileLocation ) && ( is_writable( $fileLocation ) || is_writable( $dir ) ) ) {
+				if ( is_file( $fileLocation ) ) {
+						unlink( $fileLocation );
+						return true;
+				}
+		}
+		return false;
+	}
+
+	/**
+	 * @param array $p
+	 *
+	 * @return int
+	 * @author Nikos Papagiannopoulos
+	 * @since 160904
+	 */
+	public function appendProductInSlice( Array $p ) {
+		if ( ! $this->simpleXML ) {
+			$this->initSimpleXML();
+		}
+
+		$validated = $this->validateArrayKeys( $p );
+
+		if ( ! empty( $validated ) ) {
+			$product = $this->simpleXML->addChild( $this->productElemName );
+
+			foreach ( $validated as $key => $value ) {
+				if ( $this->isValidXmlName( $value ) ) {
+					$product->addChild( $key, $value );
+				} else {
+					$product->$key = null;
+					$product->$key->addCData( $value );
+				}
+			}
+
+			return 1;
+		}
+	}
+
 	public function __construct( $instance ) {
 		parent::__construct( $instance );
 
@@ -500,4 +670,4 @@ class xml extends \xd_v141226_dev\xml {
 
 		return 0;
 	}
-} 
+}

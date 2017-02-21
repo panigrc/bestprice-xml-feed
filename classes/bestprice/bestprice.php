@@ -664,7 +664,7 @@ class bestprice extends framework {
 			$createdTime      = strtotime( $xmlCreation[ $this->©xml->createdAtName ]['value'] );
 			$nextCreationTime = $interval + $createdTime;
 			$time             = time();
-			if ( $time > $nextCreationTime ) {
+			if ( $time > $nextCreationTime OR TRUE ) {
 				$this->do_your_woo_stuff();
 			}
 		}
@@ -696,64 +696,108 @@ class bestprice extends framework {
 		return $prodInXml;
 	}
 
-	/**
-	 * @return int
-	 * @author Panagiotis Vagenas <pan.vagenas@gmail.com>
-	 * @since  150120
-	 */
-	public function processProducts() {
-		$prodArray = (array) $this->©db->get_col( 'SELECT ID FROM ' . $this->©db->posts . ' WHERE post_type="product" AND post_status="publish"' );
 
-		$this->©env->maximize_time_memory_limits();
+  /**
+   * @return int
+   * @author Panagiotis Vagenas <pan.vagenas@gmail.com>
+   * @since  150130
+   */
+  public function processProducts() {
 
-		$mem = $this->getMemInM( ini_get( 'memory_limit' ) ) / 1024 / 1024;
+      $prodCount = $this->©db->get_var('SELECT COUNT(*) FROM '.$this->©db->posts.' WHERE post_type="product" AND post_status="publish"');
 
-		$memLimit = ( $mem - 10 ) * 1024 * 1024;
+      // later get from option how many products per slice
+      //$productsPerSlice = $this->©option->get('products_per_slice');
+      $productsPerSlice = 500;
 
-		foreach ( $prodArray as $i => $pid ) {
+      // how many slices (pieces) the products will be divided
+      $slices = ceil($prodCount/$productsPerSlice);
 
-			if ( memory_get_usage() > $memLimit ) {
-				wp_cache_flush();
-			}
+      // variable to check if we should save the XML file
+      $saveXML = true;
 
-			$product = WC()->product_factory->get_product( (int) $pid );
 
-			if ( ! is_object( $product ) || ! ( $product instanceof \WC_Product ) ) {
-				$this->©error->forceDBLog( 'product', $product, 'Product failed in ' . __METHOD__ );
-				continue;
-			}
+      // iterates though slices
+      for ($slice = 0; $slice < $slices; $slice++)
+      {
+          // check if product slice cache exists else skip
+          if (! $this->©xml->checkXMLSlice($slice))
+          {
+              $saveXML = false; // means we haven't finished the generation files
 
-			if ( ! $product->is_purchasable() || ! $product->is_visible() || $this->getAvailabilityString( $product ) === false ) {
-				$reason = array();
-				if ( ! $product->is_purchasable() ) {
-					$reason[] = 'product is not purchasable';
-				}
-				if ( ! $product->is_visible() ) {
-					$reason[] = 'product is not visible';
-				}
-				if ( $this->getAvailabilityString( $product ) === false ) {
-					$reason[] = 'product is unavailable';
-				}
-				$this->©message->forceDBLog(
-					'product', array(
-					'id'             => $product->id,
-					'SKU'            => $product->get_sku(),
-					'is_purchasable' => $product->is_purchasable(),
-					'is_visible'     => $product->is_visible(),
-					'availability'   => $this->getAvailabilityString( $product )
-				),
-					'Product <strong>' . $product->get_formatted_name() . '</strong> failed. Reason(s) is(are): ' . implode( ', ',
-						$reason )
-				);
-				continue;
-			}
+              $prodArray = (array) $this->©db->get_col( 'SELECT ID FROM ' . $this->©db->posts . ' WHERE post_type="product" AND post_status="publish" LIMIT '. round((int)$slice*$prodCount/$slices) .','. round((int)$prodCount/$slices));
 
-			$this->©xml->appendProduct( $this->getProductArray( $product ) );
-		}
-		wp_cache_flush();
+              $this->©env->maximize_time_memory_limits();
 
-		return $this->©xml->saveXML() ? $this->©xml->countProductsInFile( $this->©xml->simpleXML ) : 0;
-	}
+              $mem = $this->getMemInM( ini_get( 'memory_limit' ) ) / 1024 / 1024;
+
+              $memLimit = ( $mem - 10 ) * 1024 * 1024;
+
+              foreach ( $prodArray as $i => $pid ) {
+
+                  if ( memory_get_usage() > $memLimit ) {
+                      wp_cache_flush();
+                  }
+
+                  $product = WC()->product_factory->get_product( (int) $pid );
+
+                  if ( ! is_object( $product ) || ! ( $product instanceof \WC_Product ) ) {
+                      $this->©error->forceDBLog( 'product', $product, 'Product failed in ' . __METHOD__ );
+                      continue;
+                  }
+
+                  if ( ! $product->is_purchasable() || ! $product->is_visible() || $this->getAvailabilityString( $product ) === false ) {
+                      $reason = array();
+                      if ( ! $product->is_purchasable() ) {
+                          $reason[] = 'product is not purchasable';
+                      }
+                      if ( ! $product->is_visible() ) {
+                          $reason[] = 'product is not visible';
+                      }
+                      if ( $this->getAvailabilityString( $product ) === false ) {
+                          $reason[] = 'product is unavailable';
+                      }
+                      $this->©message->forceDBLog(
+                          'product',
+                          array(
+                              'id'             => $product->id,
+                              'SKU'            => $product->get_sku(),
+                              'is_purchasable' => $product->is_purchasable(),
+                              'is_visible'     => $product->is_visible(),
+                              'availability'   => $this->getAvailabilityString( $product )
+                          ),
+                          'Product <strong>' . $product->get_formatted_name() . '</strong> failed. Reason(s) is(are): ' . implode( ', ',
+                              $reason )
+                      );
+                      continue;
+                  }
+
+                  $this->©xml->appendProductInSlice( $this->getProductArray( $product ) );
+
+              } // endfor products
+
+              wp_cache_flush();
+              $this->©xml->saveXMLSlice($slice);
+              return 0;
+
+          } // endif slice check
+
+      } // endfor slices
+
+      if ($saveXML)
+      {
+          // iterates though slices
+          for ($slice = 0; $slice < $slices; $slice++)
+          {
+              $this->©xml->appendXMLSlice($slice);
+
+              // delete slice
+              $this->©xml->deleteXMLSlice($slice);
+
+          }
+          return $this->©xml->saveXML() ? $this->©xml->countProductsInFile($this->©xml->simpleXML) : 0;
+      }
+  }
 
 	/**
 	 * @param $mem
