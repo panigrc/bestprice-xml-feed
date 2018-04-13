@@ -9,6 +9,7 @@
 * Supports fashion products (shoes, clothes etc)
 * Supports bookstores (ISBN field)
 * Fully customizable
+* Supports large quantities of products by making xml slices
 
 #### Requirements:
 
@@ -38,6 +39,11 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see [http://www.gnu.org/licenses/](http://www.gnu.org/licenses/).
 
 ## Changelog
+
+#### 160904
+
+* New: XML slices every in order to support larger amount of products
+* Fix: Removed the DONOTCACHEDB DONOTCACHEPAGE DONOTCACHEOBJECT, cause WordPress wouldn't cache anything
 
 #### 151228
 
