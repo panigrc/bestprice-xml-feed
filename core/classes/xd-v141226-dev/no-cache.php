@@ -102,19 +102,19 @@ namespace xd_v141226_dev
 				/**
 				 * @var boolean For cache plugins.
 				 */
-				define ('DONOTCACHEDB', TRUE);
+				//define ('DONOTCACHEDB', TRUE);
 
 			if(!defined('DONOTCACHEPAGE'))
 				/**
 				 * @var boolean For cache plugins.
 				 */
-				define ('DONOTCACHEPAGE', TRUE);
+				//define ('DONOTCACHEPAGE', TRUE);
 
 			if(!defined('DONOTCACHEOBJECT'))
 				/**
 				 * @var boolean For cache plugins.
 				 */
-				define ('DONOTCACHEOBJECT', TRUE);
+				//define ('DONOTCACHEOBJECT', TRUE);
 
 			if(!defined('QUICK_CACHE_ALLOWED'))
 				/**
